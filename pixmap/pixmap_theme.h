@@ -74,7 +74,7 @@ enum
     TOKEN_ETCHED_OUT,
     TOKEN_ORIENTATION,
     TOKEN_HORIZONTAL,
-    TOKEN_VERTICAL,
+    TOKEN_VERTICAL
   };
 
 struct theme_image

@@ -1,3 +1,8 @@
+Thu May  3 05:36:06 2001  Owen Taylor  <otaylor@redhat.com>
+
+	* pixmap_theme.h: Fix trailing comma on enumeration.
+	(#54071)
+
 2000-02-13  Tor Lillqvist  <tml@iki.fi>
 
 	* Theme/gtk/gtkrc: Use point size, not pixel size, in font spec.
