@@ -1,3 +1,11 @@
+2002-09-12  Havoc Pennington  <hp@redhat.com>
+
+	* ./metal/Theme/ICON.png ./notif/Theme/ICON.png
+	./pixmap/Theme/ICON.png ./raleigh/Theme/ICON.png
+	./redmond95/Theme/ICON.png: remove silly ICON.png files
+
+	* all Makefile.am: remove ICON.png from makefiles
+	
 Thu Mar 15 02:07:25 2001  Owen Taylor  <otaylor@redhat.com>
 
 	* configure.in (cflags_set): Release 0.12
