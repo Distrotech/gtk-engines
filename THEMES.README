@@ -1,0 +1,17 @@
+<raster@redhat.com>
+
+This is a proposal - or at least a start at one for themes.
+
+compile and install this as your gtk - cxurrently --theme theme_name is
+broken for some reason on some apps.
+
+to use a specific theme do:
+
+app --theme theme2
+
+i have a theme provided here - theme2
+
+read COMPILE_THEME2 and at the end you'll see what ti does to "install" this
+theme.. currently it's rather braindead.. but I'll fix that later once this
+is working to my satisfaction.. I'm putitng effor intot he code for buttons
+right now for the "sample theme" so it can take some config options.
