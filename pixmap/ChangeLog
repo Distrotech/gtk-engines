@@ -1,3 +1,9 @@
+Thu Apr 11 15:59:48 2002  Owen Taylor  <otaylor@redhat.com>
+
+	* pixmap-engine.c: Fix pixmap resource leak when pixmaps 
+	were rendered but not used, because there was no
+	area that needed to be drawn.
+
 Thu May  3 05:36:06 2001  Owen Taylor  <otaylor@redhat.com>
 
 	* pixmap_theme.h: Fix trailing comma on enumeration.
