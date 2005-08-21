@@ -1,3 +1,12 @@
+2005-08-21  Thomas Wood  <thos@gnome.org>
+
+	* engines/crux/Makefile.am:
+	* engines/crux/src/eazel-theme.h:
+	Removed references to eazel-theme-hacks.c
+
+	* engines/crux/src/crux-draw.c: (draw_box), (draw_extension):
+	Fixes an Open Office 2 bug and bug 305963 (The leftmost tab in tabbed widgets is not drawn correctly)
+
 2005-08-21  Richard A. Stellingwerff  <remenic@gmail.com>
 
 	* engines/clearlooks/src/clearlooks_draw.c: Changed return type of
