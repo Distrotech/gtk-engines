@@ -1,5 +1,11 @@
 2005-08-21  Thomas Wood  <thos@gnome.org>
 
+	* engines/thinice/src/thinice_rc_style.c:
+	(thinice_rc_style_create_style): Patch from bug 314100 (tiny cleanup in
+	thinice theme style code) by Kjartan Maraas
+
+2005-08-21  Thomas Wood  <thos@gnome.org>
+
 	* engines/mist/src/mist-style.c: (draw_rect): Fixes bug 165864
 
 2005-08-21  Thomas Wood  <thos@gnome.org>
