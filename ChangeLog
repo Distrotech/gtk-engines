@@ -1,5 +1,9 @@
 2005-08-21  Thomas Wood  <thos@gnome.org>
 
+	* engines/mist/src/mist-style.c: (draw_rect): Fixes bug 165864
+
+2005-08-21  Thomas Wood  <thos@gnome.org>
+
 	* engines/crux/Makefile.am:
 	* engines/crux/src/eazel-theme.h:
 	Removed references to eazel-theme-hacks.c
