@@ -1,3 +1,10 @@
+2005-08-21  Richard A. Stellingwerff  <remenic@gmail.com>
+
+	* engines/clearlooks/src/clearlooks_draw.c: Changed return type of
+	cl_progressbar2_set_four_points.
+	* engines/clearlooks/src/clearlooks_style.c: (draw_shadow_gap): Fixed
+	memory leak.
+
 2005-07-30  Richard A. Stellingwerff  <remenic@gmail.com>
 
 	* themes/Clearlooks/gtk-2.0/gtkrc:
