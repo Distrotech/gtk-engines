@@ -1,3 +1,7 @@
+2005-08-22  Richard A. Stellingwerff  <remenic@gmail.com>
+
+	* engines/clearlooks/Makefile.am: Fixes bug 314127
+
 2005-08-21  Thomas Wood  <thos@gnome.org>
 
 	* engines/thinice/src/thinice_rc_style.c:
