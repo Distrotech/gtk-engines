@@ -1,6 +1,21 @@
+Overview of Changes in 2.6.5 (since 2.6.4)
+==========================================
+
+* Fixed bugs:
+	#314100 - Tiny cleanup in thinice theme style code
+	#165864 - Progressbar with fraction 0.01 shows as 100% (in Mist engine)
+	#305963 - The leftmost tab in tabbed widgets is not drawn correctly (in Crux engine)
+	#110758 - Bad code in crux theme
+
+* Updated Clearlooks theme using latest engine features. Using the more vibrant
+selection color from Shaun McCance.
+
+* Fixed memory leaks in Clearlooks engine.
+
+
 Overview of Changes in 2.6.4 (since 2.6.3)
 ==========================================
-* Fixed bugs: 
+* Fixed bugs:
 	#305374 - Smooth makes d4x crash
 	#161960 - Panel on 2nd screen crashes when using crux
 	#303112 - [lighthouseblue] Radio buttons appear all checked in GtkTreeView
