@@ -2321,6 +2321,8 @@ draw_extension (GtkStyle *style,
 		gint y, gint width, gint height, GtkPositionType gap_side)
 {
     GdkRectangle rect;
+	GtkWidget* parent_widget;
+	gint relative_x;
 
     eazel_theme_data *theme_data;
 
@@ -2334,8 +2336,6 @@ draw_extension (GtkStyle *style,
 	    detail, state_type, shadow_type, x, y, width, height);
 
 	/* Get x relative to parent widget, not window */
-	GtkWidget* parent_widget;
-	gint relative_x;
 	if (widget != NULL)
 	{
 		parent_widget = gtk_widget_get_parent(widget);
