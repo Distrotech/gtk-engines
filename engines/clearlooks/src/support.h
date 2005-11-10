@@ -106,5 +106,14 @@ gboolean is_combo_box (GtkWidget * widget);
 
 GtkWidget *find_combo_box_widget (GtkWidget * widget);
 
+void gtk_treeview_get_header_index (GtkTreeView *tv, GtkWidget *header,
+                                    gint *column_index, gint *columns,
+                                    gboolean *resizable);
+
 void gtk_clist_get_header_index (GtkCList *clist, GtkWidget *button,
                                  gint *column_index, gint *columns);
+void
+option_menu_get_props (GtkWidget      *widget,
+                       GtkRequisition *indicator_size,
+                       GtkBorder      *indicator_spacing);
+

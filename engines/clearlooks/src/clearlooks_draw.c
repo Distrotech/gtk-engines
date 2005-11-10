@@ -113,8 +113,8 @@ static void cl_draw_line (GdkWindow *window, GtkWidget *widget, GtkStyle *style,
 	{
 		GdkColor tmp_color = cl_gc_get_foreground (r->bordergc);
 
-		if (r->gradient_type == CL_GRADIENT_HORIZONTAL && border == CL_BORDER_LEFT ||
-			r->gradient_type == CL_GRADIENT_VERTICAL && border == CL_BORDER_TOP)
+		if ((r->gradient_type == CL_GRADIENT_HORIZONTAL && border == CL_BORDER_LEFT) ||
+			(r->gradient_type == CL_GRADIENT_VERTICAL && border == CL_BORDER_TOP))
 			gdk_gc_set_foreground (r->bordergc, r->border_gradient.from);
 		else
 			gdk_gc_set_foreground (r->bordergc, r->border_gradient.to);				
@@ -257,8 +257,6 @@ void cl_rectangle_set_button(CLRectangle *r, GtkStyle *style,
 {
 	ClearlooksStyle *clearlooks_style = CLEARLOOKS_STYLE (style);
 	int              my_state_type = (state_type == GTK_STATE_ACTIVE) ? 2 : 0;
-	GdkGC           *border_gc = clearlooks_style->border_gc[CL_BORDER_UPPER+my_state_type];
-	
 	
 	cl_rectangle_init (r, style->bg_gc[state_type],
 	                   clearlooks_style->border_gc[CL_BORDER_UPPER+my_state_type],
@@ -320,7 +318,6 @@ void cl_rectangle_set_entry (CLRectangle *r, GtkStyle *style,
 void cl_draw_shadow(GdkWindow *window, GtkWidget *widget, GtkStyle *style,
                     int x, int y, int width, int height, CLRectangle *r)
 {
-	ClearlooksStyle *clearlooks_style = CLEARLOOKS_STYLE (style);
 	int x1, y1, x2, y2;
 
 	if (r->bottomright != NULL)
@@ -397,7 +394,7 @@ void cl_rectangle_set_corners (CLRectangle *r, int tl, int tr, int bl, int br)
 
 void cl_set_corner_sharpness (const gchar *detail, GtkWidget *widget, CLRectangle *r)
 {
-	if (widget->parent && GTK_IS_COMBO_BOX_ENTRY (widget->parent) || GTK_IS_COMBO (widget->parent))
+	if ((widget->parent && GTK_IS_COMBO_BOX_ENTRY (widget->parent)) || GTK_IS_COMBO (widget->parent))
 	{
 		gboolean rtl = get_direction (widget->parent) == GTK_TEXT_DIR_RTL;
 		int cl = rtl ? CL_CORNER_ROUND : CL_CORNER_NONE;
@@ -489,9 +486,7 @@ GdkColor cl_gc_set_fg_color_shade (GdkGC *gc, GdkColormap *colormap,
 
 static void cl_get_window_style_state (GtkWidget *widget, GtkStyle **style, GtkStateType *state_type)
 {
-	GtkStyle *windowstyle = NULL;
 	GtkWidget *tmpwidget = widget;
-	GtkStateType windowstate;
 	
 	if (widget && GTK_IS_ENTRY (widget))
 		tmpwidget = tmpwidget->parent;
@@ -524,7 +519,6 @@ void cl_draw_inset (GtkStyle *style, GdkWindow *window, GtkWidget *widget,
                     gint x, gint y, gint width, gint height,
                     int tl, int tr, int bl, int br )
 {
-	ClearlooksStyle *clearlooks_style = CLEARLOOKS_STYLE(style);
 	ClearlooksStyle *clwindowstyle; /* style of the window this widget is on */
 	GtkStateType     windowstate;	
 	CLRectangle      r;
@@ -561,7 +555,6 @@ void cl_draw_button(GtkStyle *style, GdkWindow *window,
                     gint x, gint y, gint width, gint height)
 {
 	ClearlooksStyle *clearlooks_style = CLEARLOOKS_STYLE(style);
-	int my_state_type = (state_type == GTK_STATE_ACTIVE) ? 2 : 0;
 	GdkGC *bg_gc = NULL;
 	gboolean is_active = FALSE;
 	CLRectangle r;
@@ -979,7 +972,6 @@ void cl_draw_menuitem_flat (GdkDrawable *window, GtkWidget *widget, GtkStyle *st
                               GdkRectangle *area, GtkStateType state_type, 
                               int x, int y, int width, int height, CLRectangle *r)
 {
-	ClearlooksStyle *clearlooks_style = (ClearlooksStyle*)style;
 	gboolean menubar  = (widget->parent && GTK_IS_MENU_BAR(widget->parent)) ? TRUE : FALSE;
 	GdkColor tmp;
 	
@@ -1005,7 +997,6 @@ void cl_draw_menuitem_gradient (GdkDrawable *window, GtkWidget *widget, GtkStyle
                                 GdkRectangle *area, GtkStateType state_type, 
                                 int x, int y, int width, int height, CLRectangle *r)
 {
-	ClearlooksStyle *clearlooks_style = (ClearlooksStyle*)style;
 	gboolean menubar  = (widget->parent && GTK_IS_MENU_BAR(widget->parent)) ? TRUE : FALSE;
 	GdkColor tmp;
 	GdkColor lower_color;
@@ -1043,7 +1034,6 @@ void cl_draw_treeview_header (GtkStyle *style, GdkWindow *window,
 {
 	ClearlooksStyle *clearlooks_style = CLEARLOOKS_STYLE (style);
 	gint columns = 0, column_index = -1, fill_width = width;
-	gboolean is_etree = strcmp("ETree", G_OBJECT_TYPE_NAME(widget->parent)) == 0;
 	gboolean resizable = TRUE;
 	
 	GdkGC *bottom = clearlooks_style->shade_gc[5];
@@ -1125,6 +1115,7 @@ static void cl_progressbar1_points_transform (GdkPoint *points, int npoints,
 	}
 }
 
+static
 GdkPixmap* cl_progressbar1_create_tile (GdkDrawable *drawable,
                                         GtkWidget *widget,
                                         GtkStyle *style,
@@ -1133,8 +1124,6 @@ GdkPixmap* cl_progressbar1_create_tile (GdkDrawable *drawable,
 {
 	ClearlooksStyle *clearlooks_style = CLEARLOOKS_STYLE (style);
 	int width  = height;
-	int line   = 0;
-	int center = width/2;
 	int xdir   = 1;
 	int trans;
 
@@ -1300,6 +1289,7 @@ cl_progressbar1_fill (GdkDrawable *drawable, GtkWidget *widget,
 	g_object_unref (tile);
 }
 
+void
 cl_draw_progressbar1_trough(GdkDrawable *window, GtkWidget *widget,
                             GtkStyle *style, GtkStateType state_type,
                             gint x, gint y, gint width, gint height,
@@ -1343,9 +1333,7 @@ cl_draw_progressbar1_fill(GdkDrawable *window, GtkWidget *widget,
                           GdkRectangle *area, gint offset)
 {
 	ClearlooksStyle *clearlooks_style = CLEARLOOKS_STYLE (style);
-	GdkColor upper_color = style->base[GTK_STATE_SELECTED],
-	         lower_color,
-	         prev_foreground;
+	GdkColor prev_foreground;
 	gboolean activity_mode = GTK_PROGRESS (widget)->activity_mode;
 	CLRectangle r;
 	
@@ -1427,7 +1415,7 @@ static void
 cl_progressbar2_set_four_points(GtkWidget *widget, GdkPoint *points, int size)
 {
 	GtkProgressBarOrientation orientation = gtk_progress_bar_get_orientation (GTK_PROGRESS_BAR (widget));
-	int width, height;
+
 	switch (orientation)
 	{
 		case GTK_PROGRESS_LEFT_TO_RIGHT:
@@ -1607,13 +1595,13 @@ cl_draw_progressbar2_fill(GdkDrawable *window, GtkWidget *widget,
                           gint x, gint y, gint width, gint height,
                           GdkRectangle *area, gint offset)
 {
-	ClearlooksStyle *clearlooks_style = CLEARLOOKS_STYLE (style);
-	GdkPixmap       *tile;
-	GdkPoint         border_line[2];
-	int              shadow_pos;
-	GtkOrientation   orientation;
-	gboolean         is_horizontal;
-	GdkRectangle     fill_clip;
+	ClearlooksStyle           *clearlooks_style = CLEARLOOKS_STYLE (style);
+	GdkPixmap                 *tile;
+	GdkPoint                  border_line[2];
+	int                       shadow_pos;
+	GtkProgressBarOrientation orientation;
+	gboolean                  is_horizontal;
+	GdkRectangle              fill_clip;
 	
 	if (width < 1 || height < 1)
 		return;

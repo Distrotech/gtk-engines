@@ -1,3 +1,26 @@
+2005-11-10  Richard A. Stellingwerff  <remenic@gmail.com>
+
+	* engines/clearlooks/src/clearlooks_draw.c: (cl_draw_line),
+	(cl_rectangle_set_button), (cl_draw_shadow),
+	(cl_set_corner_sharpness), (cl_get_window_style_state),
+	(cl_draw_inset), (cl_draw_button), (cl_draw_menuitem_flat),
+	(cl_draw_menuitem_gradient), (cl_draw_treeview_header),
+	(cl_progressbar1_create_tile), (cl_draw_progressbar1_fill),
+	(cl_progressbar2_set_four_points), (cl_draw_progressbar2_fill):
+	* engines/clearlooks/src/clearlooks_draw.h:
+	* engines/clearlooks/src/clearlooks_style.c: (draw_tab),
+	(clearlooks_draw_arrow), (draw_shadow), (draw_box_gap),
+	(draw_extension), (draw_handle), (draw_box),
+	(ensure_check_pixmaps), (draw_slider), (ensure_radio_pixmaps),
+	(draw_shadow_gap), (draw_hline), (draw_vline), (draw_focus),
+	(draw_layout), (clearlooks_style_unrealize):
+	* engines/clearlooks/src/clearlooks_style.h:
+	* engines/clearlooks/src/support.c: (colorize_bit),
+	(internal_create_vertical_gradient_image_buffer):
+	* engines/clearlooks/src/support.h:
+
+	Applied massive cleanup patch from Kjartan Maraas (bug #321140).
+
 2005-10-02  Thomas Wood  <thos@gnome.org>
 
 	* engines/crux/src/crux-draw.c: (draw_extension): Patch from bug 317149 (fixes compiler errors with gcc 2.95 caused by C99-style

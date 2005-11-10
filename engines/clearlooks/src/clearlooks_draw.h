@@ -156,10 +156,20 @@ void cl_draw_treeview_header (GtkStyle *style, GdkWindow *window,
                               GtkWidget *widget, const gchar *detail,
                               gint x, gint y, gint width, gint height);
 
+void cl_draw_progressbar1_trough(GdkDrawable *window, GtkWidget *widget,
+                                 GtkStyle *style, GtkStateType state_type,
+                                 gint x, gint y, gint width, gint height,
+                                 GdkRectangle *area);
+
 void cl_draw_progressbar2_trough(GdkDrawable *drawable, GtkWidget *widget,
                                  GtkStyle *style, GtkStateType state_type,
                                  gint x, gint y, gint width, gint height,
                                  GdkRectangle *area, gboolean horizontal);
+
+void cl_draw_progressbar1_fill(GdkDrawable *window, GtkWidget *widget,
+                               GtkStyle *style, GtkStateType state_type,
+                               gint x, gint y, gint width, gint height,
+                               GdkRectangle *area, gint offset);
 
 void cl_draw_progressbar2_fill(GdkDrawable *window, GtkWidget *widget,
                                GtkStyle *style, GtkStateType state_type,
@@ -170,5 +180,11 @@ void cl_draw_progressbar3_fill(GdkDrawable *window, GtkWidget *widget,
                                GtkStyle *style, GtkStateType state_type,
                                gint x, gint y, gint width, gint height,
                                GdkRectangle *area);
-							   
+
+void cl_draw_optionmenu(GtkStyle *style, GdkWindow *window,
+                        GtkStateType state_type, GtkShadowType shadow_type,
+                        GdkRectangle *area, GtkWidget *widget,
+                        const gchar *detail,
+                        gint x, gint y, gint width, gint height);
+	   
 #endif /* CLEARLOOKS_DRAW_H */

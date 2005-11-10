@@ -50,6 +50,7 @@ static void cl_progressbar_remove (gpointer data)
 	}
 }
 
+#ifdef HAVE_ANIMATION
 static void update_progressbar (gpointer data, gpointer user_data)
 {
 	gfloat fraction;
@@ -79,7 +80,6 @@ static gboolean cl_progressbar_known(gconstpointer data)
 	return (g_list_find (progressbars, data) != NULL);
 }
 
-
 static void cl_progressbar_add (gpointer data)
 {
 	if (!GTK_IS_PROGRESS_BAR (data))
@@ -93,6 +93,7 @@ static void cl_progressbar_add (gpointer data)
 	if (timer_id == 0)
 		timer_id = g_timeout_add (100, timer_func, NULL);
 }
+#endif
 
 static GdkColor *
 clearlooks_get_spot_color (ClearlooksRcStyle *clearlooks_rc)
@@ -124,7 +125,6 @@ draw_tab (GtkStyle      *style,
 #define ARROW_SPACE 2
 #define ARROW_LINE_HEIGHT 2
 #define ARROW_LINE_WIDTH 5
-	ClearlooksStyle *clearlooks_style = CLEARLOOKS_STYLE (style);
 	GtkRequisition indicator_size;
 	GtkBorder indicator_spacing;
 	gint arrow_height;
@@ -172,7 +172,6 @@ clearlooks_draw_arrow (GtkStyle      *style,
                        gint           width,
                        gint           height)
 {
-	ClearlooksStyle *clearlooks_style = CLEARLOOKS_STYLE (style);
 	gint original_width, original_x;
 	GdkGC *gc;
 	
@@ -321,14 +320,9 @@ draw_shadow (DRAW_ARGS)
 	CLRectangle r;
 	
 	GdkGC *outer_gc = clearlooks_style->shade_gc[4];
-	GdkGC *gc1 = NULL;
-	GdkGC *gc2 = NULL;
-	gint thickness_light;
-	gint thickness_dark;
-	gboolean interior_focus = FALSE;
 
-#if DEBUG
-		printf("draw_shadow: %s %d %d %d %d\n", detail, x, y, width, height);
+#ifdef DEBUG
+	printf("draw_shadow: %s %d %d %d %d\n", detail, x, y, width, height);
 #endif
 
 	if (widget == NULL)
@@ -470,7 +464,7 @@ draw_box_gap (DRAW_ARGS,
 	GdkRectangle light_rect;
 	GdkRectangle dark_rect;
 
-#if DEBUG
+#ifdef DEBUG
 		printf("draw_box_gap: %s %d %d %d %d\n", detail, x, y, width, height);
 #endif
 	
@@ -586,7 +580,7 @@ draw_extension (DRAW_ARGS, GtkPositionType gap_side)
 	int              my_state_type = (state_type == GTK_STATE_ACTIVE) ? 2 : 0;
 	CLRectangle      r;
 
-#if DEBUG
+#ifdef DEBUG
 		printf("draw_extension: %s %d %d %d %d\n", detail, x, y, width, height);
 #endif
 
@@ -753,7 +747,7 @@ draw_handle (DRAW_ARGS, GtkOrientation orientation)
 	int n_lines;
 	int offset;
 	
-#if DEBUG
+#ifdef DEBUG
 		printf("draw_handle: %s %d %d %d %d\n", detail, x, y, width, height);
 #endif
 
@@ -886,7 +880,6 @@ draw_box (DRAW_ARGS)
 {
 	ClearlooksStyle *clearlooks_style = CLEARLOOKS_STYLE (style);
 	CLRectangle r;
-	gboolean false_size = FALSE;
 
 #ifdef DEBUG
 		printf("draw_box: %s %d %d %d %d\n", detail, x, y, width, height);
@@ -895,9 +888,6 @@ draw_box (DRAW_ARGS)
 	g_return_if_fail (style != NULL);
 	g_return_if_fail (window != NULL);
 
-	if (width == -1 || height == -1)
-		false_size = TRUE;
-		
 	if ((width == -1) && (height == -1))
 		gdk_window_get_size (window, &width, &height);
 	else if (width == -1)
@@ -991,7 +981,7 @@ draw_box (DRAW_ARGS)
 			                             x, y, width, height, area, horizontal);
 		else
 			cl_draw_progressbar1_trough (window, widget, style, state_type,
-		    	                         x, y, width, height, area, horizontal);
+		    	                             x, y, width, height, area);
 	}
 	else if (DETAIL ("trough") &&
 		     (GTK_IS_VSCALE (widget) || GTK_IS_HSCALE (widget)))
@@ -1229,7 +1219,6 @@ draw_box (DRAW_ARGS)
 	}
 	else if (DETAIL ("menubar") && (clearlooks_style->sunkenmenubar || clearlooks_style->menubarstyle > 0))
 	{
-		GdkGC *dark = clearlooks_style->shade_gc[2];
 		GdkColor upper_color, lower_color;
 		
 		/* don't draw sunken menubar on gnome panel
@@ -1282,9 +1271,9 @@ draw_box (DRAW_ARGS)
 	}
 	else if (DETAIL ("bar") && widget && GTK_IS_PROGRESS_BAR (widget))
 	{
+#ifdef HAVE_ANIMATION
 		gboolean activity_mode = GTK_PROGRESS (widget)->activity_mode;
 		
-#ifdef HAVE_ANIMATION
 		if (!activity_mode && gtk_progress_bar_get_fraction (widget) != 1.0 &&
 			!cl_progressbar_known((gconstpointer)widget))
 		{
@@ -1347,9 +1336,7 @@ ensure_check_pixmaps (GtkStyle     *style,
                       gboolean      treeview)
 {
 	ClearlooksStyle *clearlooks_style = CLEARLOOKS_STYLE (style);
-	ClearlooksRcStyle *clearlooks_rc = CLEARLOOKS_RC_STYLE (style->rc_style);
 	GdkPixbuf *check, *base, *inconsistent, *composite;
-	GdkColor *spot_color = clearlooks_get_spot_color (clearlooks_rc);
 	
 	if (clearlooks_style->check_pixmap_nonactive[state] != NULL)
 		return;
@@ -1453,7 +1440,7 @@ draw_slider (DRAW_ARGS, GtkOrientation orientation)
 	GdkGC *white_gc = clearlooks_style->shade_gc[0];
 	int x1, y1;
 
-#if DEBUG
+#ifdef DEBUG
 		printf("draw_slider: %s %d %d %d %d\n", detail, x, y, width, height);
 #endif
 
@@ -1549,9 +1536,7 @@ ensure_radio_pixmaps (GtkStyle     *style,
 		      GdkScreen    *screen)
 {
 	ClearlooksStyle *clearlooks_style = CLEARLOOKS_STYLE (style);
-	ClearlooksRcStyle *clearlooks_rc = CLEARLOOKS_RC_STYLE (style->rc_style);
 	GdkPixbuf *dot, *circle, *outline, *inconsistent, *composite;
-	GdkColor *spot_color = clearlooks_get_spot_color (clearlooks_rc);
 	GdkColor *composite_color;
 	
 	if (clearlooks_style->radio_pixmap_nonactive[state] != NULL)
@@ -1686,7 +1671,7 @@ draw_shadow_gap (DRAW_ARGS,
 	GdkRegion *area_region = NULL, 
 	          *gap_region  = NULL;
 
-#if DEBUG
+#ifdef DEBUG
 		printf("draw_shadow_gap: %s %d %d %d %d\n", detail, x, y, width, height);
 #endif
 
@@ -1803,7 +1788,7 @@ draw_hline (GtkStyle     *style,
 {
 	ClearlooksStyle *clearlooks_style = CLEARLOOKS_STYLE (style);
 
-#if DEBUG
+#ifdef DEBUG
 		printf("draw_hline\n");
 #endif
 
@@ -1845,18 +1830,13 @@ draw_vline (GtkStyle     *style,
             gint          x)
 {
 	ClearlooksStyle *clearlooks_style = CLEARLOOKS_STYLE (style);
-	gint thickness_light;
-	gint thickness_dark;
 
-#if DEBUG
+#ifdef DEBUG
 		printf("draw_vline\n");
 #endif
 
 	g_return_if_fail (GTK_IS_STYLE (style));
 	g_return_if_fail (window != NULL);
-	
-	thickness_light = style->xthickness / 2;
-	thickness_dark = style->xthickness - thickness_light;
 	
 	if (area)
 		gdk_gc_set_clip_rectangle (clearlooks_style->shade_gc[2], area);
@@ -1889,7 +1869,7 @@ draw_focus (GtkStyle      *style,
 	gchar *dash_list = "\1\1";
 	gint dash_len;
 
-#if DEBUG
+#ifdef DEBUG
 		printf("draw_focus: %s %d %d %d %d\n", detail, x, y, width, height);
 #endif
 	
@@ -1943,7 +1923,7 @@ draw_focus (GtkStyle      *style,
 		dash_len = strlen (dash_list);
 		
 		if (dash_list[0])
-			gdk_gc_set_dashes (gc, 0, dash_list, dash_len);
+			gdk_gc_set_dashes (gc, 0, (gint8*)dash_list, dash_len);
 		
 		gdk_draw_lines (window, gc, points, 3);
 		
@@ -1965,7 +1945,7 @@ draw_focus (GtkStyle      *style,
 		
 			gdk_gc_set_dashes (gc,
 							dash_pixels - (width + height - 2 * line_width) % dash_pixels,
-							dash_list, dash_len);
+							(gint8*)dash_list, dash_len);
 		}
 		
 		gdk_draw_lines (window, gc, points + 2, 3);
@@ -1989,8 +1969,6 @@ draw_layout(GtkStyle * style,
             GtkWidget * widget,
             const gchar * detail, gint x, gint y, PangoLayout * layout)
 {
-	ClearlooksStyle *clearlooks_style = CLEARLOOKS_STYLE (style);
-	
 	g_return_if_fail(GTK_IS_STYLE (style));
 	g_return_if_fail(window != NULL);
 
@@ -2433,7 +2411,7 @@ clearlooks_style_unrealize (GtkStyle * style)
 		
 	clearlooks_style->radio_pixmap_mask = NULL;
 
-	while (progressbars = g_list_first (progressbars))
+	while ((progressbars = g_list_first (progressbars)))
 		cl_progressbar_remove (progressbars->data);
 	
 	if (timer_id != 0)

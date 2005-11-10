@@ -69,7 +69,6 @@ colorize_bit (unsigned char *bit,
 	const guchar *src, *asrc;
 	guchar *dest;
 	int dest_rowstride;
-	int width, height;
 	guchar *dest_pixels;
 	
 	pixbuf = gdk_pixbuf_new (GDK_COLORSPACE_RGB, TRUE, 8, RADIO_SIZE, RADIO_SIZE);
@@ -78,8 +77,6 @@ colorize_bit (unsigned char *bit,
 		return NULL;
 	
 	dest_rowstride = gdk_pixbuf_get_rowstride (pixbuf);
-	width = gdk_pixbuf_get_width (pixbuf);
-	height = gdk_pixbuf_get_height (pixbuf);
 	dest_pixels = gdk_pixbuf_get_pixels (pixbuf);
 	
 	for (y = 0; y < RADIO_SIZE; y++)
@@ -718,7 +715,6 @@ internal_create_vertical_gradient_image_buffer (gint width, gint height,
 	GdkPixbuf *buffer;
 	
 	guchar *ptr;
-	guchar point[4];
 
 	guchar r0, g0, b0;
 	guchar rf, gf, bf;

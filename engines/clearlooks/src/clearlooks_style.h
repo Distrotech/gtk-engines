@@ -92,7 +92,7 @@ struct _ClearlooksStyle
 	GdkPixmap *check_pixmap_active[5];
 	GdkPixmap *check_pixmap_inconsistent[5];
 	
-	gboolean sunkenmenubar:1;
+	guint sunkenmenubar:1;
 
 	guint8   progressbarstyle;
 	guint8   menubarstyle;
