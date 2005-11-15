@@ -16,7 +16,7 @@
 /* Focus change hooks */
 #define WINDOW_FOCUS_DATA_KEY "eazel-engine-focus-data"
 static GQuark window_focus_data_key;
-GtkStyleClass *parent_style_class;
+static GtkStyleClass *parent_style_class;
 
 typedef struct focus_change_data_struct focus_change_data;
 struct focus_change_data_struct {
@@ -96,21 +96,13 @@ draw_diamond (GtkStyle *style,
 	      const gchar *detail, gint x, gint y, gint width, gint height);
 
 static void
-draw_oval (GtkStyle *style,
-	   GdkWindow *window,
-	   GtkStateType state_type,
-	   GtkShadowType shadow_type,
-	   GdkRectangle *area,
-	   GtkWidget *widget,
-	   const gchar *detail, gint x, gint y, gint width, gint height);
-
-static void
 draw_string (GtkStyle *style,
 	     GdkWindow *window,
 	     GtkStateType state_type,
 	     GdkRectangle *area,
 	     GtkWidget *widget,
 	     const gchar *detail, gint x, gint y, const gchar *string);
+#if 0
 static void
 draw_flat_box (GtkStyle *style,
 	       GdkWindow *window,
@@ -119,6 +111,7 @@ draw_flat_box (GtkStyle *style,
 	       GdkRectangle *area,
 	       GtkWidget *widget,
 	       const gchar *detail, gint x, gint y, gint width, gint height);
+#endif
 
 static void
 draw_check (GtkStyle *style,
@@ -136,25 +129,6 @@ draw_option (GtkStyle *style,
 	     GdkRectangle *area,
 	     GtkWidget *widget,
 	     const gchar *detail, gint x, gint y, gint width, gint height);
-
-static void
-draw_cross (GtkStyle *style,
-	    GdkWindow *window,
-	    GtkStateType state_type,
-	    GtkShadowType shadow_type,
-	    GdkRectangle *area,
-	    GtkWidget *widget,
-	    const gchar *detail, gint x, gint y, gint width, gint height);
-
-static void
-draw_ramp (GtkStyle *style,
-	   GdkWindow *window,
-	   GtkStateType state_type,
-	   GtkShadowType shadow_type,
-	   GdkRectangle *area,
-	   GtkWidget *widget,
-	   const gchar *detail,
-	   GtkArrowType arrow_type, gint x, gint y, gint width, gint height);
 
 static void
 draw_tab (GtkStyle *style,
@@ -280,37 +254,11 @@ focus_change_helper (GtkWidget *widget, gpointer data)
     }
 }
 
-static void
-window_focus_in_callback (GtkWidget *window, GdkEventFocus *event,
-			  focus_change_data *data)
-{
-  printf ("focus in\n");
-    data->is_focused = TRUE;
-    gtk_container_forall (GTK_CONTAINER (window),
-			  focus_change_helper, NULL);
-}
-
-static void
-window_focus_out_callback (GtkWidget *window, GdkEventFocus *event,
-			   focus_change_data *data)
-{
-  printf ("focus out\n");
-    data->is_focused = FALSE;
-    gtk_container_forall (GTK_CONTAINER (window),
-			  focus_change_helper, NULL);
-}
-
-static void
-window_destroyed_callback (GtkWidget *window, focus_change_data *data)
-{
-    focus_data_list = g_slist_remove (focus_data_list, data);
-}
-
 gboolean
 eazel_engine_widget_in_focused_window_p (GtkWidget *widget)
 {
+#ifdef DEBUG
   focus_change_data *data = get_focus_data (widget, FALSE);
-  return TRUE;
 
   if (data) {
     printf ("there was data\n");
@@ -319,35 +267,9 @@ eazel_engine_widget_in_focused_window_p (GtkWidget *widget)
     printf ("there was no data\n");
   }
   return (data != 0) ? data->is_focused : FALSE;
-}
-
-static void
-install_focus_hooks (GdkWindow *window)
-{
-    /* Evilness */
-    GtkWidget *widget;
-    gdk_window_get_user_data (window, (gpointer *) &widget);
-
-    printf ("installing focus hooks\n");
-    if (widget != NULL && GTK_IS_WINDOW (widget))
-    {
-	focus_change_data *data = get_focus_data (widget, TRUE);
-	if (!data->connected)
-	{
-	    /* Connect to this window so we get focus-in/out events */
-	    data->focus_in_signal_id
-		= g_signal_connect (GTK_OBJECT (widget), "focus_in_event",
-				      GTK_SIGNAL_FUNC(window_focus_in_callback), data);
-	    data->focus_out_signal_id
-		= g_signal_connect (GTK_OBJECT (widget), "focus_out_event",
-				      GTK_SIGNAL_FUNC(window_focus_out_callback), data);
-	    data->destroyed_signal_id
-		= g_signal_connect (GTK_OBJECT (widget), "destroy",
-				      GTK_SIGNAL_FUNC(window_destroyed_callback), data);
-
-	    data->connected = TRUE;
-	}
-    }
+#else
+  return TRUE;
+#endif
 }
 
 void
@@ -1015,7 +937,7 @@ draw_shadow (GtkStyle *style,
     GdkGC *gc_a, *gc_b, *gc_c, *gc_d;
     gint thickness_light;
     gint thickness_dark;
-    gboolean rounded = FALSE, rounded_inner = FALSE;
+    gboolean rounded = FALSE;
     gboolean outline = TRUE;
     gint i;
 
@@ -1083,7 +1005,7 @@ draw_shadow (GtkStyle *style,
     {
 	/* Clist title buttons have square edges */
 	if (widget == 0 || !GTK_IS_CLIST (widget->parent))
-	    rounded = rounded_inner = TRUE;
+	    rounded = TRUE;
     }
     else if (DETAIL ("menuitem"))
     {
@@ -1914,19 +1836,6 @@ draw_diamond (GtkStyle *style,
 }
 
 static void
-draw_oval (GtkStyle *style,
-	   GdkWindow *window,
-	   GtkStateType state_type,
-	   GtkShadowType shadow_type,
-	   GdkRectangle *area,
-	   GtkWidget *widget,
-	   const gchar *detail, gint x, gint y, gint width, gint height)
-{
-    g_return_if_fail (style != NULL);
-    g_return_if_fail (window != NULL);
-}
-
-static void
 draw_string (GtkStyle *style,
 	     GdkWindow *window,
 	     GtkStateType state_type,
@@ -1960,6 +1869,7 @@ draw_string (GtkStyle *style,
     }
 }
 
+#if 0
 static void
 draw_flat_box (GtkStyle *style,
 	       GdkWindow *window,
@@ -2020,6 +1930,7 @@ draw_flat_box (GtkStyle *style,
 	gtk_style_apply_default_pixmap (style, window, state_type, area, x,
 					y, width, height);
 }
+#endif
 
 static void
 paint_check (GtkStyle *style,
@@ -2142,33 +2053,6 @@ draw_option (GtkStyle *style,
 {
     paint_check (style, window, state_type, shadow_type, area,
 		 widget, detail, x, y, width, height, EAZEL_ENGINE_OPTION);
-}
-
-static void
-draw_cross (GtkStyle *style,
-	    GdkWindow *window,
-	    GtkStateType state_type,
-	    GtkShadowType shadow_type,
-	    GdkRectangle *area,
-	    GtkWidget *widget,
-	    const gchar *detail, gint x, gint y, gint width, gint height)
-{
-    g_return_if_fail (style != NULL);
-    g_return_if_fail (window != NULL);
-}
-
-static void
-draw_ramp (GtkStyle *style,
-	   GdkWindow *window,
-	   GtkStateType state_type,
-	   GtkShadowType shadow_type,
-	   GdkRectangle *area,
-	   GtkWidget *widget,
-	   const gchar *detail,
-	   GtkArrowType arrow_type, gint x, gint y, gint width, gint height)
-{
-    g_return_if_fail (style != NULL);
-    g_return_if_fail (window != NULL);
 }
 
 static void
@@ -2528,7 +2412,6 @@ draw_slider (GtkStyle *style,
     if (DETAIL ("slider")) {
 	{
 	    int thumb_x, thumb_y;
-	    gboolean focused;
 
 	    focused = eazel_engine_widget_in_focused_window_p (widget);
 
