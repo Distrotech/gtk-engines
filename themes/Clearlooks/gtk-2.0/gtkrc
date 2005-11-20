@@ -92,6 +92,7 @@ style "clearlooks-menu-item" = "clearlooks-default"
   ythickness = 3
   fg[PRELIGHT] = "#ffffff"
   text[PRELIGHT] = "#ffffff"
+  bg[PRELIGHT] = "#7c99ad"
 }
 
 style "clearlooks-menu-itembar" = "clearlooks-default"

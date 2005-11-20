@@ -1,3 +1,9 @@
+2005-11-21  Richard A. Stellingwerff  <remenic@gmail.com>
+
+	* themes/Clearlooks/gtk-2.0/gtkrc:
+
+	Applied patch from bug 321787 to fix menus in Java apps.
+	
 2005-11-15  Thomas Wood  <thos@gnome.org>
 
 	* engines/crux/src/crux-common.h:
