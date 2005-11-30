@@ -1,3 +1,8 @@
+2005-11-30  Thomas Wood  <thos@gnome.org>
+
+	* engines/crux/src/crux-main.c: (theme_exit): Fixed undefined reference to
+	'uninstall_all_focus_hooks' (bug 322886)
+
 2005-11-28  Thomas Wood  <thos@gnome.org>
 
 	* engines/crux/src/crux-common.h
