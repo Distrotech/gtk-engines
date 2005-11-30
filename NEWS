@@ -1,3 +1,12 @@
+Overview of Changes in 2.6.6 (since 2.6.5)
+==========================================
+
+* Applied cleanups and fixes for compiler warnings from bug #321140 to
+  Clearlooks, Crux, HC, Metal, Mist, Redmond and Thinice engines [ patches by Kjartan Maraas ]
+* ISO C90 and compiler warnings fixed and more unused code removed from Crux [ Thomas Wood ]
+* ISO C90 fixes to thinice [ Thomas ]
+
+
 Overview of Changes in 2.6.5 (since 2.6.4)
 ==========================================
 

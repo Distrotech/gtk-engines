@@ -681,9 +681,6 @@ draw_box(GtkStyle *style,
          int width,
          int height)
 {
-	GdkGC *light_gc, *dark_gc;
-	GtkOrientation orientation;
-	
 	g_return_if_fail (style != NULL);
 	g_return_if_fail (window != NULL);
 
@@ -693,13 +690,6 @@ draw_box(GtkStyle *style,
 		state_type = GTK_STATE_SELECTED;
 	}
 
-	light_gc = style->light_gc[state_type];
-	dark_gc = style->dark_gc[state_type];
-	
-	orientation = GTK_ORIENTATION_HORIZONTAL;
-	if (height > width)
-		orientation = GTK_ORIENTATION_VERTICAL;
-	
 	if (DETAIL("optionmenutab")) {
 		gdk_draw_line (window, style->dark_gc[state_type], 
 			       x - 5, y, x - 5, y + height);
@@ -1274,7 +1264,6 @@ draw_resize_grip(GtkStyle *style,
 		 int height)
 {
 	GdkGC *light_gc, *dark_gc;
-	GdkRectangle dest;
 	int xi, yi;
 	int max_x, max_y;
 	int threshold;
@@ -1421,12 +1410,8 @@ draw_string (GtkStyle      *style,
 	     int            y,
 	     const char    *string)
 {
-	GdkDisplay *display;
-	
 	g_return_if_fail (GTK_IS_STYLE (style));
 	g_return_if_fail (window != NULL);
-	
-	display = gdk_drawable_get_display (window);
 	
 	if (area) {
 		gdk_gc_set_clip_rectangle (style->fg_gc[state_type], area);

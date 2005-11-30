@@ -191,3 +191,17 @@ do_metal_draw_button (GtkStyle * style,
 	      gint y,
 	      gint width,
 	      gint height);
+
+void
+adjust_notebook_tab_size (GtkPositionType tab_pos,
+                          gint           *width,
+                          gint           *height);
+
+void
+reverse_engineer_stepper_box (GtkWidget    *range,
+                              GtkArrowType  arrow_type,
+                              gint         *x,
+                              gint         *y,
+                              gint         *width,
+                              gint         *height);
+

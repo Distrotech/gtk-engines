@@ -4,7 +4,7 @@
 typedef enum {
     GRADIENT_NONE = 0,
     GRADIENT_VERTICAL,
-    GRADIENT_HORIZONTAL,
+    GRADIENT_HORIZONTAL
 } eazel_engine_gradient_direction;
 
 typedef enum {
@@ -83,7 +83,7 @@ typedef enum {
     EAZEL_ENGINE_TAB_BOTTOM_ACTIVE,
     EAZEL_ENGINE_SPIN_ARROW_UP,
     EAZEL_ENGINE_SPIN_ARROW_DOWN,
-    EAZEL_ENGINE_STOCK_MAX,
+    EAZEL_ENGINE_STOCK_MAX
 } eazel_engine_stock_image;
 
 typedef struct eazel_engine_gradient_component_struct eazel_engine_gradient_component;

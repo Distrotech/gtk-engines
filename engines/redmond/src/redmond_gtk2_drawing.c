@@ -1201,7 +1201,6 @@ redmond_draw_box (GtkStyle * style,
        * and a thin outset border on prelight
        */
       GdkGC *top, *bottom;
-      gboolean pressed = FALSE;
  
       if (state_type != GTK_STATE_INSENSITIVE)
 	state_type = GTK_STATE_NORMAL;

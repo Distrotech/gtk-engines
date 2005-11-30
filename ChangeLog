@@ -1,3 +1,30 @@
+2005-11-28  Thomas Wood  <thos@gnome.org>
+
+	* engines/crux/src/crux-common.h
+	* engines/crux/src/crux-draw.c
+	* engines/crux/src/crux-rc-parser.c
+	* engines/industrial/src/industrial_style.c
+	* engines/industrial/src/parse_rc_style.h
+	* engines/metal/src/metal_gtk2_drawing.c
+	* engines/metal/src/metal_gtk2_engine.c
+	* engines/metal/src/metal_gtk2_misc.h
+	* engines/mist/src/mist-rc-style.c
+	* engines/mist/src/mist-style.c
+	* engines/redmond/src/redmond_gtk2_drawing.c
+	* engines/redmond/src/redmond_gtk2_engine.c
+	* engines/redmond/src/redmond_gtk2_misc.c
+	* engines/thinice/src/thinice_rc_style.c
+	* engines/thinice/src/thinice_theme_draw.c
+
+	- Patches from bug 321140 applied to metal, mist, redmond and thinice engines
+	- ISO C90 fixes in crux-draw.c and thinice_theme_draw
+	- Removed more redundant code and fixed compiler warnings in Crux
+
+	* configure.ac:
+	* NEWS:
+	
+	Updated for 2.6.6 release
+
 2005-11-21  Richard A. Stellingwerff  <remenic@gmail.com>
 
 	* themes/Clearlooks/gtk-2.0/gtkrc:

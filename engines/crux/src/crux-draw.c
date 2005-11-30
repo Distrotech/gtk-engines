@@ -9,13 +9,10 @@
 #include <math.h>
 #include <string.h>
 
-#define DEBUG 0
+/* #define DEBUG 1 */
 
 #define DETAIL(xx) ((detail) != 0 && strcmp (xx, detail) == 0)
 
-/* Focus change hooks */
-#define WINDOW_FOCUS_DATA_KEY "eazel-engine-focus-data"
-static GQuark window_focus_data_key;
 static GtkStyleClass *parent_style_class;
 
 typedef struct focus_change_data_struct focus_change_data;
@@ -30,7 +27,6 @@ struct focus_change_data_struct {
     guint destroyed_signal_id;
 };
 
-static GSList *focus_data_list = NULL;
 
 static void
 draw_hline (GtkStyle *style,
@@ -213,101 +209,17 @@ draw_handle (GtkStyle *style,
 	     gint y, gint width, gint height, GtkOrientation orientation);
 
 
-static focus_change_data *
-get_focus_data (GtkWidget *widget, gboolean add)
-{
-    GtkWidget *toplevel = gtk_widget_get_toplevel (widget);
-    focus_change_data *data = gtk_object_get_data_by_id (GTK_OBJECT (toplevel),
-							 window_focus_data_key);
-    if (data == 0 && add)
-    {
-	data = g_new0 (focus_change_data, 1);
-	data->widget = widget;
-	gtk_object_set_data_by_id_full (GTK_OBJECT (toplevel),
-					window_focus_data_key,
-					data, g_free);
-	focus_data_list = g_slist_prepend (focus_data_list, data);
-    }
-
-    return data;
-}
-
-static void
-focus_change_helper (GtkWidget *widget, gpointer data)
-{
-    if (GTK_IS_CONTAINER (widget))
-    {
-	gtk_container_forall (GTK_CONTAINER (widget),
-			      focus_change_helper, NULL);
-    }
-    else if (GTK_IS_RANGE (widget))
-    {
-	gtk_widget_queue_draw (widget);
-    }
-    else if (GTK_IS_PROGRESS (widget))
-    {
-	/* This is horrible. But the GtkProgress widget stores the
-	   progress bar in a pixmap, then blits it on expose. But
-	   it will refresh the pixmap when asked to resize.. */
-	if (GTK_WIDGET_DRAWABLE (widget))
-	    gtk_widget_queue_resize (widget);
-    }
-}
-
-gboolean
-eazel_engine_widget_in_focused_window_p (GtkWidget *widget)
-{
-#ifdef DEBUG
-  focus_change_data *data = get_focus_data (widget, FALSE);
-
-  if (data) {
-    printf ("there was data\n");
-    printf ("data->is_focused: %d\n", data->is_focused);
-  } else {
-    printf ("there was no data\n");
-  }
-  return (data != 0) ? data->is_focused : FALSE;
-#else
-  return TRUE;
-#endif
-}
-
-void
-uninstall_all_focus_hooks (void)
-{
-    GSList *ptr;
-    for (ptr = focus_data_list; ptr != 0; ptr = ptr->next)
-    {
-	focus_change_data *data = ptr->data;
-	if (data->connected)
-	{
-	    gtk_signal_disconnect (GTK_OBJECT (data->widget),
-				   data->focus_in_signal_id);
-	    gtk_signal_disconnect (GTK_OBJECT (data->widget),
-			       data->focus_out_signal_id);
-	    gtk_signal_disconnect (GTK_OBJECT (data->widget),
-				   data->destroyed_signal_id);
-	}
-	gtk_object_remove_data_by_id (GTK_OBJECT (data->widget),
-				      window_focus_data_key);
-    }
-    g_slist_free (focus_data_list);
-    focus_data_list = NULL;
-}
-
-
 /* utility functions */
 
 static inline void
 debug (const char *fmt, ...)
 {
-    if (DEBUG)
-    {
+#ifdef DEBUG
 	va_list args;
 	va_start (args, fmt);
 	vfprintf (stderr, fmt, args);
 	va_end (args);
-    }
+#endif
 }
 
 /* adapted from nautilus-gdk-extensions.c */
@@ -1255,7 +1167,7 @@ draw_box (GtkStyle *style,
 	    if (state_type != GTK_STATE_INSENSITIVE)
 	    {
 		gboolean focused;
-		focused = eazel_engine_widget_in_focused_window_p (widget);
+		focused = TRUE;
 		paint_stock_image (theme_data,
 				   focused ? EAZEL_ENGINE_PROGRESS_BAR
 				   : EAZEL_ENGINE_PROGRESS_BAR_INACTIVE,
@@ -2347,12 +2259,12 @@ draw_focus (GtkStyle *style,
 	{
 		if (area)
 			gdk_gc_set_clip_rectangle (style->black_gc, area);
-		if (DETAIL ("button"))
+		/* if (DETAIL ("button"))
 		{
-			//x -= theme_data->focus_thickness; y -= theme_data->focus_thickness;
-			//width += theme_data->focus_thickness * 2; height += theme_data->focus_thickness * 2;
+			x -= theme_data->focus_thickness; y -= theme_data->focus_thickness;
+			width += theme_data->focus_thickness * 2; height += theme_data->focus_thickness * 2;
 		}
-		else if (DETAIL ("text") || DETAIL ("entry"))
+		else */ if (DETAIL ("text") || DETAIL ("entry"))
 		{
 			rounded_inner = FALSE;
 		}
@@ -2407,13 +2319,11 @@ draw_slider (GtkStyle *style,
     if (area)
 	gdk_gc_set_clip_rectangle (style->black_gc, area);
 
-    focused = (widget != 0) && eazel_engine_widget_in_focused_window_p (widget);
+    focused = TRUE;
 
     if (DETAIL ("slider")) {
 	{
 	    int thumb_x, thumb_y;
-
-	    focused = eazel_engine_widget_in_focused_window_p (widget);
 
 	    /* XXX could be a gradient? */
 	    paint_stock_image (theme_data,
@@ -2570,7 +2480,7 @@ crux_draw_style_class_init (GtkStyleClass *style_class)
   style_class->draw_diamond = draw_diamond;
   style_class->draw_string = draw_string;
   style_class->draw_box = draw_box;
-  //style_class->draw_flat_box = draw_flat_box;
+  /* style_class->draw_flat_box = draw_flat_box; */
   style_class->draw_check = draw_check;
   style_class->draw_option = draw_option;
   style_class->draw_tab = draw_tab;

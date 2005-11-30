@@ -148,7 +148,7 @@ metal_draw_shadow (GtkStyle     *style,
   g_return_if_fail(sanitize_parameters(style, window, &width, &height));
 
 /* return; */
-#if DEBUG
+#ifdef DEBUG
   printf ("metal_draw_shadow: %p %p %s %i %i %i %i\n", widget, window, detail, x,
 	  y, width, height);
 #endif
@@ -358,7 +358,7 @@ metal_draw_polygon (GtkStyle * style,
   g_return_if_fail(sanitize_parameters(style, window, NULL, NULL));
   g_return_if_fail (points != NULL);
 
-#if DEBUG
+#ifdef DEBUG
   printf ("metal_draw_polygon: %p %p %s\n", widget, window, detail);
 #endif
 
@@ -468,7 +468,7 @@ metal_draw_polygon (GtkStyle * style,
     }
 }
 
-void
+static void
 scrollbar_stepper (GtkStyle     *style,
 		   GdkWindow    *window,
 		   GtkStateType  state_type,
@@ -730,7 +730,7 @@ metal_draw_string (GtkStyle * style,
 
   g_return_if_fail(sanitize_parameters(style, window, NULL, NULL));
 
-#if DEBUG
+#ifdef DEBUG
   printf ("metal_draw_string: %p %p %s %i %i\n", widget, window, detail, x, y);
 #endif
 
@@ -789,7 +789,7 @@ metal_draw_box (GtkStyle      *style,
 {
   g_return_if_fail(sanitize_parameters(style, window, &width, &height));
 
-#if DEBUG
+#ifdef DEBUG
   printf ("metal_draw_box: %p %p %s %i %i %i %i\n", widget, window, detail, x, y,
 	  width, height);
 #endif
@@ -916,7 +916,7 @@ metal_draw_box (GtkStyle      *style,
     }
 }
 /**************************************************************************/
-void
+static void
 metal_scrollbar_slider (GtkStyle * style,
 			GdkWindow * window,
 			GtkStateType state_type,
@@ -1056,7 +1056,7 @@ metal_scrollbar_slider (GtkStyle * style,
     }
 }
 /**************************************************************************/
-void
+static void
 metal_scale_slider (GtkStyle * style,
 		    GdkWindow * window,
 		    GtkStateType state_type,
@@ -1073,7 +1073,7 @@ metal_scale_slider (GtkStyle * style,
   GdkPixmap *pm;
   GdkGC *fillgc;
   GdkGCValues values;
-  GdkGC *lightgc, *midgc, *darkgc, *whitegc, *blackgc;
+  GdkGC *lightgc, *midgc, *darkgc, *whitegc; /* *blackgc */
   int w, h;
 
   /* Get colors */
@@ -1081,7 +1081,9 @@ metal_scale_slider (GtkStyle * style,
   midgc = style->bg_gc[GTK_STATE_SELECTED];
   darkgc = style->fg_gc[GTK_STATE_PRELIGHT];
   whitegc = style->white_gc;
+#if 0
   blackgc = style->black_gc;
+#endif
 
 #if 1
   /* Create pixmap for drawing textured surface; we need to do this before
@@ -1359,7 +1361,7 @@ metal_draw_check (GtkStyle * style,
 
   /* Fixed size only */
 
-#if DEBUG
+#ifdef DEBUG
   printf ("metal_draw_check: %p %p %s %i %i %i %i\n", widget, window, detail, x,
 	  y, width, height);
 #endif
@@ -1560,7 +1562,7 @@ metal_draw_tab (GtkStyle * style,
 {
   g_return_if_fail(sanitize_parameters(style, window, &width, &height));
 
-#if DEBUG
+#ifdef DEBUG
   printf ("metal_draw_tab: %p %s %i %i\n", detail, detail, width, height);
 #endif
 
@@ -1589,7 +1591,7 @@ metal_draw_shadow_gap (GtkStyle * style,
 
   g_return_if_fail(sanitize_parameters(style, window, &width, &height));
 
-#if DEBUG
+#ifdef DEBUG
   printf ("metal_draw_shadow_gap: %p %p %s %i %i %i %i\n", widget, window, detail,
 	  x, y, width, height);
 #endif
@@ -1651,7 +1653,7 @@ metal_draw_box_gap (GtkStyle       *style,
 
   g_return_if_fail(sanitize_parameters(style, window, &width, &height));
 
-#if DEBUG
+#ifdef DEBUG
   printf ("metal_draw_box_gap: %p %p %s %i %i %i %i\n", widget, window, detail, x,
 	  y, width, height);
 #endif
@@ -1711,7 +1713,7 @@ metal_draw_extension (GtkStyle * style,
 {
   g_return_if_fail(sanitize_parameters(style, window, &width, &height));
 
-#if DEBUG
+#ifdef DEBUG
   printf ("metal_draw_extension: %p %p %s %i %i %i %i\n", widget, window, detail,
 	  x, y, width, height);
 #endif
@@ -1720,7 +1722,7 @@ metal_draw_extension (GtkStyle * style,
 		 x, y, width, height);
 }
 /**************************************************************************/
-void
+static void
 metal_draw_notebook_focus (GtkWidget *widget,
 		     GdkWindow *window,
 		     GdkGC     *gc,
@@ -1804,7 +1806,7 @@ metal_draw_focus (GtkStyle * style,
 
   g_return_if_fail(sanitize_parameters(style, window, &width, &height));
   
-#if DEBUG
+#ifdef DEBUG
   printf ("metal_draw_focus: %p %p %s %i %i %i %i\n", widget, window, detail, x,
 	  y, width, height);
 #endif
@@ -1853,7 +1855,7 @@ metal_draw_slider (GtkStyle * style,
 			area, widget, detail, x, y, width, height, orientation);
 }
 /**************************************************************************/
-void
+static void
 metal_draw_paned_handle (GtkStyle      *style,
 		   GdkWindow     *window,
 		   GtkStateType   state_type,

@@ -37,7 +37,7 @@ enum {
     TOKEN_FG,
     TOKEN_BG,
     TOKEN_BASE,
-    TOKEN_TEXT,
+    TOKEN_TEXT
 };
 
 static struct symbol_struct theme_symbols[] = {
@@ -145,7 +145,7 @@ static struct symbol_struct theme_symbols[] = {
     { "SPIN_ARROW_DOWN", EAZEL_ENGINE_SPIN_ARROW_DOWN },				\
     { 0, 0 }
 
-//static struct symbol_struct theme_symbols[] = { THEME_SYMBOLS };
+/* static struct symbol_struct theme_symbols[] = { THEME_SYMBOLS }; */
 
 static guint n_theme_symbols = (sizeof(theme_symbols) / sizeof(theme_symbols[0])) - 1;
 

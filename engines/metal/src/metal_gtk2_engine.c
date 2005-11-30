@@ -43,7 +43,7 @@ metal_rc_style_class_init (MetalRcStyleClass * klass)
   rc_style_class->create_style = metal_rc_style_create_style;
 }
  
-void
+static void
 metal_rc_style_register_type (GTypeModule * module)
 {
   static const GTypeInfo object_info = {
@@ -166,7 +166,7 @@ metal_style_class_init (MetalStyleClass * klass)
   style_class->draw_handle = metal_draw_handle;
 }
   
-void
+static void
 metal_style_register_type (GTypeModule * module)
 {
   static const GTypeInfo object_info = {
