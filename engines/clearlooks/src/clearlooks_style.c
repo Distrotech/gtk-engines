@@ -1538,6 +1538,7 @@ ensure_radio_pixmaps (GtkStyle     *style,
 	ClearlooksStyle *clearlooks_style = CLEARLOOKS_STYLE (style);
 	GdkPixbuf *dot, *circle, *outline, *inconsistent, *composite;
 	GdkColor *composite_color;
+	GdkColormap *colormap;
 	
 	if (clearlooks_style->radio_pixmap_nonactive[state] != NULL)
 		return;
@@ -1554,10 +1555,10 @@ ensure_radio_pixmaps (GtkStyle     *style,
 	
 	if (clearlooks_style->radio_pixmap_mask == NULL)
 	{
-		gdk_pixbuf_render_pixmap_and_mask (outline,
-		                                   NULL,
-		                                   &clearlooks_style->radio_pixmap_mask,
-		                                   1);
+		colormap = gdk_screen_get_rgb_colormap (screen);
+		gdk_pixbuf_render_pixmap_and_mask_for_colormap (outline, colormap, NULL,
+								&clearlooks_style->radio_pixmap_mask,
+								1);
 	}
 	
 	if (state == GTK_STATE_ACTIVE)
