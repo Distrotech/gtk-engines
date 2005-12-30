@@ -102,9 +102,9 @@ GtkWidget *get_parent_window (GtkWidget *widget);
 
 GdkColor *get_parent_bgcolor (GtkWidget *widget);
 
-gboolean is_combo_box (GtkWidget * widget);
+gboolean cl_is_combo_box (GtkWidget * widget);
 
-GtkWidget *find_combo_box_widget (GtkWidget * widget);
+GtkWidget *cl_find_combo_box_widget (GtkWidget * widget);
 
 void gtk_treeview_get_header_index (GtkTreeView *tv, GtkWidget *header,
                                     gint *column_index, gint *columns,

@@ -177,7 +177,7 @@ clearlooks_draw_arrow (GtkStyle      *style,
 	
 	sanitize_size (window, &width, &height);
 	
-	if (is_combo_box (widget))
+	if (cl_is_combo_box (widget))
 	{
 		width = 7;
 		height = 5;
