@@ -239,9 +239,11 @@ draw_vertical_gradient (GdkDrawable *drawable, GdkGC *gc,
     }
     else
     {
-	guchar *xrgb = alloca (clip_rect->width * clip_rect->height * 3);
-	int x, y;
-	guchar *ptr_in = rgb, *ptr_out = xrgb;
+	guchar *xrgb = (guchar *) malloc (clip_rect->width * clip_rect->height * 3);
+	guint x, y;
+	guchar *ptr_in = rgb, *ptr_out=xrgb;
+	if (!xrgb)
+	  return;
 	for (y = 0; y < clip_rect->height; y++)
 	{
 	    guchar r = *ptr_in++;
@@ -257,6 +259,7 @@ draw_vertical_gradient (GdkDrawable *drawable, GdkGC *gc,
 	gdk_draw_rgb_image (drawable, gc, clip_rect->x, clip_rect->y,
 			    clip_rect->width, clip_rect->height,
 			    dither_mode, xrgb, clip_rect->width * 3);
+	free(xrgb);
     }
 }
 

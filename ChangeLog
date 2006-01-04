@@ -1,3 +1,8 @@
+2006-01-04  Thomas Wood  <thos@gnome.org>
+
+	* engines/crux/src/crux-gradient.c: (draw_vertical_gradient): Applied patch
+	from bug 324989 (use malloc instead of alloca).
+
 2006-01-03  Benjamin Berg  <benjamin@sipsolutions.net>
 
         * engines/hc/src/hc-style.c: (hc_draw_flat_box),
