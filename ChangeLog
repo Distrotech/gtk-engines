@@ -1,3 +1,18 @@
+2006-01-07  Thomas Wood  <thos@gnome.org>
+
+	* NEWS:
+	* configure.ac:
+	Update for 2.6.7
+
+	* engines/lighthouseblue/src/lighthouseblue_rc_style.c:
+	(theme_parse_boolean):
+	* engines/lighthouseblue/src/lighthouseblue_style.c: (draw_arrow),
+	(draw_slider), (draw_handle), (lighthouseblue_style_class_init):
+	* engines/lighthouseblue/src/util.c:
+
+	- Applied Lighthouseblue engine patch from bug 321140
+	- Applied patch from bug 106156 (fixes various redraw issues)
+
 2006-01-04  Thomas Wood  <thos@gnome.org>
 
 	* engines/crux/src/crux-gradient.c: (draw_vertical_gradient): Applied patch

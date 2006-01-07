@@ -1,3 +1,20 @@
+Overview of Changes in 2.6.7 (since 2.6.6)
+==========================================
+
+* Fixed bugs:
+	#322886 - Crux engine: undefined reference to `_uninstall_all_focus_hooks'
+	#323215 - Metal and thinice engines uncoditionally cast widget to GtkNotebook
+	#324989 - Crux engine: use malloc instead of alloca
+	#318151 - Menu tooltips are hard to read when using HighContrastInverse theme
+	#315562 - Symbol conflicts between theme engines crash gnome-theme-manager
+	#324806 - Clearlooks theme causes panel to crash on a multihead display
+	#106156 - LighthouseBlue theme has problem with slider widget highlight (also
+	          fixes various other redraw problems)
+
+* Applied smooth engine patches and lighthouseblue patch from bug 321140 (Lots
+  of cleanups for compiler warnings and removal of unneeded code)
+
+
 Overview of Changes in 2.6.6 (since 2.6.5)
 ==========================================
 
