@@ -2566,6 +2566,33 @@ clearlooks_style_init (ClearlooksStyle * style)
 }
 
 static void
+clearlooks_style_copy (GtkStyle * style, GtkStyle * src)
+{
+	gint i;
+	ClearlooksStyle * cl_style = CLEARLOOKS_STYLE (style);
+	ClearlooksStyle * cl_src = CLEARLOOKS_STYLE (src);
+	
+	for (i = 0; i < 9; i++) {
+		cl_style->shade[i] = cl_src->shade[i]; 
+	}
+	
+	cl_style->spot_color = cl_src->spot_color;
+	cl_style->spot1 = cl_src->spot1;
+	cl_style->spot2 = cl_src->spot2;
+	cl_style->spot3 = cl_src->spot3;
+		
+	for (i = 0; i < CL_BORDER_COUNT; i++) {
+		cl_style->border[i] = cl_src->border[i];
+	}
+	
+	cl_style->sunkenmenubar = cl_src->sunkenmenubar;
+	cl_style->progressbarstyle = cl_src->progressbarstyle;
+	cl_style->menubarstyle = cl_src->menubarstyle;
+	cl_style->menuitemstyle = cl_src->menuitemstyle;
+	cl_style->listviewitemstyle = cl_src->listviewitemstyle;
+}
+
+static void
 clearlooks_style_class_init (ClearlooksStyleClass * klass)
 {
 	GtkStyleClass *style_class = GTK_STYLE_CLASS (klass);
@@ -2574,6 +2601,7 @@ clearlooks_style_class_init (ClearlooksStyleClass * klass)
 
 	style_class->realize = clearlooks_style_realize;
 	style_class->unrealize = clearlooks_style_unrealize;
+	style_class->copy = clearlooks_style_copy;
 	style_class->init_from_rc = clearlooks_style_init_from_rc;
 	style_class->draw_focus = draw_focus;
 	style_class->draw_resize_grip = draw_resize_grip;
