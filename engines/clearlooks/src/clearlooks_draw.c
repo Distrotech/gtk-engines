@@ -99,13 +99,13 @@ static void cl_draw_line (GdkWindow *window, GtkWidget *widget, GtkStyle *style,
 	}
 	else if (r->gradient_type == CL_GRADIENT_HORIZONTAL && (border == CL_BORDER_TOP || border == CL_BORDER_BOTTOM))
 	{
-		draw_vgradient (window, r->bordergc, style,
+		cl_draw_vgradient (window, r->bordergc, style,
 		                x1, y1, x2-x1+1, 1,
 		                r->border_gradient.from, r->border_gradient.to);
 	}
 	else if (r->gradient_type == CL_GRADIENT_VERTICAL && (border == CL_BORDER_LEFT || border == CL_BORDER_RIGHT))
 	{
-		draw_hgradient (window, r->bordergc, style,
+		cl_draw_hgradient (window, r->bordergc, style,
 		                x1, y1, 1, y2-y1+1,
 		                r->border_gradient.from, r->border_gradient.to);
 	}
@@ -172,14 +172,14 @@ static void cl_draw_corner (GdkWindow *window, GtkWidget *widget, GtkStyle *styl
 		color = &tmp;
 	}
 
-	bgcolor = get_parent_bgcolor(widget);
+	bgcolor = cl_get_parent_bgcolor(widget);
 
 	if (bgcolor == NULL)
 	{
 		bgcolor = color;
 	}
 
-	blend (style->colormap, bgcolor, color, &aacolor, 70);
+	cl_blend (style->colormap, bgcolor, color, &aacolor, 70);
 
 	if (r->corners[corner] == CL_CORNER_ROUND)
 	{
@@ -237,13 +237,13 @@ static void cl_draw_fill (GdkWindow *window, GtkWidget *widget, GtkStyle *style,
 	}
 	else if (r->gradient_type == CL_GRADIENT_HORIZONTAL)
 	{
-		draw_vgradient (window, r->fillgc, gtk_widget_get_style(widget),
+		cl_draw_vgradient (window, r->fillgc, gtk_widget_get_style(widget),
 		                x+1, y+1, width-2, height-2,
 		                r->fill_gradient.from, r->fill_gradient.to);
 	}
 	else if (r->gradient_type == CL_GRADIENT_VERTICAL)
 	{
-		draw_hgradient (window, r->fillgc, gtk_widget_get_style(widget),
+		cl_draw_hgradient (window, r->fillgc, gtk_widget_get_style(widget),
 		                x+1, y+1, width-2, height-2,
 		                r->fill_gradient.from, r->fill_gradient.to);
 	}
@@ -278,7 +278,7 @@ void cl_rectangle_set_button(CLRectangle *r, GtkStyle *style,
 	r->topleft     = (state_type != GTK_STATE_ACTIVE) ? style->light_gc[state_type] : clearlooks_style->shade_gc[4];
 	r->bottomright = (state_type != GTK_STATE_ACTIVE) ? clearlooks_style->shade_gc[1] : NULL;
 	
-	shade (&style->bg[state_type], &r->tmp_color, 0.93);
+	cl_shade (&style->bg[state_type], &r->tmp_color, 0.93);
 	
 
 	cl_rectangle_set_gradient (&r->fill_gradient,
@@ -394,9 +394,9 @@ void cl_rectangle_set_corners (CLRectangle *r, int tl, int tr, int bl, int br)
 
 void cl_set_corner_sharpness (const gchar *detail, GtkWidget *widget, CLRectangle *r)
 {
-	if ((widget->parent && GTK_IS_COMBO_BOX_ENTRY (widget->parent)) || GTK_IS_COMBO (widget->parent))
+	if (widget && ((widget->parent && GTK_IS_COMBO_BOX_ENTRY (widget->parent)) || GTK_IS_COMBO (widget->parent)))
 	{
-		gboolean rtl = get_direction (widget->parent) == GTK_TEXT_DIR_RTL;
+		gboolean rtl = cl_get_parent_direction (widget) == GTK_TEXT_DIR_RTL;
 		int cl = rtl ? CL_CORNER_ROUND : CL_CORNER_NONE;
 		int cr = rtl ? CL_CORNER_NONE  : CL_CORNER_ROUND;
 		
@@ -404,7 +404,7 @@ void cl_set_corner_sharpness (const gchar *detail, GtkWidget *widget, CLRectangl
 	}
 	else if (detail && !strcmp (detail, "spinbutton_up"))
 	{
-		gboolean rtl = get_direction (widget->parent) == GTK_TEXT_DIR_RTL;
+		gboolean rtl = cl_get_parent_direction (widget) == GTK_TEXT_DIR_RTL;
 		int tl = rtl ? CL_CORNER_ROUND : CL_CORNER_NONE;
 		int tr = rtl ? CL_CORNER_NONE  : CL_CORNER_ROUND;
 
@@ -413,7 +413,7 @@ void cl_set_corner_sharpness (const gchar *detail, GtkWidget *widget, CLRectangl
 	}
 	else if (detail && !strcmp (detail, "spinbutton_down"))
 	{
-		gboolean rtl = get_direction (widget->parent) == GTK_TEXT_DIR_RTL;
+		gboolean rtl = cl_get_parent_direction (widget) == GTK_TEXT_DIR_RTL;
 		int bl = rtl ? CL_CORNER_ROUND : CL_CORNER_NONE;
 		int br = rtl ? CL_CORNER_NONE  : CL_CORNER_ROUND;
 
@@ -474,7 +474,7 @@ GdkColor cl_gc_set_fg_color_shade (GdkGC *gc, GdkColormap *colormap,
 	GdkColor tmp_color;
 	GdkGCValues values;
 
-	shade (from, &tmp_color, s);
+	cl_shade (from, &tmp_color, s);
 	gdk_gc_get_values (gc, &values);
 	gdk_rgb_find_color (colormap, &tmp_color);
 	gdk_gc_set_foreground (gc, &tmp_color);
@@ -500,9 +500,9 @@ static void cl_get_window_style_state (GtkWidget *widget, GtkStyle **style, GtkS
 	*state_type = GTK_WIDGET_STATE(tmpwidget);
 }
 
-static GdkGC *cl_get_window_bg_gc (GtkWidget *widget)
+static GdkGC *cl_get_window_bg_gc (GtkWidget *widget, GtkStyle *fallback)
 {
-	GtkStyle *style;
+	GtkStyle *style = fallback;
 	GtkStateType state_type;
 	
 	cl_get_window_style_state (widget, &style, &state_type);
@@ -532,7 +532,7 @@ void cl_draw_inset (GtkStyle *style, GdkWindow *window, GtkWidget *widget,
 	
 	g_assert (clwindowstyle != NULL);
 	
-	if (GTK_WIDGET_HAS_DEFAULT (widget))
+	if (widget && GTK_WIDGET_HAS_DEFAULT (widget))
 	{
 		r.bordergc = style->mid_gc[GTK_STATE_NORMAL];
 	}
@@ -560,11 +560,11 @@ void cl_draw_button(GtkStyle *style, GdkWindow *window,
 	CLRectangle r;
 	
 	/* Get the background color of the window we're on */
-	bg_gc = cl_get_window_bg_gc(widget);
+	bg_gc = cl_get_window_bg_gc(widget, style);
 	
 	cl_rectangle_set_button (&r, style, state_type,
-	                         GTK_WIDGET_HAS_DEFAULT (widget),
-	                         GTK_WIDGET_HAS_FOCUS (widget),
+	                         widget && GTK_WIDGET_HAS_DEFAULT (widget),
+	                         widget && GTK_WIDGET_HAS_FOCUS (widget),
 	                         CL_CORNER_ROUND, CL_CORNER_ROUND,
 	                         CL_CORNER_ROUND, CL_CORNER_ROUND);
 		
@@ -575,7 +575,7 @@ void cl_draw_button(GtkStyle *style, GdkWindow *window,
 	    gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON(widget)) &&
 	    state_type == GTK_STATE_PRELIGHT)
 	{
-		cl_rectangle_set_gradient (&r.fill_gradient, &clearlooks_style->shade[1], &clearlooks_style->shade[1]);
+		cl_rectangle_set_gradient (&r.fill_gradient, &clearlooks_style->cl_shade[1], &clearlooks_style->cl_shade[1]);
 		r.topleft     = clearlooks_style->shade_gc[3];
 		r.bottomright = clearlooks_style->shade_gc[1];
 		
@@ -585,7 +585,7 @@ void cl_draw_button(GtkStyle *style, GdkWindow *window,
 	if (!is_active)
 		r.fillgc = NULL;
 		
-	if (!GTK_IS_NOTEBOOK (widget->parent))
+	if (!widget || !GTK_IS_NOTEBOOK (widget->parent))
 	{
 		gdk_draw_rectangle (window, bg_gc, FALSE, x, y, width-1, height-1);
 	
@@ -617,17 +617,17 @@ void cl_draw_button(GtkStyle *style, GdkWindow *window,
 	
 		gdk_gc_set_clip_rectangle (style->bg_gc[state_type], area);
 		
-		draw_hgradient (window, style->bg_gc[state_type], style,
+		cl_draw_hgradient (window, style->bg_gc[state_type], style,
 		                x+2,y+2,width-4,tmp_height,
 		                &clearlooks_style->button_g1[state_type],
 			            &clearlooks_style->button_g2[state_type]);
 		
-		draw_hgradient (window, style->bg_gc[state_type], style,
+		cl_draw_hgradient (window, style->bg_gc[state_type], style,
 		                x+2, y+2+tmp_height, width-4, height-3-tmp_height*2,
 		                &clearlooks_style->button_g2[state_type],
 			            &clearlooks_style->button_g3[state_type]);
 		
-		draw_hgradient (window, style->bg_gc[state_type], style,
+		cl_draw_hgradient (window, style->bg_gc[state_type], style,
 		                x+2,y+height-tmp_height-1,width-4,tmp_height,
 		                &clearlooks_style->button_g3[state_type],
 			            &clearlooks_style->button_g4[state_type]);
@@ -661,9 +661,9 @@ void cl_draw_spinbutton(GtkStyle *style, GdkWindow *window,
 		area = &new_area;		
 	}
 
-	if (!strcmp (detail, "spinbutton")) /* draws the 'back' of the spinbutton */
+	if (detail && !strcmp (detail, "spinbutton")) /* draws the 'back' of the spinbutton */
 	{
-		GdkGC *bg_gc = cl_get_window_bg_gc(widget);
+		GdkGC *bg_gc = cl_get_window_bg_gc(widget, style);
 		
 		gdk_gc_set_clip_rectangle (bg_gc, area);
 		gdk_draw_rectangle (window, bg_gc, FALSE, x, y, width-1, height-1);
@@ -677,7 +677,7 @@ void cl_draw_spinbutton(GtkStyle *style, GdkWindow *window,
 		return;
 	}
 
-	if (!strcmp (detail, "spinbutton_up"))
+	if (detail && !strcmp (detail, "spinbutton_up"))
 	{
 		tr = CL_CORNER_ROUND;
 		
@@ -693,8 +693,8 @@ void cl_draw_spinbutton(GtkStyle *style, GdkWindow *window,
 	}
 	
 	cl_rectangle_set_button (&r, style, state_type,
-	                         GTK_WIDGET_HAS_DEFAULT  (widget),
-	                         GTK_WIDGET_HAS_FOCUS (widget),
+	                         widget && GTK_WIDGET_HAS_DEFAULT (widget),
+	                         widget && GTK_WIDGET_HAS_FOCUS (widget),
 	                         tl, tr,
 	                         bl, br);
 	width--;
@@ -713,13 +713,17 @@ void cl_draw_combobox_entry (GtkStyle *style, GdkWindow *window,
 {
 	CLRectangle r;
 	
-	gboolean rtl = get_direction (widget->parent) == GTK_TEXT_DIR_RTL;
-	gboolean has_focus = GTK_WIDGET_HAS_FOCUS (widget);
+	gboolean rtl;
+	gboolean has_focus = widget && GTK_WIDGET_HAS_FOCUS (widget);
 	
-	int cl = rtl ? CL_CORNER_NONE  : CL_CORNER_ROUND,
-		cr = rtl ? CL_CORNER_ROUND : CL_CORNER_NONE;
+	int cl, cr;
 	
-	GdkGC *bg_gc = cl_get_window_bg_gc(widget);
+	rtl = cl_get_parent_direction (widget) == GTK_TEXT_DIR_RTL;
+	
+	cl = rtl ? CL_CORNER_NONE  : CL_CORNER_ROUND;
+	cr = rtl ? CL_CORNER_ROUND : CL_CORNER_NONE;
+	
+	GdkGC *bg_gc = cl_get_window_bg_gc(widget, style);
 	
 	if (rtl)
 	{
@@ -835,17 +839,17 @@ void cl_draw_combobox_button (GtkStyle *style, GdkWindow *window,
 	
 		gdk_gc_set_clip_rectangle (style->bg_gc[state_type], area);
 		
-		draw_hgradient (window, style->bg_gc[state_type], style,
+		cl_draw_hgradient (window, style->bg_gc[state_type], style,
 		                x+2,y+2,width-4,tmp_height,
 		                &clearlooks_style->button_g1[state_type],
 			            &clearlooks_style->button_g2[state_type]);
 		
-		draw_hgradient (window, style->bg_gc[state_type], style,
+		cl_draw_hgradient (window, style->bg_gc[state_type], style,
 		                x+2, y+2+tmp_height, width-4, height-3-tmp_height*2,
 		                &clearlooks_style->button_g2[state_type],
 			            &clearlooks_style->button_g3[state_type]);
 		
-		draw_hgradient (window, style->bg_gc[state_type], style,
+		cl_draw_hgradient (window, style->bg_gc[state_type], style,
 		                x+2,y+height-tmp_height-1,width-4,tmp_height,
 		                &clearlooks_style->button_g3[state_type],
 			            &clearlooks_style->button_g4[state_type]);
@@ -867,8 +871,8 @@ void cl_draw_entry (GtkStyle *style, GdkWindow *window,
                         gint x, gint y, gint width, gint height)
 {
 	CLRectangle r;
-	gboolean has_focus = GTK_WIDGET_HAS_FOCUS(widget);
-	GdkGC *bg_gc = cl_get_window_bg_gc(widget);
+	gboolean has_focus = widget && GTK_WIDGET_HAS_FOCUS(widget);
+	GdkGC *bg_gc = cl_get_window_bg_gc(widget, style);
 	
 	gdk_draw_rectangle (window, bg_gc, FALSE, x, y, width-1, height-1);
 
@@ -911,9 +915,9 @@ void cl_draw_optionmenu(GtkStyle *style, GdkWindow *window,
 	GtkBorder indicator_spacing;
 	int line_pos;
 
-	option_menu_get_props (widget, &indicator_size, &indicator_spacing);
+	cl_option_menu_get_props (widget, &indicator_size, &indicator_spacing);
 	
-	if (get_direction (widget) == GTK_TEXT_DIR_RTL)
+	if (cl_get_direction (widget) == GTK_TEXT_DIR_RTL)
 		line_pos = x + (indicator_size.width + indicator_spacing.left + indicator_spacing.right) + style->xthickness;
 	else
 		line_pos = x + width - (indicator_size.width + indicator_spacing.left + indicator_spacing.right) - style->xthickness;
@@ -935,11 +939,11 @@ void cl_draw_menuitem_button (GdkDrawable *window, GtkWidget *widget, GtkStyle *
                               int x, int y, int width, int height, CLRectangle *r)
 {
 	ClearlooksStyle *clearlooks_style = (ClearlooksStyle*)style;
-	gboolean menubar  = (widget->parent && GTK_IS_MENU_BAR(widget->parent)) ? TRUE : FALSE;
+	gboolean menubar  = (widget && widget->parent && GTK_IS_MENU_BAR(widget->parent)) ? TRUE : FALSE;
 	int corner        = CL_CORNER_NARROW;
 	GdkColor lower_color;
 
-	shade (&style->base[GTK_STATE_SELECTED], &lower_color, 0.85);
+	cl_shade (&style->base[GTK_STATE_SELECTED], &lower_color, 0.85);
 	
 	if (menubar)
 	{
@@ -972,7 +976,7 @@ void cl_draw_menuitem_flat (GdkDrawable *window, GtkWidget *widget, GtkStyle *st
                               GdkRectangle *area, GtkStateType state_type, 
                               int x, int y, int width, int height, CLRectangle *r)
 {
-	gboolean menubar  = (widget->parent && GTK_IS_MENU_BAR(widget->parent)) ? TRUE : FALSE;
+	gboolean menubar  = (widget && widget->parent && GTK_IS_MENU_BAR(widget->parent)) ? TRUE : FALSE;
 	GdkColor tmp;
 	
 	cl_rectangle_set_corners (r, CL_CORNER_NARROW, CL_CORNER_NARROW,
@@ -997,11 +1001,11 @@ void cl_draw_menuitem_gradient (GdkDrawable *window, GtkWidget *widget, GtkStyle
                                 GdkRectangle *area, GtkStateType state_type, 
                                 int x, int y, int width, int height, CLRectangle *r)
 {
-	gboolean menubar  = (widget->parent && GTK_IS_MENU_BAR(widget->parent)) ? TRUE : FALSE;
+	gboolean menubar  = (widget && widget->parent && GTK_IS_MENU_BAR(widget->parent)) ? TRUE : FALSE;
 	GdkColor tmp;
 	GdkColor lower_color;
 	
-	shade (&style->base[GTK_STATE_SELECTED], &lower_color, 0.8);
+	cl_shade (&style->base[GTK_STATE_SELECTED], &lower_color, 0.8);
 	
 	cl_rectangle_set_corners (r, CL_CORNER_NARROW, CL_CORNER_NARROW,
 	                             CL_CORNER_NARROW, CL_CORNER_NARROW);
@@ -1041,13 +1045,13 @@ void cl_draw_treeview_header (GtkStyle *style, GdkWindow *window,
 	if ( width < 2 || height < 2 )
 		return;
 	
-	if (GTK_IS_TREE_VIEW (widget->parent))
+	if (widget && GTK_IS_TREE_VIEW (widget->parent))
 	{
 		gtk_treeview_get_header_index (GTK_TREE_VIEW(widget->parent),
 	                                   widget, &column_index, &columns,
 	                                   &resizable);
 	}
-	else if (GTK_IS_CLIST (widget->parent))
+	else if (widget && GTK_IS_CLIST (widget->parent))
 	{
 		gtk_clist_get_header_index (GTK_CLIST(widget->parent),
 		                            widget, &column_index, &columns);
@@ -1066,7 +1070,7 @@ void cl_draw_treeview_header (GtkStyle *style, GdkWindow *window,
 	
 	gdk_draw_rectangle (window, style->bg_gc[state_type], TRUE, x, y, fill_width, height-(height/3)+1);
 	
-	draw_hgradient (window, style->bg_gc[state_type], style,
+	cl_draw_hgradient (window, style->bg_gc[state_type], style,
 	                x, 1+y+height-(height/3), fill_width, height/3,
 	                &style->bg[state_type], &clearlooks_style->inset_dark[state_type]);
 
@@ -1134,19 +1138,19 @@ GdkPixmap* cl_progressbar1_create_tile (GdkDrawable *drawable,
 	double shift;	
 	GdkPoint points[4];
 
-	GtkProgressBarOrientation orientation = gtk_progress_bar_get_orientation (GTK_PROGRESS_BAR (widget));
+	GtkProgressBarOrientation orientation = cl_get_progress_bar_orientation (widget);
 	gboolean is_horizontal = (orientation == GTK_PROGRESS_LEFT_TO_RIGHT || orientation == GTK_PROGRESS_RIGHT_TO_LEFT) ? 1 : 0;
 	
-	GdkPixmap *tmp = gdk_pixmap_new (widget->window, width, height, -1);
+	GdkPixmap *tmp = gdk_pixmap_new (drawable, width, height, -1);
 
 	GdkColor tmp_color;
-	shade (&clearlooks_style->spot2, &tmp_color, 0.90);
+	cl_shade (&clearlooks_style->spot2, &tmp_color, 0.90);
 	
 	if (is_horizontal)
-		draw_hgradient (tmp, style->black_gc, style, 0, 0, width, height,
+		cl_draw_hgradient (tmp, style->black_gc, style, 0, 0, width, height,
 	    	            &clearlooks_style->spot2, &tmp_color );
 	else
-		draw_vgradient (tmp, style->black_gc, style, 0, 0, width, height,
+		cl_draw_vgradient (tmp, style->black_gc, style, 0, 0, width, height,
 	    	            &tmp_color, &clearlooks_style->spot2); /* TODO: swap for RTL */
 	                
 	if (orientation == GTK_PROGRESS_RIGHT_TO_LEFT || 
@@ -1156,7 +1160,7 @@ GdkPixmap* cl_progressbar1_create_tile (GdkDrawable *drawable,
 		xdir = -1;
 	}
 	
-	if (get_direction (widget) == GTK_TEXT_DIR_RTL)
+	if (cl_get_direction (widget) == GTK_TEXT_DIR_RTL)
 		offset = -offset;
 	
 	if (is_horizontal)
@@ -1203,9 +1207,9 @@ cl_progressbar1_fill (GdkDrawable *drawable, GtkWidget *widget,
                           gint width, gint height,
                           guint8 offset, GdkRectangle *area)
 {
-	GtkProgressBarOrientation orientation = gtk_progress_bar_get_orientation (GTK_PROGRESS_BAR (widget));
+	GtkProgressBarOrientation orientation = cl_get_progress_bar_orientation (widget);
 	gint size = (orientation == GTK_PROGRESS_LEFT_TO_RIGHT || orientation == GTK_PROGRESS_RIGHT_TO_LEFT) ? height : width;
-	GdkPixmap *tile = cl_progressbar1_create_tile (widget->window, widget, style, size, offset);
+	GdkPixmap *tile = cl_progressbar1_create_tile (drawable, widget, style, size, offset);
 
 	gint nx = x,
 	     ny = y,
@@ -1376,7 +1380,7 @@ cl_draw_progressbar2_trough(GdkDrawable *window, GtkWidget *widget,
 	ClearlooksStyle *clearlooks_style = CLEARLOOKS_STYLE (style);
 	CLRectangle r;
 	GdkColor c, d;
-	shade(&style->bg[0], &c, 0.95);
+	cl_shade(&style->bg[0], &c, 0.95);
 	cl_rectangle_init (&r, clearlooks_style->shade_gc[2],
 	                       clearlooks_style->border_gc[CL_BORDER_UPPER],
 	                       CL_CORNER_NARROW, CL_CORNER_NARROW,
@@ -1384,8 +1388,8 @@ cl_draw_progressbar2_trough(GdkDrawable *window, GtkWidget *widget,
 
 	r.gradient_type = horizontal ? CL_GRADIENT_VERTICAL : CL_GRADIENT_HORIZONTAL;
 	
-	cl_rectangle_set_gradient (&r.fill_gradient, &clearlooks_style->shade[2],
-	                                             &clearlooks_style->shade[1]);
+	cl_rectangle_set_gradient (&r.fill_gradient, &clearlooks_style->cl_shade[2],
+	                                             &clearlooks_style->cl_shade[1]);
 	
 	// Draw inset
 	if (style->xthickness > 1 && style->ythickness > 1)
@@ -1400,13 +1404,13 @@ cl_draw_progressbar2_trough(GdkDrawable *window, GtkWidget *widget,
 		width-=2;
 	}	
 	
-	shade(&style->bg[0], &d, 0.80);
+	cl_shade(&style->bg[0], &d, 0.80);
 	
 	// Draw the trough itself
 	cl_rectangle_set_clip_rectangle (&r, area);
 	cl_draw_rectangle (window, widget, style, x, y, width, height, &r);
-	cl_rectangle_set_gradient (&r.fill_gradient, &clearlooks_style->shade[3],
-	                                             &clearlooks_style->shade[2]);
+	cl_rectangle_set_gradient (&r.fill_gradient, &clearlooks_style->cl_shade[3],
+	                                             &clearlooks_style->cl_shade[2]);
 	cl_draw_fill (window, widget, style, x, y, width, 4, &r);
 	cl_rectangle_reset_clip_rectangle (&r);
 }
@@ -1414,7 +1418,7 @@ cl_draw_progressbar2_trough(GdkDrawable *window, GtkWidget *widget,
 static void
 cl_progressbar2_set_four_points(GtkWidget *widget, GdkPoint *points, int size)
 {
-	GtkProgressBarOrientation orientation = gtk_progress_bar_get_orientation (GTK_PROGRESS_BAR (widget));
+	GtkProgressBarOrientation orientation = cl_get_progress_bar_orientation (widget);
 
 	switch (orientation)
 	{
@@ -1484,24 +1488,24 @@ cl_progressbar2_create_tile (GtkWidget *widget, GtkStyle *style, gint size, gboo
 	tile = gdk_pixmap_new (widget->window, width, height, -1);
 
 	l3 = clearlooks_style->spot2;
-	shade (&l3, &l1, 1.05);
-	shade (&l3, &l2, 1.2);
+	cl_shade (&l3, &l1, 1.05);
+	cl_shade (&l3, &l2, 1.2);
 	
-	shade (&l3, &d3, 0.92);
-	shade (&d3, &d1, 1.05);
-	shade (&d3, &d2, 1.2);	
+	cl_shade (&l3, &d3, 0.92);
+	cl_shade (&d3, &d1, 1.05);
+	cl_shade (&d3, &d2, 1.2);	
 
 	if (horizontal)
 	{
-		draw_hgradient (tile, style->bg_gc[0], style, 0, 0,         width, 3,       &l1, &l2);
-		draw_hgradient (tile, style->bg_gc[0], style, 0, 3,         width, height1, &l2, &l3);
-		draw_hgradient (tile, style->bg_gc[0], style, 0, height1+3, width, height2, &l3, &l2);
+		cl_draw_hgradient (tile, style->bg_gc[0], style, 0, 0,         width, 3,       &l1, &l2);
+		cl_draw_hgradient (tile, style->bg_gc[0], style, 0, 3,         width, height1, &l2, &l3);
+		cl_draw_hgradient (tile, style->bg_gc[0], style, 0, height1+3, width, height2, &l3, &l2);
 	}
 	else
 	{
-		draw_vgradient (tile, style->bg_gc[0], style, 0,         0, 3,       height, &l1, &l2);
-		draw_vgradient (tile, style->bg_gc[0], style, 3,         0, height1, height, &l2, &l3);
-		draw_vgradient (tile, style->bg_gc[0], style, height1+3, 0, height2, height, &l3, &l2);
+		cl_draw_vgradient (tile, style->bg_gc[0], style, 0,         0, 3,       height, &l1, &l2);
+		cl_draw_vgradient (tile, style->bg_gc[0], style, 3,         0, height1, height, &l2, &l3);
+		cl_draw_vgradient (tile, style->bg_gc[0], style, height1+3, 0, height2, height, &l3, &l2);
 	}
 	
 	/* And the angled stripes */
@@ -1510,15 +1514,15 @@ cl_progressbar2_create_tile (GtkWidget *widget, GtkStyle *style, gint size, gboo
 
 	if (horizontal)
 	{	
-		draw_hgradient (tile, clearlooks_style->spot3_gc, style, 0, 0,         width, 3,       &d1, &d2);
-		draw_hgradient (tile, clearlooks_style->spot3_gc, style, 0, 3,         width, height1, &d2, &d3);
-		draw_hgradient (tile, clearlooks_style->spot3_gc, style, 0, height1+3, width, height2, &d3, &d2);
+		cl_draw_hgradient (tile, clearlooks_style->spot3_gc, style, 0, 0,         width, 3,       &d1, &d2);
+		cl_draw_hgradient (tile, clearlooks_style->spot3_gc, style, 0, 3,         width, height1, &d2, &d3);
+		cl_draw_hgradient (tile, clearlooks_style->spot3_gc, style, 0, height1+3, width, height2, &d3, &d2);
 	}	
 	else
 	{
-		draw_vgradient (tile, clearlooks_style->spot3_gc, style, 0,         0, 3,       height, &d1, &d2);
-		draw_vgradient (tile, clearlooks_style->spot3_gc, style, 3,         0, height1, height, &d2, &d3);
-		draw_vgradient (tile, clearlooks_style->spot3_gc, style, height1+3, 0, height2, height, &d3, &d2);
+		cl_draw_vgradient (tile, clearlooks_style->spot3_gc, style, 0,         0, 3,       height, &d1, &d2);
+		cl_draw_vgradient (tile, clearlooks_style->spot3_gc, style, 3,         0, height1, height, &d2, &d3);
+		cl_draw_vgradient (tile, clearlooks_style->spot3_gc, style, height1+3, 0, height2, height, &d3, &d2);
 	}
 
 	gdk_gc_set_clip_region (clearlooks_style->spot3_gc, NULL);
@@ -1606,7 +1610,7 @@ cl_draw_progressbar2_fill(GdkDrawable *window, GtkWidget *widget,
 	if (width < 1 || height < 1)
 		return;
 
-	orientation = gtk_progress_bar_get_orientation (GTK_PROGRESS_BAR (widget));
+	orientation = cl_get_progress_bar_orientation (widget);
 	
 	is_horizontal = orientation < 2;
 
@@ -1664,15 +1668,15 @@ cl_draw_progressbar2_fill(GdkDrawable *window, GtkWidget *widget,
 		               border_line[1].x, border_line[1].y);
 		
 		if (is_horizontal)
-			draw_vgradient (window, style->bg_gc[state_type], style,
+			cl_draw_vgradient (window, style->bg_gc[state_type], style,
 			                border_line[0].x+shadow_pos, y, 2, height,
-			                &clearlooks_style->shade[3],
-			                &clearlooks_style->shade[2]);
+			                &clearlooks_style->cl_shade[3],
+			                &clearlooks_style->cl_shade[2]);
 		else
-			draw_hgradient (window, style->bg_gc[state_type], style,
+			cl_draw_hgradient (window, style->bg_gc[state_type], style,
 			                x, border_line[0].y+shadow_pos, width, 2,
-			                &clearlooks_style->shade[3],
-			                &clearlooks_style->shade[2]);
+			                &clearlooks_style->cl_shade[3],
+			                &clearlooks_style->cl_shade[2]);
 	}
 	
 	g_object_unref (tile);

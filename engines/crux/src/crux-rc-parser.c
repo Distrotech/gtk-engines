@@ -222,13 +222,13 @@ stock_index (const char *symbol)
 }
 
 void
-theme_data_ref (eazel_theme_data *theme_data)
+crux_theme_data_ref (eazel_theme_data *theme_data)
 {
     theme_data->refcount++;
 }
 
 void
-theme_data_unref (eazel_theme_data *theme_data)
+crux_theme_data_unref (eazel_theme_data *theme_data)
 {
     theme_data->refcount--;
     if (theme_data->refcount == 0)
@@ -989,9 +989,9 @@ crux_parse_rc_style  (GtkRcStyle   *rc_style,
 	   a very useful one! */
 
 	if (default_theme_data != 0)
-	    theme_data_unref (default_theme_data);
+	    crux_theme_data_unref (default_theme_data);
 
-	theme_data_ref (theme_data);
+	crux_theme_data_ref (theme_data);
 	default_theme_data = theme_data;
     }
 

@@ -55,7 +55,7 @@ crux_rc_style_finalize (GObject *object)
 {
   CruxRcStyle *rc_style = CRUX_RC_STYLE (object);
 
-  theme_data_unref (rc_style->theme_data);
+  crux_theme_data_unref (rc_style->theme_data);
 
   G_OBJECT_CLASS (rc_parent_class)->finalize (object);
 }
@@ -96,7 +96,7 @@ crux_rc_style_merge (GtkRcStyle *dest,
     
     if (!crux_dest->theme_data) {
       if (crux_src->theme_data) {
-	theme_data_ref (crux_src->theme_data);
+	crux_theme_data_ref (crux_src->theme_data);
 	crux_dest->theme_data = crux_src->theme_data;
       }
     }

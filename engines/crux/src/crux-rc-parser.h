@@ -10,10 +10,10 @@ crux_parse_rc_style  (GtkRcStyle   *rc_style,
 		      GScanner     *scanner);
 
 void
-theme_data_ref (eazel_theme_data *theme_data);
+crux_theme_data_ref (eazel_theme_data *theme_data);
 
 void
-theme_data_unref (eazel_theme_data *theme_data);
+crux_theme_data_unref (eazel_theme_data *theme_data);
 
 void crux_rc_parser_init_gradients (void);
 #endif

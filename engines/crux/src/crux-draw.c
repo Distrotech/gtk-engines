@@ -453,7 +453,7 @@ paint_default_highlight (eazel_theme_data *theme_data,
 			 GdkColor *hi_color, GdkColor *bg_color,
 			 GdkWindow *window, GdkGC *gc, int x, int y)
 {
-    GdkColormap *sys_lut = gdk_colormap_get_system ();
+    GdkColormap *sys_lut = gdk_drawable_get_colormap (GDK_DRAWABLE (window));
     GdkGCValues old_values;
     GdkColor spectrum[6];
     int i;
@@ -583,7 +583,7 @@ paint_focus_box (eazel_theme_data *theme_data, GdkWindow *window,
 		 GdkGC *gc, gboolean rounded, gboolean rounded_inner,
 		 int thickness, int x, int y, int width, int height)
 {
-    GdkColormap *sys_lut = gdk_colormap_get_system ();
+    GdkColormap *sys_lut = gdk_drawable_get_colormap (GDK_DRAWABLE (window));
     GdkGCValues old_values;
     GdkColor color;
     gdk_gc_get_values (gc, &old_values);
@@ -603,7 +603,7 @@ paint_insensitive_box (eazel_theme_data *theme_data,
 		       GdkWindow *window, GdkGC *gc, gboolean rounded,
 		       int x, int y, int width, int height)
 {
-    GdkColormap *sys_lut = gdk_colormap_get_system ();
+    GdkColormap *sys_lut = gdk_drawable_get_colormap (GDK_DRAWABLE (window));
     GdkGCValues old_values;
     GdkColor color;
     gdk_gc_get_values (gc, &old_values);
@@ -863,8 +863,8 @@ draw_shadow (GtkStyle *style,
 
     outline = theme_data->outline_shadow;
 
-    if (widget != 0 && !GTK_WIDGET_IS_SENSITIVE (widget))
-	state_type = GTK_STATE_INSENSITIVE;
+/*    if (widget != 0 && !GTK_WIDGET_IS_SENSITIVE (widget))
+	state_type = GTK_STATE_INSENSITIVE; XXX: REMOVED */
 
     debug ("draw_shadow: detail=%s state=%d shadow=%d x=%d y=%d w=%d h=%d\n",
 	    detail, state_type, shadow_type, x, y, width, height);
@@ -1092,9 +1092,6 @@ draw_box (GtkStyle *style,
 	y += 2;
       }
     }
-
-    if (widget != 0 && !GTK_WIDGET_IS_SENSITIVE (widget))
-	state_type = GTK_STATE_INSENSITIVE;
 
     debug ("draw_box: detail=%s state=%d shadow=%d x=%d y=%d w=%d h=%d\n",
 	    detail, state_type, shadow_type, x, y, width, height);
@@ -1562,8 +1559,8 @@ draw_arrow (GtkStyle *style,
 	int window_width, window_height;
 	int tem_x, tem_y;
 
-	if (widget != 0 && !GTK_WIDGET_IS_SENSITIVE (widget))
-	    state_type = GTK_STATE_INSENSITIVE;
+/*	if (widget != 0 && !GTK_WIDGET_IS_SENSITIVE (widget))
+	    state_type = GTK_STATE_INSENSITIVE; XXX: REMOVED */
 
 	gdk_window_get_size (window, &window_width, &window_height);
 
@@ -1620,8 +1617,8 @@ draw_arrow (GtkStyle *style,
     }
     else
     {
-	if (widget != 0 && !GTK_WIDGET_IS_SENSITIVE (widget))
-	    state_type = GTK_STATE_INSENSITIVE;
+/*	if (widget != 0 && !GTK_WIDGET_IS_SENSITIVE (widget))
+	    state_type = GTK_STATE_INSENSITIVE; XXX: REMOVED */
 
 	paint_arrow (window, style->fg_gc[state_type],
 		     arrow_type, x, y, width, height);
@@ -1875,13 +1872,13 @@ paint_check (GtkStyle *style,
 	    active = GTK_TOGGLE_BUTTON (widget)->active;
 	if (widget != 0)
 	{
-	    state_type = GTK_WIDGET_STATE (widget);
+	    /*state_type = GTK_WIDGET_STATE (widget); XXX: REMOVEd, FIXME */
 	    /* XXX the widget gives us no way to tell between
 	       XXX checked, and checked-and-clicked states.. */
-	    if (active && state_type == GTK_STATE_ACTIVE)
+/*	    if (active && state_type == GTK_STATE_ACTIVE)
 		state_type = GTK_STATE_NORMAL;
 	    else if (!has_focus && !active && state_type == GTK_STATE_ACTIVE)
-		state_type = GTK_STATE_NORMAL;
+		state_type = GTK_STATE_NORMAL;*/
 	}
     }
 

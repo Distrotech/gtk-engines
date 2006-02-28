@@ -69,7 +69,7 @@ static struct
    Smooth-Engine.
 */ 
 gboolean
-object_is_a (GtkWidget * widget, gchar * type_name)
+redmond_object_is_a (GtkWidget * widget, gchar * type_name)
 {
   gboolean result = FALSE;
  
@@ -84,7 +84,7 @@ object_is_a (GtkWidget * widget, gchar * type_name)
 }
  
 gboolean
-is_combo_box_entry (GtkWidget * widget)
+redmond_is_combo_box_entry (GtkWidget * widget)
 {
   gboolean result = FALSE;
  
@@ -93,12 +93,12 @@ is_combo_box_entry (GtkWidget * widget)
       if (IS_COMBO_BOX_ENTRY (widget->parent))
 	result = TRUE;
       else
-	result = is_combo_box_entry (widget->parent);
+	result = redmond_is_combo_box_entry (widget->parent);
     }
   return result;
 }
  
-gboolean
+static gboolean
 combo_box_is_using_list (GtkWidget * widget)
 {
   gboolean result = FALSE;
@@ -117,7 +117,7 @@ combo_box_is_using_list (GtkWidget * widget)
 }
  
 gboolean
-is_combo_box (GtkWidget * widget, gboolean as_list)
+redmond_is_combo_box (GtkWidget * widget, gboolean as_list)
 {
   gboolean result = FALSE;
  
@@ -131,13 +131,13 @@ is_combo_box (GtkWidget * widget, gboolean as_list)
             result = (!combo_box_is_using_list(widget));
         }
       else
-	result = is_combo_box (widget->parent, as_list);
+	result = redmond_is_combo_box (widget->parent, as_list);
     }
   return result;
 }
  
 gboolean
-is_combo (GtkWidget * widget)
+redmond_is_combo (GtkWidget * widget)
 {
   gboolean result = FALSE;
  
@@ -146,19 +146,19 @@ is_combo (GtkWidget * widget)
       if (IS_COMBO (widget->parent))
 	result = TRUE;
       else
-	result = is_combo (widget->parent);
+	result = redmond_is_combo (widget->parent);
     }
   return result;
 }
  
 gboolean
-is_in_combo_box (GtkWidget * widget)
+redmond_is_in_combo_box (GtkWidget * widget)
 {
-  return ((is_combo (widget) || is_combo_box (widget, TRUE) || is_combo_box_entry (widget)));
+  return ((redmond_is_combo (widget) || redmond_is_combo_box (widget, TRUE) || redmond_is_combo_box_entry (widget)));
 }
  
 gboolean
-is_toolbar_item (GtkWidget * widget)
+redmond_is_toolbar_item (GtkWidget * widget)
 {
   gboolean result = FALSE;
  
@@ -170,13 +170,13 @@ is_toolbar_item (GtkWidget * widget)
 	|| (IS_HANDLE_BOX (widget->parent)))
       result = TRUE;
     else
-      result = is_toolbar_item (widget->parent);
+      result = redmond_is_toolbar_item (widget->parent);
   }
   return result;
 }
  
 gboolean
-is_panel_widget_item (GtkWidget * widget)
+redmond_is_panel_widget_item (GtkWidget * widget)
 {
   gboolean result = FALSE;
  
@@ -185,13 +185,13 @@ is_panel_widget_item (GtkWidget * widget)
       if (IS_PANEL_WIDGET (widget->parent))
 	result = TRUE;
       else
-	result = is_panel_widget_item (widget->parent);
+	result = redmond_is_panel_widget_item (widget->parent);
     }
   return result;
 }
  
 gboolean 
-is_bonobo_dock_item (GtkWidget * widget)
+redmond_is_bonobo_dock_item (GtkWidget * widget)
 {
   gboolean result = FALSE;
  
@@ -227,14 +227,14 @@ is_bonobo_dock_item (GtkWidget * widget)
 /***********************************************/
  
 /***********************************************
- * sanitize_parameters -
+ * redmond_sanitize_parameters -
  *  
  *   Ensure Size and Values are valid
  *
  *   Taken from Smooth based on Metal
  ***********************************************/
 gboolean
-sanitize_parameters(GtkStyle * style,
+redmond_sanitize_parameters(GtkStyle * style,
   	            GdkWindow * window,
 	            gint * width,
 	            gint * height)
@@ -254,7 +254,7 @@ sanitize_parameters(GtkStyle * style,
 }
  
 /***********************************************
- * option_menu_get_props -
+ * redmond_option_menu_get_props -
  *  
  *   Find Option Menu Size and Spacing
  *
@@ -264,7 +264,7 @@ static GtkRequisition default_option_indicator_size = { 9, 5 };
 static GtkBorder default_option_indicator_spacing = { 7, 5, 2, 2 }; 
  
 void
-option_menu_get_props (GtkWidget * widget,
+redmond_option_menu_get_props (GtkWidget * widget,
 		       GtkRequisition * indicator_size,
 		       GtkBorder * indicator_spacing)
 {
@@ -414,14 +414,14 @@ color_get_rgb_from_hsb (gdouble hue,
 }
  
 /***********************************************
- * composite_color_shade -
+ * redmond_composite_color_shade -
  *  
  *   Calculate a composite color shade ratio.
  *
  *   Taken from Smooth but originated in GTK+
  ***********************************************/
 void
-composite_color_shade(GdkColor *original, 
+redmond_composite_color_shade(GdkColor *original, 
                       gdouble shade_ratio,
                       GdkColor *composite)
 {

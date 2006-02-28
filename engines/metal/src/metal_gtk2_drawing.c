@@ -34,7 +34,7 @@ metal_draw_hline (GtkStyle * style,
   gint i;
   GdkGC *lightgc, *darkgc;
 
-  g_return_if_fail(sanitize_parameters(style, window, NULL, NULL));
+  g_return_if_fail(metal_sanitize_parameters(style, window, NULL, NULL));
 
   thickness_light = style->ythickness / 2;
   thickness_dark = style->ythickness - thickness_light;
@@ -86,7 +86,7 @@ metal_draw_vline (GtkStyle * style,
   gint i;
   GdkGC *lightgc, *darkgc;
 
-  g_return_if_fail(sanitize_parameters(style, window, NULL, NULL));
+  g_return_if_fail(metal_sanitize_parameters(style, window, NULL, NULL));
 
   thickness_light = style->xthickness / 2;
   thickness_dark = style->xthickness - thickness_light;
@@ -145,7 +145,7 @@ metal_draw_shadow (GtkStyle     *style,
   gint thickness_dark;
   gint i;
 
-  g_return_if_fail(sanitize_parameters(style, window, &width, &height));
+  g_return_if_fail(metal_sanitize_parameters(style, window, &width, &height));
 
 /* return; */
 #ifdef DEBUG
@@ -355,7 +355,7 @@ metal_draw_polygon (GtkStyle * style,
   gint yadjust;
   gint i;
 
-  g_return_if_fail(sanitize_parameters(style, window, NULL, NULL));
+  g_return_if_fail(metal_sanitize_parameters(style, window, NULL, NULL));
   g_return_if_fail (points != NULL);
 
 #ifdef DEBUG
@@ -553,7 +553,7 @@ metal_draw_arrow (GtkStyle * style,
 {
   GdkGC *gc;
 
-  g_return_if_fail(sanitize_parameters(style, window, &width, &height));
+  g_return_if_fail(metal_sanitize_parameters(style, window, &width, &height));
   
   gc = style->black_gc;
 
@@ -565,7 +565,7 @@ metal_draw_arrow (GtkStyle * style,
       /* We need to restore the full area of the entire box,
        * not just the restricted area of the stepper.
        */
-      reverse_engineer_stepper_box (widget, arrow_type,
+      metal_reverse_engineer_stepper_box (widget, arrow_type,
 				    &x, &y, &width, &height);
       
       scrollbar_stepper (style, window, state_type, area,
@@ -608,7 +608,7 @@ metal_draw_diamond (GtkStyle * style,
   gint half_width;
   gint half_height;
 
-  g_return_if_fail(sanitize_parameters(style, window, &width, &height));
+  g_return_if_fail(metal_sanitize_parameters(style, window, &width, &height));
 
   half_width = width / 2;
   half_height = height / 2;
@@ -728,7 +728,7 @@ metal_draw_string (GtkStyle * style,
   GdkGC *fggc, *whitegc, *midgc;
   MetalStyle *metal_style = METAL_STYLE (style);
 
-  g_return_if_fail(sanitize_parameters(style, window, NULL, NULL));
+  g_return_if_fail(metal_sanitize_parameters(style, window, NULL, NULL));
 
 #ifdef DEBUG
   printf ("metal_draw_string: %p %p %s %i %i\n", widget, window, detail, x, y);
@@ -787,7 +787,7 @@ metal_draw_box (GtkStyle      *style,
 	  gint           width,
 	  gint           height)
 {
-  g_return_if_fail(sanitize_parameters(style, window, &width, &height));
+  g_return_if_fail(metal_sanitize_parameters(style, window, &width, &height));
 
 #ifdef DEBUG
   printf ("metal_draw_box: %p %p %s %i %i %i %i\n", widget, window, detail, x, y,
@@ -1358,7 +1358,7 @@ metal_draw_check (GtkStyle * style,
 {
   GdkGC *gc1, *gc2, *gc3, *gc4;
 
-  g_return_if_fail(sanitize_parameters(style, window, &width, &height));
+  g_return_if_fail(metal_sanitize_parameters(style, window, &width, &height));
 
   /* Fixed size only */
 
@@ -1438,7 +1438,7 @@ metal_draw_option (GtkStyle * style,
   GdkGC *gc3;
   GdkGC *gc4;
 
-  g_return_if_fail(sanitize_parameters(style, window, &width, &height));
+  g_return_if_fail(metal_sanitize_parameters(style, window, &width, &height));
 
   x -= 1;
   y -= 1;
@@ -1561,7 +1561,7 @@ metal_draw_tab (GtkStyle * style,
 	  gint width,
 	  gint height)
 {
-  g_return_if_fail(sanitize_parameters(style, window, &width, &height));
+  g_return_if_fail(metal_sanitize_parameters(style, window, &width, &height));
 
 #ifdef DEBUG
   printf ("metal_draw_tab: %p %s %i %i\n", detail, detail, width, height);
@@ -1588,7 +1588,7 @@ metal_draw_shadow_gap (GtkStyle * style,
 {
   GdkRectangle rect;
 
-  g_return_if_fail(sanitize_parameters(style, window, &width, &height));
+  g_return_if_fail(metal_sanitize_parameters(style, window, &width, &height));
 
 #ifdef DEBUG
   printf ("metal_draw_shadow_gap: %p %p %s %i %i %i %i\n", widget, window, detail,
@@ -1650,7 +1650,7 @@ metal_draw_box_gap (GtkStyle       *style,
 {
   GdkRectangle rect;
 
-  g_return_if_fail(sanitize_parameters(style, window, &width, &height));
+  g_return_if_fail(metal_sanitize_parameters(style, window, &width, &height));
 
 #ifdef DEBUG
   printf ("metal_draw_box_gap: %p %p %s %i %i %i %i\n", widget, window, detail, x,
@@ -1710,7 +1710,7 @@ metal_draw_extension (GtkStyle * style,
 		gint height,
 		GtkPositionType gap_side)
 {
-  g_return_if_fail(sanitize_parameters(style, window, &width, &height));
+  g_return_if_fail(metal_sanitize_parameters(style, window, &width, &height));
 
 #ifdef DEBUG
   printf ("metal_draw_extension: %p %p %s %i %i %i %i\n", widget, window, detail,
@@ -1749,7 +1749,7 @@ metal_draw_notebook_focus (GtkWidget *widget,
       tab_position = gtk_notebook_get_tab_pos (notebook);
     }
 
-  adjust_notebook_tab_size (tab_position, &width, &height);
+  metal_adjust_notebook_tab_size (tab_position, &width, &height);
 
   x -= tab_hborder;
   y -= tab_vborder;
@@ -1808,7 +1808,7 @@ metal_draw_focus (GtkStyle * style,
 {
   GdkGC *focusgc;
 
-  g_return_if_fail(sanitize_parameters(style, window, &width, &height));
+  g_return_if_fail(metal_sanitize_parameters(style, window, &width, &height));
   
 #ifdef DEBUG
   printf ("metal_draw_focus: %p %p %s %i %i %i %i\n", widget, window, detail, x,
@@ -1849,7 +1849,7 @@ metal_draw_slider (GtkStyle * style,
 	     gint height,
 	     GtkOrientation orientation)
 {
-  g_return_if_fail(sanitize_parameters(style, window, &width, &height));
+  g_return_if_fail(metal_sanitize_parameters(style, window, &width, &height));
 
   if (CHECK_DETAIL(detail, "slider"))
     metal_scrollbar_slider (style, window, state_type, shadow_type,
@@ -1938,7 +1938,7 @@ metal_draw_handle (GtkStyle      *style,
   GdkGCValues values;
   GdkGC *lightgc, *midgc, *darkgc, *whitegc, *blackgc;
 
-  g_return_if_fail(sanitize_parameters(style, window, &width, &height));
+  g_return_if_fail(metal_sanitize_parameters(style, window, &width, &height));
 
   if (CHECK_DETAIL(detail, "paned"))
     {

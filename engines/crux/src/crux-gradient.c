@@ -216,7 +216,7 @@ draw_vertical_gradient (GdkDrawable *drawable, GdkGC *gc,
 
     if (dither_mode == GDK_RGB_DITHER_NONE)
     {
-	GdkColormap *sys_lut = gdk_colormap_get_system ();
+	GdkColormap *sys_lut = gdk_drawable_get_colormap (drawable);
 	GdkGCValues old_values;
 	int y;
 
@@ -279,7 +279,7 @@ draw_horizontal_gradient (GdkDrawable *drawable, GdkGC *gc,
 
     if (dither_mode == GDK_RGB_DITHER_NONE)
     {
-	GdkColormap *sys_lut = gdk_colormap_get_system ();
+	GdkColormap *sys_lut = gdk_drawable_get_colormap (drawable);
 	GdkGCValues old_values;
 	int x;
 

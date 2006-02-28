@@ -220,7 +220,7 @@ static void draw_shadow (GtkStyle *style,
 			break;
 	}
 	
-	if (DETAIL ("button") && GTK_WIDGET_HAS_DEFAULT (widget))/* && !GTK_WIDGET_HAS_FOCUS (widget))*/
+	if (DETAIL ("buttondefault")) /* && !GTK_WIDGET_HAS_FOCUS (widget))*/
 	{
 		GdkGC *gc = style->base_gc[GTK_STATE_SELECTED];/*(LIGHTHOUSEBLUE_STYLE (style))->shade_gc[6];*/
 		theme_draw_rectangle (window, gc, FALSE, x + 3, y + 3, width - 7, height - 7);
@@ -737,7 +737,7 @@ static void draw_check (GtkStyle *style,
 		gdk_gc_set_clip_rectangle (gc4, area);
 	}
 	
-	if (gtk_toggle_button_get_inconsistent (GTK_TOGGLE_BUTTON (widget)))
+	if (shadow_type == GTK_SHADOW_ETCHED_IN)
 	{
 		gdk_draw_line (window, gc1, x + 1, y + height, x + width - 2, y + height);
 		gdk_draw_line (window, gc1, x + width, y + 1, x + width, y + height - 2);
@@ -751,7 +751,7 @@ static void draw_check (GtkStyle *style,
 		gdk_draw_line (window, gc2, x + 1, y + height - 1, x + width - 2, y + height - 1);
 		gdk_draw_line (window, gc2, x + width - 1, y + 1, x + width - 1, y + height - 2);
 	}
-	else if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (widget)))
+	else if (shadow_type == GTK_SHADOW_IN)
 	{
 		gdk_draw_rectangle (window, gc3, TRUE, x + 1, y + 1,  width - 1, height - 1);
 		gdk_draw_line (window, gc2, x + 1, y, x + width - 1, y);
@@ -827,12 +827,12 @@ static void draw_option (GtkStyle *style,
 		gdk_gc_set_clip_rectangle (gc4, area);
 	}
 	
-	if (gtk_toggle_button_get_inconsistent (GTK_TOGGLE_BUTTON (widget)))
+	if (shadow_type == GTK_SHADOW_ETCHED_IN)
 	{
 		gdk_draw_arc(window, gc1, FALSE, x+1, y+1, width, height, 0, 360 * 64);
 		gdk_draw_arc(window, gc2, FALSE, x, y, width, height, 0, 360 * 64);
 	}
-	else if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (widget)))
+	else if (shadow_type == GTK_SHADOW_IN)
 	{
 		gdk_draw_arc(window, gc3, TRUE, x, y, width, height, 0, 360 * 64);
 		gdk_draw_arc(window, gc2, FALSE, x, y, width, height, 45 * 64, 225 * 64);
@@ -1291,7 +1291,7 @@ static void draw_focus (GtkStyle *style,
 		return;
 	}
 	
-	if (DETAIL ("button") && GTK_WIDGET_HAS_DEFAULT (widget))
+	if (DETAIL ("buttondefault"))
 	{
 		return; /* focus is represented by blue rectangle painted in draw_shadow */
 	}
@@ -1564,7 +1564,7 @@ static void draw_layout (GtkStyle *style,
 	  
 	  context = pango_layout_get_context (layout);
       fontDescription = pango_context_get_font_description (context);
-	  if (pango_font_description_get_weight (fontDescription) != PANGO_WEIGHT_BOLD)
+	  if (widget && pango_font_description_get_weight (fontDescription) != PANGO_WEIGHT_BOLD)
 	  {
 		  parent = gtk_widget_get_parent (widget);
 

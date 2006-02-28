@@ -84,7 +84,7 @@ redmond_style_realize (GtkStyle * style)
       GdkColor color;
       GdkGCValues gc_values;
  
-      composite_color_shade (&style->bg[i], 0.3, &color);
+      redmond_composite_color_shade (&style->bg[i], 0.3, &color);
       gdk_colormap_alloc_color (style->colormap, &color, FALSE, TRUE);
  
       gc_values.foreground = color;

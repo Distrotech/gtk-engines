@@ -3,20 +3,44 @@
 /* #define ALWAYS_DITHER_GRADIENTS */
 
 GtkTextDirection
-get_direction (GtkWidget *widget)
+cl_get_direction (GtkWidget *widget)
 {
 	GtkTextDirection dir;
 	
 	if (widget)
 		dir = gtk_widget_get_direction (widget);
 	else
-		dir = GTK_TEXT_DIR_LTR;
+		dir = gtk_widget_get_default_direction ();
 	
 	return dir;
 }
 
+GtkTextDirection
+cl_get_parent_direction (GtkWidget *widget)
+{
+	GtkTextDirection dir;
+	
+	if (widget && widget->parent)
+		dir = gtk_widget_get_direction (widget->parent);
+	else if (widget)
+		dir = gtk_widget_get_direction (widget);
+	else
+		dir = gtk_widget_get_default_direction ();
+	
+	return dir;
+}
+
+GtkProgressBarOrientation
+cl_get_progress_bar_orientation (GtkWidget *widget)
+{
+	if (widget && GTK_IS_PROGRESS_BAR (widget))
+		return gtk_progress_bar_get_orientation (GTK_PROGRESS_BAR (widget));
+	else
+		return cl_get_direction (widget) ? GTK_PROGRESS_LEFT_TO_RIGHT : GTK_PROGRESS_RIGHT_TO_LEFT;
+}
+
 GdkPixbuf *
-generate_bit (unsigned char alpha[], GdkColor *color, double mult)
+cl_generate_bit (unsigned char alpha[], GdkColor *color, double mult)
 {
 	guint r, g, b;
 	GdkPixbuf *pixbuf;
@@ -59,7 +83,7 @@ generate_bit (unsigned char alpha[], GdkColor *color, double mult)
 #define CLAMP_UCHAR(v) ((guchar) (CLAMP (((int)v), (int)0, (int)255)))
 
 GdkPixbuf *
-colorize_bit (unsigned char *bit,
+cl_colorize_bit (unsigned char *bit,
               unsigned char *alpha,
               GdkColor  *new_color)
 {
@@ -119,7 +143,7 @@ colorize_bit (unsigned char *bit,
 }
 
 GdkPixmap *
-pixbuf_to_pixmap (GtkStyle  *style,
+cl_pixbuf_to_pixmap (GtkStyle  *style,
                   GdkPixbuf *pixbuf,
                   GdkScreen *screen)
 {
@@ -147,7 +171,7 @@ pixbuf_to_pixmap (GtkStyle  *style,
 
 
 void
-rgb_to_hls (gdouble *r,
+cl_rgb_to_hls (gdouble *r,
             gdouble *g,
             gdouble *b)
 {
@@ -218,7 +242,7 @@ rgb_to_hls (gdouble *r,
 }
 
 void
-hls_to_rgb (gdouble *h,
+cl_hls_to_rgb (gdouble *h,
             gdouble *l,
             gdouble *s)
 {
@@ -298,7 +322,7 @@ hls_to_rgb (gdouble *h,
 }
 
 void
-shade (GdkColor * a, GdkColor * b, float k)
+cl_shade (GdkColor * a, GdkColor * b, float k)
 {
 	gdouble red;
 	gdouble green;
@@ -308,7 +332,7 @@ shade (GdkColor * a, GdkColor * b, float k)
 	green = (gdouble) a->green / 65535.0;
 	blue = (gdouble) a->blue / 65535.0;
 	
-	rgb_to_hls (&red, &green, &blue);
+	cl_rgb_to_hls (&red, &green, &blue);
 	
 	green *= k;
 	if (green > 1.0)
@@ -322,7 +346,7 @@ shade (GdkColor * a, GdkColor * b, float k)
 	else if (blue < 0.0)
 		blue = 0.0;
 	
-	hls_to_rgb (&red, &green, &blue);
+	cl_hls_to_rgb (&red, &green, &blue);
 	
 	b->red = red * 65535.0;
 	b->green = green * 65535.0;
@@ -333,7 +357,7 @@ shade (GdkColor * a, GdkColor * b, float k)
 /**************************************************************************/
 
 void
-arrow_draw_hline (GdkWindow     *window,
+cl_arrow_draw_hline (GdkWindow     *window,
 		GdkGC         *gc,
 		int            x1,
 		int            x2,
@@ -366,7 +390,7 @@ arrow_draw_hline (GdkWindow     *window,
 }
 
 void
-arrow_draw_vline (GdkWindow     *window,
+cl_arrow_draw_vline (GdkWindow     *window,
                   GdkGC         *gc,
                   int            y1,
                   int            y2,
@@ -393,7 +417,7 @@ arrow_draw_vline (GdkWindow     *window,
 
 
 void
-draw_arrow (GdkWindow     *window,
+cl_draw_arrow (GdkWindow     *window,
             GdkGC         *gc,
             GdkRectangle  *area,
             GtkArrowType   arrow_type,
@@ -410,23 +434,23 @@ draw_arrow (GdkWindow     *window,
 	if (arrow_type == GTK_ARROW_DOWN)
 	{
 		for (i = 0, j = -1; i < height; i++, j++)
-			arrow_draw_hline (window, gc, x + j, x + width - j - 1, y + i, i == 0);
+			cl_arrow_draw_hline (window, gc, x + j, x + width - j - 1, y + i, i == 0);
 
 	}
 	else if (arrow_type == GTK_ARROW_UP)
 	{
 		for (i = height - 1, j = -1; i >= 0; i--, j++)
-			arrow_draw_hline (window, gc, x + j, x + width - j - 1, y + i, i == height - 1);
+			cl_arrow_draw_hline (window, gc, x + j, x + width - j - 1, y + i, i == height - 1);
 	}
 	else if (arrow_type == GTK_ARROW_LEFT)
 	{
 		for (i = width - 1, j = -1; i >= 0; i--, j++)
-			arrow_draw_vline (window, gc, y + j, y + height - j - 1, x + i, i == width - 1);
+			cl_arrow_draw_vline (window, gc, y + j, y + height - j - 1, x + i, i == width - 1);
 	}
 	else if (arrow_type == GTK_ARROW_RIGHT)
 	{
 		for (i = 0, j = -1; i < width; i++, j++)
-			arrow_draw_vline (window, gc, y + j, y + height - j - 1,  x + i, i == 0);
+			cl_arrow_draw_vline (window, gc, y + j, y + height - j - 1,  x + i, i == 0);
 	}
 
 	if (area)
@@ -434,7 +458,7 @@ draw_arrow (GdkWindow     *window,
 }
 
 void
-calculate_arrow_geometry (GtkArrowType  arrow_type,
+cl_calculate_arrow_geometry (GtkArrowType  arrow_type,
                           gint         *x,
                           gint         *y,
                           gint         *width,
@@ -541,7 +565,7 @@ void gtk_clist_get_header_index (GtkCList *clist, GtkWidget *button,
 }
 
 gboolean
-sanitize_size (GdkWindow      *window,
+cl_sanitize_size (GdkWindow      *window,
                gint           *width,
                gint           *height)
 {
@@ -564,7 +588,7 @@ static GtkRequisition default_option_indicator_size = { 7, 13 };
 static GtkBorder default_option_indicator_spacing = { 7, 5, 2, 2 };
 
 void
-option_menu_get_props (GtkWidget      *widget,
+cl_option_menu_get_props (GtkWidget      *widget,
                        GtkRequisition *indicator_size,
                        GtkBorder      *indicator_spacing)
 {
@@ -592,7 +616,7 @@ option_menu_get_props (GtkWidget      *widget,
 		*indicator_spacing = default_option_indicator_spacing;
 }
 
-GtkWidget *special_get_ancestor(GtkWidget * widget,
+GtkWidget *cl_special_get_ancestor(GtkWidget * widget,
 				       GType widget_type)
 {
 	g_return_val_if_fail(GTK_IS_WIDGET(widget), NULL);
@@ -780,7 +804,7 @@ internal_create_vertical_gradient_image_buffer (gint width, gint height,
 }
 
 void
-draw_vgradient (GdkDrawable *drawable, GdkGC *gc, GtkStyle *style,
+cl_draw_vgradient (GdkDrawable *drawable, GdkGC *gc, GtkStyle *style,
                 int x, int y, int width, int height,
                 GdkColor *left_color, GdkColor *right_color)
 {
@@ -855,7 +879,7 @@ draw_vgradient (GdkDrawable *drawable, GdkGC *gc, GtkStyle *style,
 }
 
 void
-draw_hgradient (GdkDrawable *drawable, GdkGC *gc, GtkStyle *style,
+cl_draw_hgradient (GdkDrawable *drawable, GdkGC *gc, GtkStyle *style,
                 int x, int y, int width, int height,
                 GdkColor *top_color, GdkColor *bottom_color)
 {	
@@ -923,7 +947,7 @@ draw_hgradient (GdkDrawable *drawable, GdkGC *gc, GtkStyle *style,
 	#endif
 }
 
-void blend (GdkColormap *colormap,
+void cl_blend (GdkColormap *colormap,
                        GdkColor *a, GdkColor *b, GdkColor *c, int alpha)
 {
 	int inAlpha = 100-alpha;
@@ -934,9 +958,11 @@ void blend (GdkColormap *colormap,
 	gdk_rgb_find_color (colormap, c);
 }
 
-GtkWidget *get_parent_window (GtkWidget *widget)
+GtkWidget *cl_get_parent_window (GtkWidget *widget)
 {
-        GtkWidget *parent = widget->parent;
+        GtkWidget *parent;
+        if (!widget) return NULL;
+        parent = widget->parent;
 
         while (parent && GTK_WIDGET_NO_WINDOW (parent))
                 parent = parent->parent;
@@ -944,9 +970,9 @@ GtkWidget *get_parent_window (GtkWidget *widget)
         return parent;
 }
 
-GdkColor *get_parent_bgcolor (GtkWidget *widget)
+GdkColor *cl_get_parent_bgcolor (GtkWidget *widget)
 {
-        GtkWidget *parent = get_parent_window (widget);
+        GtkWidget *parent = cl_get_parent_window (widget);
 
         if (parent && parent->style)
                 return &parent->style->bg[GTK_STATE_NORMAL];

@@ -129,7 +129,7 @@ draw_tab (GtkStyle      *style,
 	GtkBorder indicator_spacing;
 	gint arrow_height;
 	
-	option_menu_get_props (widget, &indicator_size, &indicator_spacing);
+	cl_option_menu_get_props (widget, &indicator_size, &indicator_spacing);
 	
 	indicator_size.width += (indicator_size.width % 2) - 1;
 	arrow_height = indicator_size.width / 2 + 2;
@@ -139,20 +139,20 @@ draw_tab (GtkStyle      *style,
 
 	if (state_type == GTK_STATE_INSENSITIVE)
 	{
-		draw_arrow (window, style->light_gc[state_type], area,
+		cl_draw_arrow (window, style->light_gc[state_type], area,
 		            GTK_ARROW_UP, 1+x, 1+y-arrow_height,
 		            indicator_size.width, arrow_height);
 
-		draw_arrow (window, style->light_gc[state_type], area,
+		cl_draw_arrow (window, style->light_gc[state_type], area,
 		            GTK_ARROW_DOWN, 1+x, 1+y+1,
 		            indicator_size.width, arrow_height);
 	}
 	
-	draw_arrow (window, style->fg_gc[state_type], area,
+	cl_draw_arrow (window, style->fg_gc[state_type], area,
 	            GTK_ARROW_UP, x, y-arrow_height,
 	            indicator_size.width, arrow_height);
 	
-	draw_arrow (window, style->fg_gc[state_type], area,
+	cl_draw_arrow (window, style->fg_gc[state_type], area,
 	            GTK_ARROW_DOWN, x, y+1,
 	            indicator_size.width, arrow_height);
 }
@@ -175,7 +175,7 @@ clearlooks_draw_arrow (GtkStyle      *style,
 	gint original_width, original_x;
 	GdkGC *gc;
 	
-	sanitize_size (window, &width, &height);
+	cl_sanitize_size (window, &width, &height);
 	
 	if (cl_is_combo_box (widget))
 	{
@@ -185,20 +185,20 @@ clearlooks_draw_arrow (GtkStyle      *style,
 		y+=4;
 		if (state == GTK_STATE_INSENSITIVE)
 		{
-			draw_arrow (window, style->light_gc[state], area,
+			cl_draw_arrow (window, style->light_gc[state], area,
 			            GTK_ARROW_UP, 1+x, 1+y-height,
 			            width, height);
 
-			draw_arrow (window, style->light_gc[state], area,
+			cl_draw_arrow (window, style->light_gc[state], area,
 			            GTK_ARROW_DOWN, 1+x, 1+y+1,
 			            width, height);
 		}
 	
-		draw_arrow (window, style->fg_gc[state], area,
+		cl_draw_arrow (window, style->fg_gc[state], area,
 		            GTK_ARROW_UP, x, y-height,
 		            width, height);
 	
-		draw_arrow (window, style->fg_gc[state], area,
+		cl_draw_arrow (window, style->fg_gc[state], area,
 		            GTK_ARROW_DOWN, x, y+1,
 		            width, height);
 		
@@ -231,7 +231,7 @@ clearlooks_draw_arrow (GtkStyle      *style,
 		x++;
 	}
 	
-	calculate_arrow_geometry (arrow_type, &x, &y, &width, &height);
+	cl_calculate_arrow_geometry (arrow_type, &x, &y, &width, &height);
 	
 	if (DETAIL ("menuitem"))
 		x = original_x + original_width - width;
@@ -240,11 +240,11 @@ clearlooks_draw_arrow (GtkStyle      *style,
 		y += 1;
 	
 	if (state == GTK_STATE_INSENSITIVE)
-		draw_arrow (window, style->light_gc[state], area, arrow_type, x + 1, y + 1, width, height);
+		cl_draw_arrow (window, style->light_gc[state], area, arrow_type, x + 1, y + 1, width, height);
 
 	gc = style->fg_gc[state];
 		
-	draw_arrow (window, gc, area, arrow_type, x, y, width, height);
+	cl_draw_arrow (window, gc, area, arrow_type, x, y, width, height);
 }
 
 
@@ -256,7 +256,7 @@ draw_flat_box (DRAW_ARGS)
 	g_return_if_fail (GTK_IS_STYLE (style));
 	g_return_if_fail (window != NULL);
 
-	sanitize_size (window, &width, &height);
+	cl_sanitize_size (window, &width, &height);
 
 	if (detail && 	
 	    clearlooks_style->listviewitemstyle == 1 && 
@@ -268,7 +268,7 @@ draw_flat_box (DRAW_ARGS)
 		GdkColor  lower_color;
 		GdkColor *upper_color;
 
-		if (GTK_WIDGET_HAS_FOCUS (widget))
+		if (widget && GTK_WIDGET_HAS_FOCUS (widget))
 		{
 			gc = style->base_gc[state_type];
 			upper_color = &style->base[state_type];
@@ -292,12 +292,12 @@ draw_flat_box (DRAW_ARGS)
 			}
 		}
 		
-		shade (upper_color, &lower_color, 0.8);
+		cl_shade (upper_color, &lower_color, 0.8);
 
 		if (area)
 			gdk_gc_set_clip_rectangle (gc, area);
 		
-		draw_hgradient (window, gc, style,
+		cl_draw_hgradient (window, gc, style,
 				x, y, width, height, upper_color, &lower_color);
 
 		if (area)
@@ -471,7 +471,7 @@ draw_box_gap (DRAW_ARGS,
 	g_return_if_fail (GTK_IS_STYLE (style));
 	g_return_if_fail (window != NULL);
 	
-	sanitize_size (window, &width, &height);
+	cl_sanitize_size (window, &width, &height);
 
 	cl_rectangle_reset (&r, style);
 
@@ -587,7 +587,7 @@ draw_extension (DRAW_ARGS, GtkPositionType gap_side)
 	g_return_if_fail (GTK_IS_STYLE (style));
 	g_return_if_fail (window != NULL);
 	
-	sanitize_size (window, &width, &height);
+	cl_sanitize_size (window, &width, &height);
 	
 	if (DETAIL ("tab"))
 	{
@@ -599,9 +599,9 @@ draw_extension (DRAW_ARGS, GtkPositionType gap_side)
 								CL_CORNER_ROUND, CL_CORNER_ROUND);
 		
 		if (state_type == GTK_STATE_ACTIVE)
-			shade (&style->bg[state_type], &tmp_color, 1.08);
+			cl_shade (&style->bg[state_type], &tmp_color, 1.08);
 		else
-			shade (&style->bg[state_type], &tmp_color, 1.05);
+			cl_shade (&style->bg[state_type], &tmp_color, 1.05);
 		
 		if (area)
 		{
@@ -754,7 +754,7 @@ draw_handle (DRAW_ARGS, GtkOrientation orientation)
 	g_return_if_fail (GTK_IS_STYLE (style));
 	g_return_if_fail (window != NULL);
 	
-	sanitize_size (window, &width, &height);
+	cl_sanitize_size (window, &width, &height);
 	
 	if (state_type == GTK_STATE_PRELIGHT)
 		gtk_style_apply_default_background (style, window,
@@ -764,7 +764,7 @@ draw_handle (DRAW_ARGS, GtkOrientation orientation)
 	/* orientation is totally bugged, but this actually works... */
 	orientation = (width > height) ? GTK_ORIENTATION_HORIZONTAL : GTK_ORIENTATION_VERTICAL;
 
-	if (!strcmp (detail, "paned"))
+	if (!DETAIL ("paned"))
 	{
 		/* we want to ignore the shadow border in paned widgets */
 		xthick = 0;
@@ -888,6 +888,11 @@ draw_box (DRAW_ARGS)
 	g_return_if_fail (style != NULL);
 	g_return_if_fail (window != NULL);
 
+	/* why? */
+	if (widget == NULL)
+		parent_class->draw_box (style, window, state_type, shadow_type, area,
+		                        widget, detail, x, y, width, height);
+
 	if ((width == -1) && (height == -1))
 		gdk_window_get_size (window, &width, &height);
 	else if (width == -1)
@@ -896,9 +901,6 @@ draw_box (DRAW_ARGS)
 		gdk_window_get_size (window, NULL, &height);
 
 	cl_rectangle_reset (&r, style);
-
-	if (widget == NULL)
-		return;
 	
 	/* listview headers */
 	if (widget && DETAIL ("button") && widget->parent &&
@@ -936,13 +938,13 @@ draw_box (DRAW_ARGS)
 		     !strcmp (detail, "hscale") || !strcmp (detail, "vscale")))
 	{
 		cl_rectangle_set_button (&r, style, state_type,
-		                GTK_WIDGET_HAS_DEFAULT  (widget), GTK_WIDGET_HAS_FOCUS (widget),
+		                widget && GTK_WIDGET_HAS_DEFAULT (widget), widget && GTK_WIDGET_HAS_FOCUS (widget),
 		                CL_CORNER_ROUND, CL_CORNER_ROUND,
 		                CL_CORNER_ROUND, CL_CORNER_ROUND);
 
 		if (!strcmp (detail, "hscale") || !strcmp (detail, "vscale"))
 		{
-			r.fill_gradient.to = &clearlooks_style->shade[2];
+			r.fill_gradient.to = &clearlooks_style->cl_shade[2];
 			r.bottomright = clearlooks_style->shade_gc[2];
 		}
 		
@@ -972,7 +974,7 @@ draw_box (DRAW_ARGS)
 		gboolean horizontal;
 		GtkOrientation orientation;
 		
-		orientation	= gtk_progress_bar_get_orientation(GTK_PROGRESS_BAR(widget));
+		orientation	= cl_get_progress_bar_orientation (widget);
 		
 		horizontal = orientation < 2; // LTR (0) or RTL (1)
 		
@@ -1029,7 +1031,7 @@ draw_box (DRAW_ARGS)
 		cl_rectangle_reset_clip_rectangle (&r);	
 
 		/* DRAW FILL */
-		shade (&upper_color, &lower_color, 1.3);
+		cl_shade (&upper_color, &lower_color, 1.3);
 		
 		r.bordergc = clearlooks_style->spot3_gc;
 		r.fillgc   = style->bg_gc[state_type];
@@ -1042,7 +1044,7 @@ draw_box (DRAW_ARGS)
 		cl_rectangle_set_clip_rectangle (&r, area);	
 		if (orientation == GTK_ORIENTATION_HORIZONTAL && fill_size > 1)
 		{
-			if (gtk_range_get_inverted(GTK_RANGE(widget)) != (get_direction(widget) == GTK_TEXT_DIR_RTL))
+			if (gtk_range_get_inverted(GTK_RANGE(widget)) != (cl_get_direction(widget) == GTK_TEXT_DIR_RTL))
 				cl_draw_rectangle (window, widget, style, x+width-fill_size, y, fill_size, height, &r);
 			else
 				cl_draw_rectangle (window, widget, style, x, y, fill_size, height, &r);				
@@ -1228,8 +1230,8 @@ draw_box (DRAW_ARGS)
 			strcmp(G_OBJECT_TYPE_NAME (widget->parent), "PanelWidget") == 0)
 			return;
 		
-		shade(&style->bg[state_type], &upper_color, 1.0);
-		shade(&style->bg[state_type], &lower_color, 0.95);
+		cl_shade(&style->bg[state_type], &upper_color, 1.0);
+		cl_shade(&style->bg[state_type], &lower_color, 0.95);
 	
 		cl_rectangle_set_corners (&r, CL_CORNER_NONE, CL_CORNER_NONE,
 		                              CL_CORNER_NONE, CL_CORNER_NONE);
@@ -1238,8 +1240,8 @@ draw_box (DRAW_ARGS)
 		r.bordergc = clearlooks_style->shade_gc[2];
 		r.gradient_type = CL_GRADIENT_VERTICAL;
 		
-		cl_rectangle_set_gradient (&r.border_gradient, &clearlooks_style->shade[2],
-		                                               &clearlooks_style->shade[3]);
+		cl_rectangle_set_gradient (&r.border_gradient, &clearlooks_style->cl_shade[2],
+		                                               &clearlooks_style->cl_shade[3]);
 		cl_rectangle_set_gradient (&r.fill_gradient, &upper_color, &lower_color);
 		
 		/* make vertical and top borders invisible for style 2 */
@@ -1274,7 +1276,7 @@ draw_box (DRAW_ARGS)
 #ifdef HAVE_ANIMATION
 		gboolean activity_mode = GTK_PROGRESS (widget)->activity_mode;
 		
-		if (!activity_mode && gtk_progress_bar_get_fraction (widget) != 1.0 &&
+		if (!activity_mode && gtk_progress_bar_get_fraction (GTK_PROGRESS_BAR (widget)) != 1.0 &&
 			!cl_progressbar_known((gconstpointer)widget))
 		{
 			cl_progressbar_add ((gpointer)widget);
@@ -1342,40 +1344,40 @@ ensure_check_pixmaps (GtkStyle     *style,
 		return;
 	
 	if (state == GTK_STATE_ACTIVE || state == GTK_STATE_SELECTED) {
-		check = generate_bit (check_alpha, &style->text[GTK_STATE_NORMAL], 1.0);
-		inconsistent = generate_bit (check_inconsistent_alpha, &style->text[GTK_STATE_NORMAL], 1.0);
+		check = cl_generate_bit (check_alpha, &style->text[GTK_STATE_NORMAL], 1.0);
+		inconsistent = cl_generate_bit (check_inconsistent_alpha, &style->text[GTK_STATE_NORMAL], 1.0);
 	} else {
-		check = generate_bit (check_alpha, &style->text[state], 1.0);
-		inconsistent = generate_bit (check_inconsistent_alpha, &style->text[state], 1.0);
+		check = cl_generate_bit (check_alpha, &style->text[state], 1.0);
+		inconsistent = cl_generate_bit (check_inconsistent_alpha, &style->text[state], 1.0);
 	}
 	
 	if (state == GTK_STATE_ACTIVE && !treeview)
-		base = generate_bit (check_base_alpha, &style->bg[state], 1.0);
+		base = cl_generate_bit (check_base_alpha, &style->bg[state], 1.0);
 	else
-		base = generate_bit (check_base_alpha, &style->base[GTK_STATE_NORMAL], 1.0);
+		base = cl_generate_bit (check_base_alpha, &style->base[GTK_STATE_NORMAL], 1.0);
 	
 	if (treeview)
-		composite = generate_bit (NULL, &clearlooks_style->shade[6], 1.0);
+		composite = cl_generate_bit (NULL, &clearlooks_style->cl_shade[6], 1.0);
 	else
-		composite = generate_bit (NULL, &clearlooks_style->shade[5], 1.0);
+		composite = cl_generate_bit (NULL, &clearlooks_style->cl_shade[5], 1.0);
 	
 	gdk_pixbuf_composite (base, composite,
 	                      0, 0, RADIO_SIZE, RADIO_SIZE, 0, 0,
 	                      1.0, 1.0, GDK_INTERP_NEAREST, 255);
 
 	clearlooks_style->check_pixmap_nonactive[state] =
-		pixbuf_to_pixmap (style, composite, screen);
+		cl_pixbuf_to_pixmap (style, composite, screen);
 	
 	gdk_pixbuf_composite (check, composite,
 	                      0, 0, RADIO_SIZE, RADIO_SIZE, 0, 0,
 	                      1.0, 1.0, GDK_INTERP_NEAREST, 255);
 
 	clearlooks_style->check_pixmap_active[state] =
-		pixbuf_to_pixmap (style, composite, screen);
+		cl_pixbuf_to_pixmap (style, composite, screen);
 
 	g_object_unref (composite);
 
-	composite = generate_bit (NULL, &clearlooks_style->shade[6], 1.0);
+	composite = cl_generate_bit (NULL, &clearlooks_style->cl_shade[6], 1.0);
 
 	gdk_pixbuf_composite (base, composite,
 	                      0, 0, RADIO_SIZE, RADIO_SIZE, 0, 0,
@@ -1386,7 +1388,7 @@ ensure_check_pixmaps (GtkStyle     *style,
 	                      1.0, 1.0, GDK_INTERP_NEAREST, 255);
 
 	clearlooks_style->check_pixmap_inconsistent[state] =
-		pixbuf_to_pixmap (style, composite, screen);
+		cl_pixbuf_to_pixmap (style, composite, screen);
 
 	g_object_unref (composite);
 	g_object_unref (base);
@@ -1447,7 +1449,7 @@ draw_slider (DRAW_ARGS, GtkOrientation orientation)
 	g_return_if_fail (GTK_IS_STYLE (style));
 	g_return_if_fail (window != NULL);
 
-	sanitize_size (window, &width, &height);
+	cl_sanitize_size (window, &width, &height);
 
 	gtk_paint_box (style, window, state_type, shadow_type,
 	               area, widget, detail, x, y, width, height);
@@ -1544,14 +1546,14 @@ ensure_radio_pixmaps (GtkStyle     *style,
 		return;
 	
 	if (state == GTK_STATE_ACTIVE || state == GTK_STATE_SELECTED) {
-		dot = colorize_bit (dot_intensity, dot_alpha, &style->text[GTK_STATE_NORMAL]);
-		inconsistent = generate_bit (inconsistent_alpha, &style->text[GTK_STATE_NORMAL], 1.0);
+		dot = cl_colorize_bit (dot_intensity, dot_alpha, &style->text[GTK_STATE_NORMAL]);
+		inconsistent = cl_generate_bit (inconsistent_alpha, &style->text[GTK_STATE_NORMAL], 1.0);
 	} else {
-		dot = colorize_bit (dot_intensity, dot_alpha, &style->text[state]);
-		inconsistent = generate_bit (inconsistent_alpha, &style->text[state], 1.0);
+		dot = cl_colorize_bit (dot_intensity, dot_alpha, &style->text[state]);
+		inconsistent = cl_generate_bit (inconsistent_alpha, &style->text[state], 1.0);
 	}
 	
-	outline = generate_bit (outline_alpha, &clearlooks_style->shade[5], 1.0);
+	outline = cl_generate_bit (outline_alpha, &clearlooks_style->cl_shade[5], 1.0);
 	
 	if (clearlooks_style->radio_pixmap_mask == NULL)
 	{
@@ -1564,15 +1566,15 @@ ensure_radio_pixmaps (GtkStyle     *style,
 	if (state == GTK_STATE_ACTIVE)
 	{
 		composite_color = &style->bg[GTK_STATE_PRELIGHT];
-		circle = generate_bit (circle_alpha, &style->bg[state], 1.0);
+		circle = cl_generate_bit (circle_alpha, &style->bg[state], 1.0);
 	}
 	else
 	{
 		composite_color = &style->bg[state];
-		circle = generate_bit (circle_alpha, &style->base[GTK_STATE_NORMAL], 1.0);
+		circle = cl_generate_bit (circle_alpha, &style->base[GTK_STATE_NORMAL], 1.0);
 	}
 	
-	composite = generate_bit (NULL, composite_color, 1.0);
+	composite = cl_generate_bit (NULL, composite_color, 1.0);
 	
 	gdk_pixbuf_composite (outline, composite,
 	                      0, 0, RADIO_SIZE, RADIO_SIZE, 0, 0,
@@ -1583,18 +1585,18 @@ ensure_radio_pixmaps (GtkStyle     *style,
 	                      1.0, 1.0, GDK_INTERP_NEAREST, 255);
 	
 	clearlooks_style->radio_pixmap_nonactive[state] =
-		pixbuf_to_pixmap (style, composite, screen);
+		cl_pixbuf_to_pixmap (style, composite, screen);
 	
 	gdk_pixbuf_composite (dot, composite,
 	                      0, 0, RADIO_SIZE, RADIO_SIZE, 0, 0,
 	                      1.0, 1.0, GDK_INTERP_NEAREST, 255);
 	
 	clearlooks_style->radio_pixmap_active[state] =
-		pixbuf_to_pixmap (style, composite, screen);
+		cl_pixbuf_to_pixmap (style, composite, screen);
 	
 	g_object_unref (composite);
 	
-	composite = generate_bit (NULL, composite_color,1.0);
+	composite = cl_generate_bit (NULL, composite_color,1.0);
 	
 	gdk_pixbuf_composite (outline, composite,
 	                      0, 0, RADIO_SIZE, RADIO_SIZE, 0, 0,
@@ -1607,7 +1609,7 @@ ensure_radio_pixmaps (GtkStyle     *style,
 	                      1.0, 1.0, GDK_INTERP_NEAREST, 255);
 	
 	clearlooks_style->radio_pixmap_inconsistent[state] =
-		pixbuf_to_pixmap (style, composite, screen);
+		cl_pixbuf_to_pixmap (style, composite, screen);
 	
 	g_object_unref (composite);
 	g_object_unref (circle);
@@ -1679,7 +1681,7 @@ draw_shadow_gap (DRAW_ARGS,
 	g_return_if_fail (GTK_IS_STYLE (style));
 	g_return_if_fail (window != NULL);
 	
-	sanitize_size (window, &width, &height);
+	cl_sanitize_size (window, &width, &height);
 
 	cl_rectangle_reset (&r, style);
 	cl_rectangle_set_corners (&r, CL_CORNER_NONE, CL_CORNER_NONE,
@@ -1886,7 +1888,7 @@ draw_focus (GtkStyle      *style,
 		free_dash_list = TRUE;
 	}
 	
-	sanitize_size (window, &width, &height);
+	cl_sanitize_size (window, &width, &height);
 	
 	if (area)
 		gdk_gc_set_clip_rectangle (gc, area);
@@ -2290,21 +2292,21 @@ clearlooks_style_init_from_rc (GtkStyle * style,
 	/* Lighter to darker */
 	for (i = 0; i < 8; i++)
 	{
-		shade (&style->bg[GTK_STATE_NORMAL], &clearlooks_style->shade[i],
+		cl_shade (&style->bg[GTK_STATE_NORMAL], &clearlooks_style->cl_shade[i],
 		       (shades[i]-0.7) * contrast + 0.7);
 	}
 		
 	spot_color = clearlooks_get_spot_color (CLEARLOOKS_RC_STYLE (rc_style));
 	
 	clearlooks_style->spot_color = *spot_color;
-	shade (&clearlooks_style->spot_color, &clearlooks_style->spot1, 1.42);
-	shade (&clearlooks_style->spot_color, &clearlooks_style->spot2, 1.05);
-	shade (&clearlooks_style->spot_color, &clearlooks_style->spot3, 0.65);
+	cl_shade (&clearlooks_style->spot_color, &clearlooks_style->spot1, 1.42);
+	cl_shade (&clearlooks_style->spot_color, &clearlooks_style->spot2, 1.05);
+	cl_shade (&clearlooks_style->spot_color, &clearlooks_style->spot3, 0.65);
 
-	shade (&style->bg[GTK_STATE_NORMAL], &clearlooks_style->border[CL_BORDER_UPPER],        0.5);
-	shade (&style->bg[GTK_STATE_NORMAL], &clearlooks_style->border[CL_BORDER_LOWER],        0.62);
-	shade (&style->bg[GTK_STATE_ACTIVE], &clearlooks_style->border[CL_BORDER_UPPER_ACTIVE], 0.5);
-	shade (&style->bg[GTK_STATE_ACTIVE], &clearlooks_style->border[CL_BORDER_LOWER_ACTIVE], 0.55);
+	cl_shade (&style->bg[GTK_STATE_NORMAL], &clearlooks_style->border[CL_BORDER_UPPER],        0.5);
+	cl_shade (&style->bg[GTK_STATE_NORMAL], &clearlooks_style->border[CL_BORDER_LOWER],        0.62);
+	cl_shade (&style->bg[GTK_STATE_ACTIVE], &clearlooks_style->border[CL_BORDER_UPPER_ACTIVE], 0.5);
+	cl_shade (&style->bg[GTK_STATE_ACTIVE], &clearlooks_style->border[CL_BORDER_LOWER_ACTIVE], 0.55);
 }
 
 static GdkGC *
@@ -2329,7 +2331,7 @@ clearlooks_style_realize (GtkStyle * style)
 	parent_class->realize (style);
 	
 	for (i = 0; i < 8; i++)
-		clearlooks_style->shade_gc[i] = realize_color (style, &clearlooks_style->shade[i]);
+		clearlooks_style->shade_gc[i] = realize_color (style, &clearlooks_style->cl_shade[i]);
 
 	for (i=0; i < CL_BORDER_COUNT; i++)
 		clearlooks_style->border_gc[i] = realize_color (style, &clearlooks_style->border[i]);
@@ -2341,26 +2343,26 @@ clearlooks_style_realize (GtkStyle * style)
 	/* set light inset color */
 	for (i=0; i<5; i++)
 	{
-		shade (&style->bg[i], &clearlooks_style->inset_dark[i], 0.96);
+		cl_shade (&style->bg[i], &clearlooks_style->inset_dark[i], 0.96);
 		gdk_rgb_find_color (style->colormap, &clearlooks_style->inset_dark[i]);
 
-		shade (&style->bg[i], &clearlooks_style->inset_light[i], 1.055);
+		cl_shade (&style->bg[i], &clearlooks_style->inset_light[i], 1.055);
 		gdk_rgb_find_color (style->colormap, &clearlooks_style->inset_light[i]);
 
-		shade (&style->bg[i], &clearlooks_style->listview_bg[i], 1.015);
+		cl_shade (&style->bg[i], &clearlooks_style->listview_bg[i], 1.015);
 		gdk_rgb_find_color (style->colormap, &clearlooks_style->listview_bg[i]);
 
 		/* CREATE GRADIENT FOR BUTTONS */		
-		shade (&style->bg[i], &clearlooks_style->button_g1[i], 1.055);
+		cl_shade (&style->bg[i], &clearlooks_style->button_g1[i], 1.055);
 		gdk_rgb_find_color (style->colormap, &clearlooks_style->button_g1[i]);
 		
-		shade (&style->bg[i], &clearlooks_style->button_g2[i], 1.005);
+		cl_shade (&style->bg[i], &clearlooks_style->button_g2[i], 1.005);
 		gdk_rgb_find_color (style->colormap, &clearlooks_style->button_g2[i]);
 
-		shade (&style->bg[i], &clearlooks_style->button_g3[i], 0.98);
+		cl_shade (&style->bg[i], &clearlooks_style->button_g3[i], 0.98);
 		gdk_rgb_find_color (style->colormap, &clearlooks_style->button_g3[i]);
 
-		shade (&style->bg[i], &clearlooks_style->button_g4[i], 0.91);
+		cl_shade (&style->bg[i], &clearlooks_style->button_g4[i], 0.91);
 		gdk_rgb_find_color (style->colormap, &clearlooks_style->button_g4[i]);
 	}
 
@@ -2573,7 +2575,7 @@ clearlooks_style_copy (GtkStyle * style, GtkStyle * src)
 	ClearlooksStyle * cl_src = CLEARLOOKS_STYLE (src);
 	
 	for (i = 0; i < 9; i++) {
-		cl_style->shade[i] = cl_src->shade[i]; 
+		cl_style->cl_shade[i] = cl_src->cl_shade[i]; 
 	}
 	
 	cl_style->spot_color = cl_src->spot_color;

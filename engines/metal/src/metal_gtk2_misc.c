@@ -29,7 +29,7 @@
    Smooth-Engine.
 */ 
 gboolean
-object_is_a (GtkWidget * widget, gchar * type_name)
+metal_object_is_a (GtkWidget * widget, gchar * type_name)
 {
   gboolean result = FALSE;
  
@@ -44,7 +44,7 @@ object_is_a (GtkWidget * widget, gchar * type_name)
 }
  
 gboolean
-is_combo_box_entry (GtkWidget * widget)
+metal_is_combo_box_entry (GtkWidget * widget)
 {
   gboolean result = FALSE;
  
@@ -53,12 +53,12 @@ is_combo_box_entry (GtkWidget * widget)
       if (IS_COMBO_BOX_ENTRY (widget->parent))
 	result = TRUE;
       else
-	result = is_combo_box_entry (widget->parent);
+	result = metal_is_combo_box_entry (widget->parent);
     }
   return result;
 }
  
-gboolean
+static gboolean
 combo_box_is_using_list (GtkWidget * widget)
 {
   gboolean result = FALSE;
@@ -77,7 +77,7 @@ combo_box_is_using_list (GtkWidget * widget)
 }
  
 gboolean
-is_combo_box (GtkWidget * widget, gboolean as_list)
+metal_is_combo_box (GtkWidget * widget, gboolean as_list)
 {
   gboolean result = FALSE;
  
@@ -86,13 +86,13 @@ is_combo_box (GtkWidget * widget, gboolean as_list)
       if (IS_COMBO_BOX (widget->parent))
 	result = ((!as_list) || combo_box_is_using_list(widget->parent));
       else
-	result = is_combo_box (widget->parent, as_list);
+	result = metal_is_combo_box (widget->parent, as_list);
     }
   return result;
 }
  
 gboolean
-is_combo (GtkWidget * widget)
+metal_is_combo (GtkWidget * widget)
 {
   gboolean result = FALSE;
  
@@ -101,26 +101,26 @@ is_combo (GtkWidget * widget)
       if (IS_COMBO (widget->parent))
 	result = TRUE;
       else
-	result = is_combo (widget->parent);
+	result = metal_is_combo (widget->parent);
     }
   return result;
 }
  
 gboolean
-is_in_combo_box (GtkWidget * widget)
+metal_is_in_combo_box (GtkWidget * widget)
 {
-  return ((is_combo (widget) || is_combo_box (widget, TRUE) || is_combo_box_entry (widget)) && (!is_combo_box (widget, FALSE)));
+  return ((metal_is_combo (widget) || metal_is_combo_box (widget, TRUE) || metal_is_combo_box_entry (widget)) && (!metal_is_combo_box (widget, FALSE)));
 }
 
 /***********************************************
- * sanitize_parameters -
+ * metal_sanitize_parameters -
  *  
  *   Ensure Size and Values are valid
  *
  *   Taken from Smooth based on Metal
  ***********************************************/
 gboolean
-sanitize_parameters(GtkStyle * style,
+metal_sanitize_parameters(GtkStyle * style,
   	            GdkWindow * window,
 	            gint * width,
 	            gint * height)
@@ -147,7 +147,7 @@ sanitize_parameters(GtkStyle * style,
  * to the point we don't have room for full-sized steppers.
  */
 void
-reverse_engineer_stepper_box (GtkWidget    *range,
+metal_reverse_engineer_stepper_box (GtkWidget    *range,
 			      GtkArrowType  arrow_type,
 			      gint         *x,
 			      gint         *y,
@@ -193,7 +193,7 @@ reverse_engineer_stepper_box (GtkWidget    *range,
 static GtkRequisition default_option_indicator_size = { 9, 5 }; 
 static GtkBorder default_option_indicator_spacing = { 7, 5, 2, 2 }; 
  
-void
+static void
 option_menu_get_props (GtkWidget * widget,
 		       GtkRequisition * indicator_size,
 		       GtkBorder * indicator_spacing)
@@ -595,7 +595,7 @@ do_metal_draw_notebook (GtkStyle * style,
 }
 
 void
-adjust_notebook_tab_size (GtkPositionType tab_pos,
+metal_adjust_notebook_tab_size (GtkPositionType tab_pos,
 			  gint           *width,
 			  gint           *height)
 {
@@ -688,7 +688,7 @@ do_metal_draw_notebook_tab (GtkStyle * style,
       gdk_gc_set_clip_rectangle (bggc, area);
     }
 
-  adjust_notebook_tab_size (orientation, &width, &height);
+  metal_adjust_notebook_tab_size (orientation, &width, &height);
 
   /* Fill area */
   gdk_draw_rectangle (window, bggc, TRUE, x + 0, y + 0, width, height);

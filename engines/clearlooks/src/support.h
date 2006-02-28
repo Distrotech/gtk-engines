@@ -14,53 +14,59 @@
 #define CHECK_SIZE 13
 
 GtkTextDirection
-get_direction (GtkWidget *widget);
+cl_get_direction (GtkWidget *widget);
+
+GtkTextDirection
+cl_get_parent_direction (GtkWidget *widget);
+
+GtkProgressBarOrientation
+cl_get_progress_bar_orientation (GtkWidget *widget);
 
 GdkPixbuf *
-generate_bit (unsigned char alpha[],
+cl_generate_bit (unsigned char alpha[],
               GdkColor *color,
               double mult);
 
 GdkPixbuf *
-colorize_bit (unsigned char *bit,
+cl_colorize_bit (unsigned char *bit,
               unsigned char *alpha,
               GdkColor  *new_color);
 
 GdkPixmap *
-pixbuf_to_pixmap (GtkStyle  *style,
+cl_pixbuf_to_pixmap (GtkStyle  *style,
                   GdkPixbuf *pixbuf,
                   GdkScreen *screen);
 
 gboolean
-sanitize_size (GdkWindow      *window,
+cl_sanitize_size (GdkWindow      *window,
                gint           *width,
                gint           *height);
 
 void
-rgb_to_hls (gdouble *r,
+cl_rgb_to_hls (gdouble *r,
             gdouble *g,
             gdouble *b);
 
 void
-hls_to_rgb (gdouble *h,
+cl_hls_to_rgb (gdouble *h,
             gdouble *l,
             gdouble *s);
 
 void
-shade (GdkColor * a, GdkColor * b, float k);
+cl_shade (GdkColor * a, GdkColor * b, float k);
 
 void
-draw_hgradient (GdkDrawable *drawable, GdkGC *gc, GtkStyle *style,
+cl_draw_hgradient (GdkDrawable *drawable, GdkGC *gc, GtkStyle *style,
                 int x, int y, int width, int height,
                 GdkColor *top_color, GdkColor *bottom_color);
 
 void
-draw_vgradient (GdkDrawable *drawable, GdkGC *gc, GtkStyle *style,
+cl_draw_vgradient (GdkDrawable *drawable, GdkGC *gc, GtkStyle *style,
                 int x, int y, int width, int height,
                 GdkColor *left_color, GdkColor *right_color);
 
 void
-arrow_draw_hline (GdkWindow     *window,
+cl_arrow_draw_hline (GdkWindow     *window,
                   GdkGC         *gc,
                   int            x1,
                   int            x2,
@@ -68,7 +74,7 @@ arrow_draw_hline (GdkWindow     *window,
                   gboolean       last);
 
 void
-arrow_draw_vline (GdkWindow     *window,
+cl_arrow_draw_vline (GdkWindow     *window,
                   GdkGC         *gc,
                   int            y1,
                   int            y2,
@@ -76,7 +82,7 @@ arrow_draw_vline (GdkWindow     *window,
                   gboolean       last);
 
 void
-draw_arrow (GdkWindow     *window,
+cl_draw_arrow (GdkWindow     *window,
             GdkGC         *gc,
             GdkRectangle  *area,
             GtkArrowType   arrow_type,
@@ -86,21 +92,21 @@ draw_arrow (GdkWindow     *window,
             gint           height);
 
 void
-calculate_arrow_geometry (GtkArrowType  arrow_type,
+cl_calculate_arrow_geometry (GtkArrowType  arrow_type,
                           gint         *x,
                           gint         *y,
                           gint         *width,
                           gint         *height);
 						  
-GtkWidget *special_get_ancestor(GtkWidget * widget,
+GtkWidget *cl_special_get_ancestor(GtkWidget * widget,
 				       GType widget_type);
 					   
-void blend (GdkColormap *colormap,
+void cl_blend (GdkColormap *colormap,
             GdkColor *a, GdkColor *b, GdkColor *c, int alpha);
 			
-GtkWidget *get_parent_window (GtkWidget *widget);
+GtkWidget *cl_get_parent_window (GtkWidget *widget);
 
-GdkColor *get_parent_bgcolor (GtkWidget *widget);
+GdkColor *cl_get_parent_bgcolor (GtkWidget *widget);
 
 gboolean cl_is_combo_box (GtkWidget * widget);
 
@@ -113,7 +119,7 @@ void gtk_treeview_get_header_index (GtkTreeView *tv, GtkWidget *header,
 void gtk_clist_get_header_index (GtkCList *clist, GtkWidget *button,
                                  gint *column_index, gint *columns);
 void
-option_menu_get_props (GtkWidget      *widget,
+cl_option_menu_get_props (GtkWidget      *widget,
                        GtkRequisition *indicator_size,
                        GtkBorder      *indicator_spacing);
 

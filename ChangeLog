@@ -1,3 +1,29 @@
+2006-02-28  Benjamin Berg  <benjamin@sipsolutions.net>
+
+	* engines/clearlooks/src/clearlooks_draw.c:
+	* engines/clearlooks/src/clearlooks_style.c:
+	* engines/clearlooks/src/clearlooks_style.h:
+	* engines/clearlooks/src/support.c:
+	* engines/clearlooks/src/support.h:
+	* engines/crux/src/crux-draw.c:
+	* engines/crux/src/crux-gradient.c:
+	* engines/crux/src/crux-rc-parser.c:
+	* engines/crux/src/crux-rc-parser.h:
+	* engines/crux/src/crux-rc-style.c:
+	* engines/lighthouseblue/src/lighthouseblue_style.c:
+	* engines/metal/src/metal_gtk2_drawing.c:
+	* engines/metal/src/metal_gtk2_misc.c:
+	* engines/metal/src/metal_gtk2_misc.h:
+	* engines/mist/src/mist-style.c:
+	* engines/redmond/src/redmond_gtk2_drawing.c:
+	* engines/redmond/src/redmond_gtk2_engine.c:
+	* engines/redmond/src/redmond_gtk2_misc.c:
+	* engines/redmond/src/redmond_gtk2_misc.h:
+	* engines/thinice/src/thinice_theme_draw.c:
+	- make sure that widget is not NULL before accessing it
+	- same goes for detail
+	- prefixed some functions and declared others as static
+
 2006-02-27  Benjamin Berg  <benjamin@sipsolutions.net>
 
 	* engines/clearlooks/src/clearlooks_style.c:

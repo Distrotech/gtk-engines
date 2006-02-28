@@ -56,7 +56,7 @@ struct _ClearlooksStyle
 {
 	GtkStyle parent_instance;
 	
-	GdkColor shade[9];
+	GdkColor cl_shade[9];
 	
 	GdkColor spot_color;
 	GdkColor spot1;

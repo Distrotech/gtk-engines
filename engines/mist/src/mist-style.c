@@ -404,7 +404,7 @@ draw_shadow(GtkStyle *style,
 		shadow_type = GTK_SHADOW_ETCHED_IN;
 	}
 	
-	if (DETAIL("frame") && widget->parent && GTK_IS_STATUSBAR (widget->parent)) {
+	if (DETAIL("frame") && widget && widget->parent && GTK_IS_STATUSBAR (widget->parent)) {
 		if (shadow_type != GTK_SHADOW_NONE) {
 			gdk_draw_line (window, 
 				       style->dark_gc[GTK_STATE_NORMAL], 
