@@ -174,7 +174,7 @@ clearlooks_draw_arrow (GtkStyle      *style,
 {
 	gint original_width, original_x;
 	GdkGC *gc;
-	
+
 	cl_sanitize_size (window, &width, &height);
 	
 	if (cl_is_combo_box (widget))
@@ -949,20 +949,6 @@ draw_box (DRAW_ARGS)
 		}
 		
 		cl_set_corner_sharpness (detail, widget, &r);
-
-		if (!strcmp (detail, "spinbutton_up"))
-		{
-			r.border_gradient.to = r.border_gradient.from;
-			height++;
-			gtk_style_apply_default_background (style, window, FALSE, state_type,
-			                                    area, x, y, width, height);
-		}
-		else if (!strcmp (detail, "spinbutton_down"))
-		{
-			r.border_gradient.to = r.border_gradient.from;
-			gtk_style_apply_default_background (style, window, FALSE, state_type,
-			                                    area, x, y, width, height);
-		}
 	
 		cl_rectangle_set_clip_rectangle (&r, area);	
 		cl_draw_rectangle (window, widget, style, x+1, y+1, width-2, height-2, &r);
@@ -988,19 +974,23 @@ draw_box (DRAW_ARGS)
 	else if (DETAIL ("trough") &&
 		     (GTK_IS_VSCALE (widget) || GTK_IS_HSCALE (widget)))
 	{
+		gint slider_length;
 		GdkGC   *inner  = clearlooks_style->shade_gc[3],
 		        *outer  = clearlooks_style->shade_gc[5],
 			    *shadow = clearlooks_style->shade_gc[4];
 		GdkColor upper_color = *clearlooks_get_spot_color (CLEARLOOKS_RC_STYLE (style->rc_style)),
 				 lower_color;
 		
+		gtk_widget_style_get (widget, "slider-length", &slider_length, NULL);
+		
 		GtkAdjustment *adjustment = gtk_range_get_adjustment (GTK_RANGE (widget));
 		
 		GtkOrientation orientation = GTK_RANGE (widget)->orientation;
 		
-		gint fill_size = (orientation ? height : width) * 
+		gint fill_size = ((orientation ? height : width) - slider_length) * 
 		                 (1 / ((adjustment->upper - adjustment->lower) / 
-		                      (adjustment->value - adjustment->lower)));
+		                      (adjustment->value - adjustment->lower)))
+		                 + slider_length / 2;
 
 		if (orientation == GTK_ORIENTATION_HORIZONTAL)
 		{
@@ -1351,7 +1341,9 @@ ensure_check_pixmaps (GtkStyle     *style,
 		inconsistent = cl_generate_bit (check_inconsistent_alpha, &style->text[state], 1.0);
 	}
 	
-	if (state == GTK_STATE_ACTIVE && !treeview)
+	/* don't use the active state in the treeview, because it toggles right away.
+	   draw insensitive with bg to make it look transparent. */
+	if (state == GTK_STATE_INSENSITIVE || (state == GTK_STATE_ACTIVE && !treeview))
 		base = cl_generate_bit (check_base_alpha, &style->bg[state], 1.0);
 	else
 		base = cl_generate_bit (check_base_alpha, &style->base[GTK_STATE_NORMAL], 1.0);
@@ -1411,7 +1403,7 @@ draw_check (DRAW_ARGS)
 		return;
 	}
 
-	treeview = widget && GTK_IS_TREE_VIEW(widget);
+	treeview = DETAIL ("cellcheck") || (widget && GTK_IS_TREE_VIEW(widget));
 	ensure_check_pixmaps (style, state_type, gtk_widget_get_screen (widget), treeview);
 
 	if (area)
@@ -1535,7 +1527,8 @@ draw_slider (DRAW_ARGS, GtkOrientation orientation)
 static void
 ensure_radio_pixmaps (GtkStyle     *style,
 		      GtkStateType  state,
-		      GdkScreen    *screen)
+		      GdkScreen    *screen,
+		      gboolean      treeview)
 {
 	ClearlooksStyle *clearlooks_style = CLEARLOOKS_STYLE (style);
 	GdkPixbuf *dot, *circle, *outline, *inconsistent, *composite;
@@ -1563,7 +1556,9 @@ ensure_radio_pixmaps (GtkStyle     *style,
 								1);
 	}
 	
-	if (state == GTK_STATE_ACTIVE)
+	/* don't use the active state in the treeview, because it toggles right away.
+	   draw insensitive with bg to make it look transparent. */
+	if (state == GTK_STATE_INSENSITIVE || (state == GTK_STATE_ACTIVE && !treeview))
 	{
 		composite_color = &style->bg[GTK_STATE_PRELIGHT];
 		circle = cl_generate_bit (circle_alpha, &style->bg[state], 1.0);
@@ -1624,6 +1619,7 @@ draw_option (DRAW_ARGS)
 	ClearlooksStyle *clearlooks_style = CLEARLOOKS_STYLE (style);
 	GdkGC *gc = style->base_gc[state_type];
 	GdkPixmap *pixmap;
+	gboolean treeview = DETAIL ("cellradio") || (widget && GTK_IS_TREE_VIEW (widget));
 	
 	if (DETAIL ("option")) /* Menu item */
 	{
@@ -1632,7 +1628,7 @@ draw_option (DRAW_ARGS)
 		return;
 	}
 	
-	ensure_radio_pixmaps (style, state_type, gtk_widget_get_screen (widget));
+	ensure_radio_pixmaps (style, state_type, gtk_widget_get_screen (widget), treeview);
 	
 	if (area)
 		gdk_gc_set_clip_rectangle (gc, area);

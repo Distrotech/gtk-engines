@@ -1,3 +1,20 @@
+2006-03-04  Benjamin Berg  <benjamin@sipsolutions.net>
+
+	* engines/clearlooks/src/clearlooks_draw.c: (cl_draw_spinbutton),
+	(cl_draw_combobox_entry), (cl_draw_combobox_button),
+	(cl_draw_treeview_header):
+	* engines/clearlooks/src/clearlooks_style.c:
+	(clearlooks_draw_arrow), (draw_box), (ensure_check_pixmaps),
+	(draw_check), (ensure_radio_pixmaps), (draw_option):
+	* engines/clearlooks/src/support.c:
+	(cl_get_progress_bar_orientation), (gtk_treeview_get_header_index),
+	(gtk_clist_get_header_index):
+	- Take the slider length into account when calculating the length of
+	of the blue line in GtkScale. (Fixes bug #317639)
+	- Draw the background of insensitive toggle and radio buttons with
+	bg[INSENSITIVE]. (Fixes bug #148848)
+	- Improved right to left support.
+
 2006-02-28  Benjamin Berg  <benjamin@sipsolutions.net>
 
 	* engines/clearlooks/src/clearlooks_draw.c:

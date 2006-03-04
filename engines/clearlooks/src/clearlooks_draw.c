@@ -648,6 +648,7 @@ void cl_draw_spinbutton(GtkStyle *style, GdkWindow *window,
 {
 	CLRectangle r;
 	GdkRectangle new_area;
+	gboolean rtl = cl_get_direction (widget) == GTK_TEXT_DIR_RTL;
 
 	int tl = CL_CORNER_NONE, tr = CL_CORNER_NONE,
 	    bl = CL_CORNER_NONE, br = CL_CORNER_NONE;	
@@ -666,7 +667,7 @@ void cl_draw_spinbutton(GtkStyle *style, GdkWindow *window,
 		GdkGC *bg_gc = cl_get_window_bg_gc(widget, style);
 		
 		gdk_gc_set_clip_rectangle (bg_gc, area);
-		gdk_draw_rectangle (window, bg_gc, FALSE, x, y, width-1, height-1);
+		gdk_draw_rectangle (window, bg_gc, FALSE, rtl ? x+1 : x, y, width-1, height-1);
 		gdk_gc_set_clip_rectangle (bg_gc, NULL);
 
 		if (style->xthickness > 2 && style->ythickness > 2)
@@ -679,14 +680,20 @@ void cl_draw_spinbutton(GtkStyle *style, GdkWindow *window,
 
 	if (detail && !strcmp (detail, "spinbutton_up"))
 	{
-		tr = CL_CORNER_ROUND;
+		if (rtl)
+			tl = CL_CORNER_ROUND;
+		else
+			tr = CL_CORNER_ROUND;
 		
 		(style->xthickness > 2 && style->ythickness > 2) ? y++ : height++;
 	}
 	
-	if (!strcmp (detail, "spinbutton_down"))
+	if (detail && !strcmp (detail, "spinbutton_down"))
 	{
-		br = CL_CORNER_ROUND;
+		if (rtl)
+			bl = CL_CORNER_ROUND;
+		else
+			br = CL_CORNER_ROUND;
 		
 		if (style->xthickness > 2 && style->ythickness > 2)
 			height--;
@@ -697,6 +704,7 @@ void cl_draw_spinbutton(GtkStyle *style, GdkWindow *window,
 	                         widget && GTK_WIDGET_HAS_FOCUS (widget),
 	                         tl, tr,
 	                         bl, br);
+	if (rtl) x++;
 	width--;
 	
 	cl_rectangle_set_clip_rectangle (&r, area);
@@ -727,10 +735,12 @@ void cl_draw_combobox_entry (GtkStyle *style, GdkWindow *window,
 	
 	if (rtl)
 	{
-		if (!has_focus)
+		x -= 2;
+		width += 2;
+		if (has_focus)
 		{
-			x -= 1;
-			width +=1;
+			width--;
+			x++;
 		}
 	}
 	else
@@ -744,7 +754,7 @@ void cl_draw_combobox_entry (GtkStyle *style, GdkWindow *window,
 						   has_focus);
 
 	gdk_gc_set_clip_rectangle (bg_gc, area);
-	gdk_draw_rectangle (window, bg_gc, FALSE, x, y, width-1, height-1);
+	gdk_draw_rectangle (window, bg_gc, FALSE, rtl ? x+1 : x, y, width-1, height-1);
 	gdk_gc_set_clip_rectangle (bg_gc, NULL);
 
 	/* Draw "sunken" look when border thickness is more than 2 pixels. */
@@ -776,13 +786,18 @@ void cl_draw_combobox_button (GtkStyle *style, GdkWindow *window,
 	ClearlooksStyle *clearlooks_style = CLEARLOOKS_STYLE(style);
 	gboolean is_active  = FALSE;
 	gboolean draw_inset = FALSE;
+	gboolean rtl = cl_get_direction (widget) == GTK_TEXT_DIR_RTL;
 	CLRectangle r;
+	CLCornerSharpness left, right;
+	
+	left = rtl ? CL_CORNER_ROUND : CL_CORNER_NONE;
+	right = rtl ? CL_CORNER_NONE : CL_CORNER_ROUND;
 
 	cl_rectangle_set_button (&r, style, state_type,
 	                         GTK_WIDGET_HAS_DEFAULT  (widget),
 	                         GTK_WIDGET_HAS_FOCUS (widget),
-	                         CL_CORNER_NONE, CL_CORNER_ROUND,
-	                         CL_CORNER_NONE, CL_CORNER_ROUND);
+	                         left, right,
+	                         left, right);
 	
 	if (state_type == GTK_STATE_ACTIVE)
 		is_active = TRUE;
@@ -801,7 +816,7 @@ void cl_draw_combobox_button (GtkStyle *style, GdkWindow *window,
 		area->height = height;
 	}
 
-	x--;
+	if (!rtl) x--;
 	width++;
 	
 	/* Draw "sunken" look when border thickness is more than 2 pixels. */
@@ -824,7 +839,7 @@ void cl_draw_combobox_button (GtkStyle *style, GdkWindow *window,
 	}
 	else
 	{
-		x++;
+		if (!rtl) x++;
 		width--;
 	}
 	
@@ -1039,6 +1054,7 @@ void cl_draw_treeview_header (GtkStyle *style, GdkWindow *window,
 	ClearlooksStyle *clearlooks_style = CLEARLOOKS_STYLE (style);
 	gint columns = 0, column_index = -1, fill_width = width;
 	gboolean resizable = TRUE;
+	gboolean rtl = cl_get_direction (widget) == GTK_TEXT_DIR_RTL;
 	
 	GdkGC *bottom = clearlooks_style->shade_gc[5];
 		
@@ -1076,8 +1092,16 @@ void cl_draw_treeview_header (GtkStyle *style, GdkWindow *window,
 
 	if (resizable || (column_index != columns-1))
 	{
-		gdk_draw_line (window, clearlooks_style->shade_gc[4], x+width-2, y+4, x+width-2, y+height-5); 
-		gdk_draw_line (window, clearlooks_style->shade_gc[0], x+width-1, y+4, x+width-1, y+height-5); 
+		if (!rtl)
+		{
+			gdk_draw_line (window, clearlooks_style->shade_gc[4], x+width-2, y+4, x+width-2, y+height-5); 
+			gdk_draw_line (window, clearlooks_style->shade_gc[0], x+width-1, y+4, x+width-1, y+height-5); 
+		}
+		else
+		{
+			gdk_draw_line (window, clearlooks_style->shade_gc[4], x+1, y+4, x+1, y+height-5); 
+			gdk_draw_line (window, clearlooks_style->shade_gc[0], x+2, y+4, x+2, y+height-5); 
+		}
 	}
 	
 	/* left light line */

@@ -33,10 +33,15 @@ cl_get_parent_direction (GtkWidget *widget)
 GtkProgressBarOrientation
 cl_get_progress_bar_orientation (GtkWidget *widget)
 {
+	GtkProgressBarOrientation orientation = GTK_PROGRESS_LEFT_TO_RIGHT;
+	
 	if (widget && GTK_IS_PROGRESS_BAR (widget))
-		return gtk_progress_bar_get_orientation (GTK_PROGRESS_BAR (widget));
-	else
-		return cl_get_direction (widget) ? GTK_PROGRESS_LEFT_TO_RIGHT : GTK_PROGRESS_RIGHT_TO_LEFT;
+		orientation = gtk_progress_bar_get_orientation (GTK_PROGRESS_BAR (widget));
+	
+	/* LTR = 0, RTL = 1, so toggle last bit in RTL mode */
+	if (orientation < 2 && cl_get_direction (widget) == GTK_TEXT_DIR_RTL)
+		orientation = orientation ^ 1;
+	return orientation;
 }
 
 GdkPixbuf *
@@ -546,6 +551,9 @@ gboolean *resizable)
 		if ( column->visible )
 			(*columns)++;
 	} while ((list = g_list_next(list)));
+	
+	if (cl_get_direction (GTK_WIDGET (tv)) == GTK_TEXT_DIR_RTL)
+		*column_index = *columns - *column_index - 1;
 }
 
 void gtk_clist_get_header_index (GtkCList *clist, GtkWidget *button,
@@ -562,6 +570,8 @@ void gtk_clist_get_header_index (GtkCList *clist, GtkWidget *button,
 			break;
 		}
 	}
+	if (cl_get_direction (GTK_WIDGET (clist)) == GTK_TEXT_DIR_RTL)
+		*column_index = *columns - *column_index - 1;
 }
 
 gboolean
