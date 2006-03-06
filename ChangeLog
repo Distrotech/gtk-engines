@@ -1,3 +1,11 @@
+2006-03-06  Benjamin Berg  <benjamin@sipsolutions.net>
+
+	* engines/clearlooks/src/clearlooks_style.c:
+	(draw_box): Don't draw any background for menus if the shadow_type
+	is GTK_SHADOW_NONE. (Fixes bug #333398)
+	(clearlooks_style_copy): Forgot to chain up the parent class. Which
+	caused some ugly bugs.
+
 2006-03-04  Benjamin Berg  <benjamin@sipsolutions.net>
 
 	* engines/clearlooks/src/clearlooks_draw.c: (cl_draw_spinbutton),

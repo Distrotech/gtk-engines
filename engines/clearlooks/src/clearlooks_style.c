@@ -1212,12 +1212,8 @@ draw_box (DRAW_ARGS)
 	else if (DETAIL ("menubar") && (clearlooks_style->sunkenmenubar || clearlooks_style->menubarstyle > 0))
 	{
 		GdkColor upper_color, lower_color;
-		
-		/* don't draw sunken menubar on gnome panel
-		   IT'S A HACK! HORRIBLE HACK! HIDEOUS HACK!
-		   BUT IT WORKS FOR ME(tm)! */
-		if (widget->parent &&
-			strcmp(G_OBJECT_TYPE_NAME (widget->parent), "PanelWidget") == 0)
+
+		if (shadow_type == GTK_SHADOW_NONE)
 			return;
 		
 		cl_shade(&style->bg[state_type], &upper_color, 1.0);
@@ -2588,6 +2584,8 @@ clearlooks_style_copy (GtkStyle * style, GtkStyle * src)
 	cl_style->menubarstyle = cl_src->menubarstyle;
 	cl_style->menuitemstyle = cl_src->menuitemstyle;
 	cl_style->listviewitemstyle = cl_src->listviewitemstyle;
+	
+	parent_class->copy (style, src);
 }
 
 static void
