@@ -514,7 +514,7 @@ static GdkGC *cl_get_window_bg_gc (GtkWidget *widget, GtkStyle *fallback)
  *   DRAW THE MIGHTY WIDGETS!                                                 *
  ******************************************************************************/
 
-void cl_draw_inset (GtkStyle *style, GdkWindow *window, GtkWidget *widget,
+static void cl_draw_inset (GtkStyle *style, GdkWindow *window, GtkWidget *widget,
                     GdkRectangle *area,
                     gint x, gint y, gint width, gint height,
                     int tl, int tr, int bl, int br )

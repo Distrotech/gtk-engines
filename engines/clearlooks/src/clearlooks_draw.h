@@ -61,130 +61,130 @@ typedef enum
 
 
 CLRectangle *cl_rectangle_new(GdkGC *fillgc, GdkGC *bordergc,
-                              int tl, int tr, int bl, int br);
+                              int tl, int tr, int bl, int br) G_GNUC_INTERNAL;
 
 void cl_draw_rectangle (GdkWindow *window, GtkWidget *widget, GtkStyle *style,
-                        int x, int y, int width, int height, CLRectangle *r);
+                        int x, int y, int width, int height, CLRectangle *r) G_GNUC_INTERNAL;
 
-void cl_rectangle_set_color (CLGradient *g, GdkColor *color);
-void cl_rectangle_set_gradient (CLGradient *g, GdkColor *from, GdkColor *to);
+void cl_rectangle_set_color (CLGradient *g, GdkColor *color) G_GNUC_INTERNAL;
+void cl_rectangle_set_gradient (CLGradient *g, GdkColor *from, GdkColor *to) G_GNUC_INTERNAL;
 
 void cl_rectangle_set_button (CLRectangle *r, GtkStyle *style,
                              GtkStateType state_type, gboolean hasdefault, gboolean has_focus,
                              CLBorderType tl, CLBorderType tr,
-                             CLBorderType bl, CLBorderType br);
+                             CLBorderType bl, CLBorderType br) G_GNUC_INTERNAL;
 
 void cl_rectangle_set_entry (CLRectangle *r, GtkStyle *style,
                             GtkStateType state_type,
                             CLBorderType tl, CLBorderType tr,
                             CLBorderType bl, CLBorderType br,
-                            gboolean has_focus);
+                            gboolean has_focus) G_GNUC_INTERNAL;
 							
 void cl_draw_shadow(GdkWindow *window, GtkWidget *widget, GtkStyle *style,
-                    int x, int y, int width, int height, CLRectangle *r);
+                    int x, int y, int width, int height, CLRectangle *r) G_GNUC_INTERNAL;
 
-void cl_rectangle_set_clip_rectangle (CLRectangle *r, GdkRectangle *area);
-void cl_rectangle_reset_clip_rectangle (CLRectangle *r);
+void cl_rectangle_set_clip_rectangle (CLRectangle *r, GdkRectangle *area) G_GNUC_INTERNAL;
+void cl_rectangle_reset_clip_rectangle (CLRectangle *r) G_GNUC_INTERNAL;
 
-void cl_set_corner_sharpness (const gchar *detail, GtkWidget *widget, CLRectangle *r);
+void cl_set_corner_sharpness (const gchar *detail, GtkWidget *widget, CLRectangle *r) G_GNUC_INTERNAL;
 
 
-void cl_rectangle_set_corners (CLRectangle *r, int tl, int tr, int bl, int br);
+void cl_rectangle_set_corners (CLRectangle *r, int tl, int tr, int bl, int br) G_GNUC_INTERNAL;
 
 void cl_rectangle_init (CLRectangle *r, GdkGC *fillgc, GdkGC *bordergc,
-                        int tl, int tr, int bl, int br);
+                        int tl, int tr, int bl, int br) G_GNUC_INTERNAL;
 
-void cl_rectangle_reset (CLRectangle *r, GtkStyle *style);
+void cl_rectangle_reset (CLRectangle *r, GtkStyle *style) G_GNUC_INTERNAL;
 
 
 GdkPixmap* cl_progressbar_tile_new (GdkDrawable *drawable, GtkWidget *widget,
-                              GtkStyle *style, gint height, gint offset);
+                              GtkStyle *style, gint height, gint offset) G_GNUC_INTERNAL;
 				
 void cl_progressbar_fill (GdkDrawable *drawable, GtkWidget *widget,
                           GtkStyle *style, GdkGC *gc,
                           gint x, gint y, gint width, gint height,
-						  guint8 offset, GdkRectangle *area);
+						  guint8 offset, GdkRectangle *area) G_GNUC_INTERNAL;
 						  
 GdkColor cl_gc_set_fg_color_shade (GdkGC *gc, GdkColormap *colormap, 
-                                   GdkColor *from, gfloat s);
+                                   GdkColor *from, gfloat s) G_GNUC_INTERNAL;
 
 void cl_draw_spinbutton(GtkStyle *style, GdkWindow *window,
                         GtkStateType state_type, GtkShadowType shadow_type,
                         GdkRectangle *area,
                         GtkWidget *widget, const gchar *detail,
-                        gint x, gint y, gint width, gint height);
+                        gint x, gint y, gint width, gint height) G_GNUC_INTERNAL;
 						
 void cl_draw_button(GtkStyle *style, GdkWindow *window,
                     GtkStateType state_type, GtkShadowType shadow_type,
                     GdkRectangle *area,
                     GtkWidget *widget, const gchar *detail,
-                    gint x, gint y, gint width, gint height);
+                    gint x, gint y, gint width, gint height) G_GNUC_INTERNAL;
 					
 void cl_draw_entry (GtkStyle *style, GdkWindow *window,
                     GtkStateType state_type, GtkShadowType shadow_type,
                     GdkRectangle *area,
                     GtkWidget *widget, const gchar *detail,
-                    gint x, gint y, gint width, gint height);
+                    gint x, gint y, gint width, gint height) G_GNUC_INTERNAL;
 					
 void cl_draw_combobox_entry (GtkStyle *style, GdkWindow *window,
                              GtkStateType state_type, GtkShadowType shadow_type,
                              GdkRectangle *area,
                              GtkWidget *widget, const gchar *detail,
-                             gint x, gint y, gint width, gint height);
+                             gint x, gint y, gint width, gint height) G_GNUC_INTERNAL;
 		
 void cl_draw_combobox_button (GtkStyle *style, GdkWindow *window,
                              GtkStateType state_type, GtkShadowType shadow_type,
                              GdkRectangle *area,
                              GtkWidget *widget, const gchar *detail,
-                             gint x, gint y, gint width, gint height);
+                             gint x, gint y, gint width, gint height) G_GNUC_INTERNAL;
 							 
 void cl_draw_menuitem_button (GdkDrawable *window, GtkWidget *widget, GtkStyle *style,
                               GdkRectangle *area, GtkStateType state_type, 
-                              int x, int y, int wiidth, int height, CLRectangle *r);
+                              int x, int y, int wiidth, int height, CLRectangle *r) G_GNUC_INTERNAL;
 
 void cl_draw_menuitem_flat (GdkDrawable *window, GtkWidget *widget, GtkStyle *style,
                             GdkRectangle *area, GtkStateType state_type, 
-                            int x, int y, int wiidth, int height, CLRectangle *r);
+                            int x, int y, int wiidth, int height, CLRectangle *r) G_GNUC_INTERNAL;
                             
 void cl_draw_menuitem_gradient (GdkDrawable *window, GtkWidget *widget, GtkStyle *style,
                                 GdkRectangle *area, GtkStateType state_type, 
-                                int x, int y, int wiidth, int height, CLRectangle *r);
+                                int x, int y, int wiidth, int height, CLRectangle *r) G_GNUC_INTERNAL;
 							  
 void cl_draw_treeview_header (GtkStyle *style, GdkWindow *window,
                               GtkStateType state_type, GtkShadowType shadow_type,
                               GdkRectangle *area,
                               GtkWidget *widget, const gchar *detail,
-                              gint x, gint y, gint width, gint height);
+                              gint x, gint y, gint width, gint height) G_GNUC_INTERNAL;
 
 void cl_draw_progressbar1_trough(GdkDrawable *window, GtkWidget *widget,
                                  GtkStyle *style, GtkStateType state_type,
                                  gint x, gint y, gint width, gint height,
-                                 GdkRectangle *area);
+                                 GdkRectangle *area) G_GNUC_INTERNAL;
 
 void cl_draw_progressbar2_trough(GdkDrawable *drawable, GtkWidget *widget,
                                  GtkStyle *style, GtkStateType state_type,
                                  gint x, gint y, gint width, gint height,
-                                 GdkRectangle *area, gboolean horizontal);
+                                 GdkRectangle *area, gboolean horizontal) G_GNUC_INTERNAL;
 
 void cl_draw_progressbar1_fill(GdkDrawable *window, GtkWidget *widget,
                                GtkStyle *style, GtkStateType state_type,
                                gint x, gint y, gint width, gint height,
-                               GdkRectangle *area, gint offset);
+                               GdkRectangle *area, gint offset) G_GNUC_INTERNAL;
 
 void cl_draw_progressbar2_fill(GdkDrawable *window, GtkWidget *widget,
                                GtkStyle *style, GtkStateType state_type,
                                gint x, gint y, gint width, gint height,
-                               GdkRectangle *area, gint offset);
+                               GdkRectangle *area, gint offset) G_GNUC_INTERNAL;
 
 void cl_draw_progressbar3_fill(GdkDrawable *window, GtkWidget *widget,
                                GtkStyle *style, GtkStateType state_type,
                                gint x, gint y, gint width, gint height,
-                               GdkRectangle *area);
+                               GdkRectangle *area) G_GNUC_INTERNAL;
 
 void cl_draw_optionmenu(GtkStyle *style, GdkWindow *window,
                         GtkStateType state_type, GtkShadowType shadow_type,
                         GdkRectangle *area, GtkWidget *widget,
                         const gchar *detail,
-                        gint x, gint y, gint width, gint height);
+                        gint x, gint y, gint width, gint height) G_GNUC_INTERNAL;
 	   
 #endif /* CLEARLOOKS_DRAW_H */

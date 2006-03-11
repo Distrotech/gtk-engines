@@ -1,3 +1,43 @@
+2006-03-11  Thomas Wood  <thos@gnome.org>
+
+	* engines/clearlooks/src/clearlooks_draw.c: (cl_draw_inset):
+	* engines/clearlooks/src/clearlooks_draw.h:
+	* engines/clearlooks/src/clearlooks_rc_style.h:
+	* engines/clearlooks/src/clearlooks_style.h:
+	* engines/clearlooks/src/support.h:
+	* engines/crux/src/crux-draw.h:
+	* engines/crux/src/crux-gradient.h:
+	* engines/crux/src/crux-pixmaps.h:
+	* engines/crux/src/crux-rc-parser.h:
+	* engines/crux/src/crux-rc-style.h:
+	* engines/crux/src/crux-style.h:
+	* engines/crux/src/debug.h:
+	* engines/crux/src/eazel-theme.h:
+	* engines/mist/src/mist-rc-style.h:
+	* engines/mist/src/mist-style.h:
+	* engines/smooth/src/engine/shared/gtk/smooth_gtk_drawing.h:
+	* engines/smooth/src/engine/shared/gtk/smooth_gtk_rc.h:
+	* engines/smooth/src/engine/smooth_gtk2_drawing.h:
+	* engines/smooth/src/engine/smooth_gtk2_engine.h:
+	* engines/smooth/src/engine/smooth_gtk2_misc.h:
+	* engines/smooth/src/engine/smooth_gtk2_rc.h:
+	* engines/smooth/src/interfaces/abstract/abstract_drawing_interface
+	.h:
+	* engines/smooth/src/interfaces/drawing_interface.h:
+	* engines/smooth/src/interfaces/gdk2/gdk2_drawing_interface.h:
+	* engines/smooth/src/interfaces/gdk2/src/gdk2_gradient_routines.h:
+	* engines/smooth/src/interfaces/shared/gdk/gdk_drawing_interface.c:
+	* engines/smooth/src/interfaces/shared/gdk/gdk_drawing_interface.h:
+	* engines/smooth/src/utils/calc_colors.h:
+	* engines/smooth/src/utils/draw_arrows.h:
+	* engines/smooth/src/utils/draw_border.h:
+	* engines/smooth/src/utils/draw_checkmark.h:
+	* engines/smooth/src/utils/draw_fill.h:
+	* engines/smooth/src/utils/draw_grips.h:
+
+	Use G_GNUC_INTERNAL to stop exporting unneseccary functions in clearlooks,
+	crux, mist and smooth
+
 2006-03-11  Benjamin Berg  <benjamin@sipsolutions.net>
 
 	* hc:

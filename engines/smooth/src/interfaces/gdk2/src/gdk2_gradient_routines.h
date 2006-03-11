@@ -28,4 +28,4 @@ GDK2CanvasRenderGradient(SmoothCanvas Canvas,
 				SmoothInt X,
 				SmoothInt Y,
 				SmoothInt Width,
-				SmoothInt Height);
+				SmoothInt Height) G_GNUC_INTERNAL;

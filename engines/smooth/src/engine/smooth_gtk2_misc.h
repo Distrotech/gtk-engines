@@ -122,14 +122,14 @@
  
 #define TOGGLE_BUTTON(object) (IS_TOGGLE_BUTTON(object)?(GtkToggleButton *)object:NULL)
 
-gboolean object_is_a (gpointer object, gchar * type_name);
+gboolean object_is_a (gpointer object, gchar * type_name) G_GNUC_INTERNAL;
 
-gboolean is_toolbar_item (GtkWidget * widget);
-gboolean is_panel_widget_item (GtkWidget * widget);
-gboolean is_combo_box_entry (GtkWidget * widget);
-gboolean is_combo_box (GtkWidget * widget, gboolean as_list);
-gboolean is_combo (GtkWidget * widget);
-gboolean is_in_combo_box (GtkWidget * widget);
+gboolean is_toolbar_item (GtkWidget * widget) G_GNUC_INTERNAL;
+gboolean is_panel_widget_item (GtkWidget * widget) G_GNUC_INTERNAL;
+gboolean is_combo_box_entry (GtkWidget * widget) G_GNUC_INTERNAL;
+gboolean is_combo_box (GtkWidget * widget, gboolean as_list) G_GNUC_INTERNAL;
+gboolean is_combo (GtkWidget * widget) G_GNUC_INTERNAL;
+gboolean is_in_combo_box (GtkWidget * widget) G_GNUC_INTERNAL;
 
 /* Misc Functions/Macros */
 #define xthickness(style) (((GtkStyle *)style)->xthickness)
@@ -138,28 +138,28 @@ gboolean is_in_combo_box (GtkWidget * widget);
 #define CHECK_DETAIL(detail, value) ((detail) && (!strcmp(value, detail)))
 #define FUZZY_COMPARE(i, j, fudge) ((i>j)?(i - j <= fudge):(j - i <= fudge))
 
-GdkBitmap * arc_clip_mask(gint width, gint height);
+GdkBitmap * arc_clip_mask(gint width, gint height) G_GNUC_INTERNAL;
 #define clip_mask_unref g_object_unref
 
-gboolean sanitize_parameters(GtkStyle * style, GdkWindow * window, gint * width, gint * height);
+gboolean sanitize_parameters(GtkStyle * style, GdkWindow * window, gint * width, gint * height) G_GNUC_INTERNAL;
 
 /* Notebook Tab Info */
-GtkWidget * get_notebook_page(GtkWidget * widget);
-GtkWidget * get_tab_label(GtkWidget *page, GtkWidget * widget);
-GtkWidget* get_combo_box_widget_parent (GtkWidget * widget);
+GtkWidget * get_notebook_page(GtkWidget * widget) G_GNUC_INTERNAL;
+GtkWidget * get_tab_label(GtkWidget *page, GtkWidget * widget) G_GNUC_INTERNAL;
+GtkWidget* get_combo_box_widget_parent (GtkWidget * widget) G_GNUC_INTERNAL;
 
-gboolean widget_is_tab_label(GtkWidget *page, GtkWidget * widget);
-gboolean tab_label_is_current_page(GtkWidget *page, GtkWidget * widget);
+gboolean widget_is_tab_label(GtkWidget *page, GtkWidget * widget) G_GNUC_INTERNAL;
+gboolean tab_label_is_current_page(GtkWidget *page, GtkWidget * widget) G_GNUC_INTERNAL;
 
 /* Arrow Sizing Workarounds */
-void reverse_engineer_stepper_box(GtkWidget *range, GtkArrowType arrow_type, gint *x, gint *y, gint *width, gint *height);
-void reverse_engineer_spin_button(GtkWidget *widget, GtkArrowType arrow_type, gint *x, gint *y, gint *width, gint *height);
+void reverse_engineer_stepper_box(GtkWidget *range, GtkArrowType arrow_type, gint *x, gint *y, gint *width, gint *height) G_GNUC_INTERNAL;
+void reverse_engineer_spin_button(GtkWidget *widget, GtkArrowType arrow_type, gint *x, gint *y, gint *width, gint *height) G_GNUC_INTERNAL;
 
-void reverse_engineer_arrow_box(GtkWidget *widget, const gchar * detail, GtkArrowType arrow_type, gint *x, gint *y, gint *width, gint *height);
+void reverse_engineer_arrow_box(GtkWidget *widget, const gchar * detail, GtkArrowType arrow_type, gint *x, gint *y, gint *width, gint *height) G_GNUC_INTERNAL;
 
-void option_menu_get_props (GtkWidget *widget, GtkRequisition *indicator_size, GtkBorder *indicator_spacing);
-void gtk_button_get_props (GtkWidget *widget, GtkBorder *default_border, GtkBorder *default_outside_border, gboolean  *interior_focus);
-void gtk_widget_get_focus_props (GtkWidget *widget, gint *focus_line_width, gint *focus_padding, gboolean  *interior_focus);
-gboolean gtk_cell_renderer_toggle_get_inconsistent (GtkWidget *widget);
+void option_menu_get_props (GtkWidget *widget, GtkRequisition *indicator_size, GtkBorder *indicator_spacing) G_GNUC_INTERNAL;
+void gtk_button_get_props (GtkWidget *widget, GtkBorder *default_border, GtkBorder *default_outside_border, gboolean  *interior_focus) G_GNUC_INTERNAL;
+void gtk_widget_get_focus_props (GtkWidget *widget, gint *focus_line_width, gint *focus_padding, gboolean  *interior_focus) G_GNUC_INTERNAL;
+gboolean gtk_cell_renderer_toggle_get_inconsistent (GtkWidget *widget) G_GNUC_INTERNAL;
 
 #endif /* SMOOTH_GTK2_MISC_H */

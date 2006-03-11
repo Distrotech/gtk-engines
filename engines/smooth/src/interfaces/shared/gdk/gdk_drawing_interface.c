@@ -419,7 +419,7 @@ GDKCanvasDeallocateColor(SmoothGDKPrivateCanvas *Canvas,
 }
 
 /* Canvas cache/uncache a _Color */
-SmoothInt
+static SmoothInt
 cached_color_hash(SmoothColor *_Color, SmoothDouble Shade)
 {
 	SmoothInt hash = 0;

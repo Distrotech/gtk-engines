@@ -317,9 +317,9 @@ typedef struct {
 /* prototypes */
 
 /* from eazel-theme-main.c */
-extern gboolean eazel_engine_widget_in_focused_window_p (GtkWidget *widget);
-extern void theme_init (GtkThemeEngine *engine);
-extern void theme_exit (void);
+extern gboolean eazel_engine_widget_in_focused_window_p (GtkWidget *widget) G_GNUC_INTERNAL;
+extern void theme_init (GtkThemeEngine *engine) G_GNUC_INTERNAL;
+extern void theme_exit (void) G_GNUC_INTERNAL;
 
 /* from eazel-theme-draw.c */
 extern GtkStyleClass eazel_class_0, eazel_class_1, eazel_class_2, eazel_class_3;
@@ -327,25 +327,25 @@ extern GtkStyleClass eazel_class_0, eazel_class_1, eazel_class_2, eazel_class_3;
 /* from eazel-theme-gradient.c */
 extern eazel_engine_gradient *eazel_engine_gradient_new (eazel_engine_gradient_direction direction,
 							 GdkColor *from,
-							 GSList *components);
-extern eazel_engine_gradient *eazel_engine_gradient_ref (eazel_engine_gradient *g);
-extern void eazel_engine_gradient_unref (eazel_engine_gradient *g);
+							 GSList *components) G_GNUC_INTERNAL;
+extern eazel_engine_gradient *eazel_engine_gradient_ref (eazel_engine_gradient *g) G_GNUC_INTERNAL;
+extern void eazel_engine_gradient_unref (eazel_engine_gradient *g) G_GNUC_INTERNAL;
 extern eazel_engine_gradient *eazel_engine_make_two_point_gradient (eazel_engine_gradient_direction direction,
 								    gulong from_rgb,
-								    gulong to_rgb);
+								    gulong to_rgb) G_GNUC_INTERNAL;
 
 extern void eazel_engine_fill_gradient_rgb_buffer (const eazel_engine_gradient *gradient,
 						   int rgb_total, guchar *rgb_buf,
-						   int rgb_first, int rgb_last);
+						   int rgb_first, int rgb_last) G_GNUC_INTERNAL;
 
 extern void eazel_engine_draw_gradient (GdkDrawable *drawable,
 					GdkGC *gc,
 					const GdkRectangle *full_rect,
 					const GdkRectangle *clip_rect,
-					const eazel_engine_gradient *gradient);
+					const eazel_engine_gradient *gradient) G_GNUC_INTERNAL;
 
 extern void eazel_engine_set_bg_gradient (GdkWindow *window,
-					  eazel_engine_gradient *gradient);
+					  eazel_engine_gradient *gradient) G_GNUC_INTERNAL;
 
 /* from eazel-theme-shadow.c */
 extern void eazel_engine_draw_shadow (GtkStyle *style,
@@ -355,26 +355,26 @@ extern void eazel_engine_draw_shadow (GtkStyle *style,
 				      GdkRectangle *area,
 				      GtkWidget *widget,
 				      gchar *detail,
-				      gint x, gint y, gint width, gint height);
+				      gint x, gint y, gint width, gint height) G_GNUC_INTERNAL;
 
 /* from eazel-theme-pixmaps.c */
-extern void eazel_engine_stock_table_unref (eazel_engine_stock_table *table);
-extern eazel_engine_stock_table *eazel_engine_stock_table_ref (eazel_engine_stock_table *table);
+extern void eazel_engine_stock_table_unref (eazel_engine_stock_table *table) G_GNUC_INTERNAL;
+extern eazel_engine_stock_table *eazel_engine_stock_table_ref (eazel_engine_stock_table *table) G_GNUC_INTERNAL;
 extern void eazel_engine_stock_pixmap_and_mask (eazel_engine_stock_table *table,
 						eazel_engine_stock_image type,
 						GdkPixmap **image,
-						GdkBitmap **mask);
+						GdkBitmap **mask) G_GNUC_INTERNAL;
 extern void eazel_engine_stock_pixmap_and_mask_scaled (eazel_engine_stock_table *table,
 						       eazel_engine_stock_image type,
 						       int width, int height,
 						       GdkPixmap **image,
-						       GdkBitmap **mask);
+						       GdkBitmap **mask) G_GNUC_INTERNAL;
 extern void eazel_engine_stock_free_pixmaps (eazel_engine_stock_table *table,
 					     eazel_engine_stock_image type,
-					     GdkPixmap *image, GdkPixmap *mask);
+					     GdkPixmap *image, GdkPixmap *mask) G_GNUC_INTERNAL;
 extern void eazel_engine_stock_get_size (eazel_engine_stock_table *table,
 					 eazel_engine_stock_image type,
-					 int *width, int *height);
+					 int *width, int *height) G_GNUC_INTERNAL;
 
 
 #endif /* EAZEL_THEME_H */

@@ -3,7 +3,7 @@
 typedef struct _MistStyle MistStyle;
 typedef struct _MistStyleClass MistStyleClass;
 
-extern GType mist_type_style;
+extern GType mist_type_style G_GNUC_INTERNAL;
 
 #define MIST_TYPE_STYLE              mist_type_style
 #define MIST_STYLE(object)           (G_TYPE_CHECK_INSTANCE_CAST ((object), MIST_TYPE_STYLE, MistStyle))
@@ -22,6 +22,6 @@ struct _MistStyleClass
   GtkStyleClass parent_class;
 };
 
-void mist_style_register_type (GTypeModule *module);
+void mist_style_register_type (GTypeModule *module) G_GNUC_INTERNAL;
 
 
