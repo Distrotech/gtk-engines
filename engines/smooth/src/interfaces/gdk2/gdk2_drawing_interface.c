@@ -32,11 +32,11 @@
 #include INTERFACE_DEFINES
 #include "gdk2_private_drawing_interface.h"
 
-GdkGC *internal_drawing_area_use_pen_gc(SmoothGDKPrivateCanvas *Canvas, SmoothBool RequireValidColor);
-void internal_drawing_area_unuse_pen_gc(SmoothGDKPrivateCanvas *Canvas, GdkGC * GC);
+extern GdkGC *internal_drawing_area_use_pen_gc(SmoothGDKPrivateCanvas *Canvas, SmoothBool RequireValidColor);
+extern internal_drawing_area_unuse_pen_gc(SmoothGDKPrivateCanvas *Canvas, GdkGC * GC);
 
-GdkGC * internal_drawing_area_use_brush_gc(SmoothGDKPrivateCanvas *Canvas, SmoothBool RequireValidColor);
-void internal_drawing_area_unuse_brush_gc(SmoothGDKPrivateCanvas *Canvas, GdkGC * GC);
+extern GdkGC * internal_drawing_area_use_brush_gc(SmoothGDKPrivateCanvas *Canvas, SmoothBool RequireValidColor);
+extern void internal_drawing_area_unuse_brush_gc(SmoothGDKPrivateCanvas *Canvas, GdkGC * GC);
 
 /* some basic math defines */
 #define SQR(x) x*x

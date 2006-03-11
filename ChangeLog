@@ -1,3 +1,15 @@
+2006-03-11  Benjamin Berg  <benjamin@sipsolutions.net>
+
+	* engines/smooth/src/engine/smooth_gtk2_drawing.c: made
+	smooth_draw_button_default static
+	* engines/smooth/src/interfaces/abstract/abstract_drawing_interface.c:
+	- include abstract_drawing_interface.h, so that the G_GNUC_INTERNAL
+	is known in the c file.
+	* engines/smooth/src/interfaces/gdk2/gdk2_drawing_interface.c:
+	- added extern keyword to external functions
+	* engines/smooth/src/interfaces/shared/gdk/gdk_drawing_interface.c:
+	- added definitions for some functions and G_GNUC_INTERNAL
+
 2006-03-11  Thomas Wood  <thos@gnome.org>
 
 	* engines/clearlooks/src/clearlooks_draw.c: (cl_draw_inset):

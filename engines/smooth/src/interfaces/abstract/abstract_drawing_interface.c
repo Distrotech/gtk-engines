@@ -21,6 +21,7 @@
 /* Author(s): Andrew Johnson <ajgenius@ajgenius.us>                           */
 /******************************************************************************/
 #include <interfaces/drawing_interface.h>
+#include "abstract_drawing_interface.h"
 
 /* Declare Abstract Interface Functions */
 

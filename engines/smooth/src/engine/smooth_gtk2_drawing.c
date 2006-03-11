@@ -2436,7 +2436,7 @@ draw_default_triangle(GtkStyle * style,
    } 
 }
 
-void
+static void
 smooth_draw_button_default(SmoothCanvas Canvas,
 
 				GtkStyle *style,
