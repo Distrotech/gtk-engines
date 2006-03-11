@@ -72,18 +72,18 @@
  
 #define TOGGLE_BUTTON(object) (IS_TOGGLE_BUTTON(object)?(GtkToggleButton *)object:NULL)
  
-gboolean metal_object_is_a (GtkWidget * widget, gchar * type_name);
+gboolean metal_object_is_a (GtkWidget * widget, gchar * type_name) G_GNUC_INTERNAL;
  
-gboolean metal_is_combo_box_entry (GtkWidget * widget);
-gboolean metal_is_combo_box (GtkWidget * widget, gboolean as_list);
-gboolean metal_is_combo (GtkWidget * widget);
-gboolean metal_is_in_combo_box (GtkWidget * widget);
+gboolean metal_is_combo_box_entry (GtkWidget * widget) G_GNUC_INTERNAL;
+gboolean metal_is_combo_box (GtkWidget * widget, gboolean as_list) G_GNUC_INTERNAL;
+gboolean metal_is_combo (GtkWidget * widget) G_GNUC_INTERNAL;
+gboolean metal_is_in_combo_box (GtkWidget * widget) G_GNUC_INTERNAL;
   
 /* Widget Sizing */ 
 gboolean metal_sanitize_parameters(GtkStyle * style, 
                              GdkWindow * window, 
                              gint * width, 
-                             gint * height);
+                             gint * height) G_GNUC_INTERNAL;
 
 void
 do_metal_draw_arrow (GdkWindow * window,
@@ -93,7 +93,7 @@ do_metal_draw_arrow (GdkWindow * window,
                gint x, 
                gint y, 
                gint width, 
-               gint height);
+               gint height) G_GNUC_INTERNAL;
 
 void
 do_metal_draw_scrollbar_trough (GtkStyle     *style,
@@ -106,7 +106,7 @@ do_metal_draw_scrollbar_trough (GtkStyle     *style,
 			gint          x,
 			gint          y,
 			gint          width,
-			gint          height);
+			gint          height) G_GNUC_INTERNAL;
 
 void
 do_metal_draw_scale_trough (GtkStyle * style,
@@ -119,7 +119,7 @@ do_metal_draw_scale_trough (GtkStyle * style,
 		    gint x,
 		    gint y,
 		    gint width,
-		    gint height);
+		    gint height) G_GNUC_INTERNAL;
 
 void
 do_metal_draw_menu (GtkStyle * style,
@@ -132,7 +132,7 @@ do_metal_draw_menu (GtkStyle * style,
 	    gint x,
 	    gint y,
 	    gint width,
-	    gint height);
+	    gint height) G_GNUC_INTERNAL;
 
 void
 do_metal_draw_menu_item (GtkStyle * style,
@@ -145,7 +145,7 @@ do_metal_draw_menu_item (GtkStyle * style,
 		 gint x,
 		 gint y,
 		 gint width,
-		 gint height);
+		 gint height) G_GNUC_INTERNAL;
 
 void
 do_metal_draw_notebook (GtkStyle * style,
@@ -158,7 +158,7 @@ do_metal_draw_notebook (GtkStyle * style,
 		gint x,
 		gint y,
 		gint width,
-		gint height);
+		gint height) G_GNUC_INTERNAL;
 
 void
 do_metal_draw_notebook_tab (GtkStyle * style,
@@ -172,7 +172,7 @@ do_metal_draw_notebook_tab (GtkStyle * style,
 	   gint y,
 	   gint width,
 	   gint height,
-	   gint orientation);
+	   gint orientation) G_GNUC_INTERNAL;
 
 void
 do_metal_draw_button (GtkStyle * style,
@@ -185,12 +185,12 @@ do_metal_draw_button (GtkStyle * style,
 	      gint x,
 	      gint y,
 	      gint width,
-	      gint height);
+	      gint height) G_GNUC_INTERNAL;
 
 void
 metal_adjust_notebook_tab_size (GtkPositionType tab_pos,
                           gint           *width,
-                          gint           *height);
+                          gint           *height) G_GNUC_INTERNAL;
 
 void
 metal_reverse_engineer_stepper_box (GtkWidget    *range,
@@ -198,5 +198,5 @@ metal_reverse_engineer_stepper_box (GtkWidget    *range,
                               gint         *x,
                               gint         *y,
                               gint         *width,
-                              gint         *height);
+                              gint         *height) G_GNUC_INTERNAL;
 

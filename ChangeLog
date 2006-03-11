@@ -1,3 +1,16 @@
+2006-03-11  Benjamin Berg  <benjamin@sipsolutions.net>
+
+	* hc:
+	* industrial:
+	* lighthouseblue:
+	* metal:
+	* redmond:
+	* thinice:
+	- added G_GNUC_INTERNAL to prevent functions and variables from beeing
+	exported.
+	- made some symbols static
+	- removed others
+
 2006-03-06  Benjamin Berg  <benjamin@sipsolutions.net>
 
 	* engines/clearlooks/src/clearlooks_style.c:

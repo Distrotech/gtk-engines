@@ -3,7 +3,7 @@
 typedef struct _LighthouseBlueRcStyle LighthouseBlueRcStyle;
 typedef struct _LighthouseBlueRcStyleClass LighthouseBlueRcStyleClass;
 
-extern GType lighthouseblue_type_rc_style;
+extern GType lighthouseblue_type_rc_style G_GNUC_INTERNAL;
 
 #define LIGHTHOUSEBLUE_TYPE_RC_STYLE              lighthouseblue_type_rc_style
 #define LIGHTHOUSEBLUE_RC_STYLE(object)           (G_TYPE_CHECK_INSTANCE_CAST ((object), LIGHTHOUSEBLUE_TYPE_RC_STYLE, LighthouseBlueRcStyle))
@@ -26,5 +26,5 @@ struct _LighthouseBlueRcStyleClass
   GtkRcStyleClass parent_class;
 };
 
-void lighthouseblue_rc_style_register_type (GTypeModule *module);
+void lighthouseblue_rc_style_register_type (GTypeModule *module) G_GNUC_INTERNAL;
 

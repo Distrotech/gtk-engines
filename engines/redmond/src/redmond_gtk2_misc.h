@@ -87,40 +87,40 @@ typedef enum
  
 #define TOGGLE_BUTTON(object) (IS_TOGGLE_BUTTON(object)?(GtkToggleButton *)object:NULL)
  
-gboolean redmond_object_is_a (GtkWidget * widget, gchar * type_name);
+gboolean redmond_object_is_a (GtkWidget * widget, gchar * type_name) G_GNUC_INTERNAL;
  
-gboolean redmond_is_combo_box_entry (GtkWidget * widget);
-gboolean redmond_is_combo_box (GtkWidget * widget, gboolean as_list);
-gboolean redmond_is_combo (GtkWidget * widget);
-gboolean redmond_is_in_combo_box (GtkWidget * widget);
+gboolean redmond_is_combo_box_entry (GtkWidget * widget) G_GNUC_INTERNAL;
+gboolean redmond_is_combo_box (GtkWidget * widget, gboolean as_list) G_GNUC_INTERNAL;
+gboolean redmond_is_combo (GtkWidget * widget) G_GNUC_INTERNAL;
+gboolean redmond_is_in_combo_box (GtkWidget * widget) G_GNUC_INTERNAL;
   
-gboolean redmond_is_toolbar_item (GtkWidget * widget);
+gboolean redmond_is_toolbar_item (GtkWidget * widget) G_GNUC_INTERNAL;
   
-gboolean redmond_is_panel_widget_item (GtkWidget * widget);
+gboolean redmond_is_panel_widget_item (GtkWidget * widget) G_GNUC_INTERNAL;
  
-gboolean redmond_is_bonobo_dock_item (GtkWidget * widget);
+gboolean redmond_is_bonobo_dock_item (GtkWidget * widget) G_GNUC_INTERNAL;
  
 /* Widget Sizing */ 
 gboolean redmond_sanitize_parameters(GtkStyle * style, 
                              GdkWindow * window, 
                              gint * width, 
-                             gint * height);
+                             gint * height) G_GNUC_INTERNAL;
 	        
 void redmond_option_menu_get_props (GtkWidget * widget, 
                             GtkRequisition * indicator_size, 
-                            GtkBorder * indicator_spacing);
+                            GtkBorder * indicator_spacing) G_GNUC_INTERNAL;
  
 /* Misc Drawing/Colour Functions */ 
 void redmond_composite_color_shade(GdkColor *original, 
                            gdouble shade_ratio, 
-                           GdkColor *composite);
+                           GdkColor *composite) G_GNUC_INTERNAL;
  
 void redmond_draw_part (GdkDrawable * drawable, 
                         GdkGC * gc, 
                         GdkRectangle * area, 
                         gint x, 
                         gint y, 
-                        Part part);
+                        Part part) G_GNUC_INTERNAL;
  
 void do_redmond_draw_default_fill (GtkStyle *style, 
                                    GdkWindow *window, 
@@ -129,7 +129,7 @@ void do_redmond_draw_default_fill (GtkStyle *style,
                                    gint x, 
                                    gint y, 
                                    gint width, 
-                                   gint height);
+                                   gint height) G_GNUC_INTERNAL;
                                    
 void do_redmond_draw_cross_hatch_fill (GtkStyle * style, 
                                        GdkWindow * window, 
@@ -139,7 +139,7 @@ void do_redmond_draw_cross_hatch_fill (GtkStyle * style,
                                        gint x, 
                                        gint y, 
                                        gint width, 
-                                       gint height);
+                                       gint height) G_GNUC_INTERNAL;
                                        
 void do_redmond_draw_shadow (GdkWindow * window, 
                              GdkGC * tl_gc,
@@ -148,14 +148,14 @@ void do_redmond_draw_shadow (GdkWindow * window,
                              gint y, 
                              gint width, 
                              gint height, 
-                             gboolean topleft_overlap);
+                             gboolean topleft_overlap) G_GNUC_INTERNAL;
                              
 void do_redmond_draw_check (GdkWindow * window, 
                             GdkGC * gc, 
                             gint x, 
                             gint y, 
                             gint width, 
-                            gint height);
+                            gint height) G_GNUC_INTERNAL;
                             
 void do_redmond_draw_arrow (GdkWindow * window, 
                             GdkGC * gc, 
@@ -163,7 +163,7 @@ void do_redmond_draw_arrow (GdkWindow * window,
                             gint x, 
                             gint y, 
                             gint width, 
-                            gint height);
+                            gint height) G_GNUC_INTERNAL;
                             
 void do_redmond_draw_line(GdkWindow * window, 
                           GdkGC * dark_gc, 
@@ -172,7 +172,7 @@ void do_redmond_draw_line(GdkWindow * window,
                           gint start, 
                           gint end, 
                           gint base, 
-                          gboolean horizontal);
+                          gboolean horizontal) G_GNUC_INTERNAL;
  
-void gtk_menu_shell_setup_signals(GtkWidget *widget);
-void gtk_menu_shell_cleanup_signals(GtkWidget *widget);
+void gtk_menu_shell_setup_signals(GtkWidget *widget) G_GNUC_INTERNAL;
+void gtk_menu_shell_cleanup_signals(GtkWidget *widget) G_GNUC_INTERNAL;

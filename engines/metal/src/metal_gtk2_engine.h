@@ -25,7 +25,7 @@
 /*****************************/
 /* RC Style Declaration      */
 /*****************************/
-extern GType metal_type_rc_style;
+extern GType metal_type_rc_style G_GNUC_INTERNAL;
  
 #define METAL_TYPE_RC_STYLE              metal_type_rc_style
 #define METAL_RC_STYLE(object)           (G_TYPE_CHECK_INSTANCE_CAST ((object), METAL_TYPE_RC_STYLE, MetalRcStyle))
@@ -49,8 +49,8 @@ typedef struct
 /*****************************/
 /* Drawing Style Declaration */
 /*****************************/
-extern GType metal_type_style;
-extern GtkStyleClass *parent_class;
+extern GType metal_type_style G_GNUC_INTERNAL;
+extern GtkStyleClass *parent_class G_GNUC_INTERNAL;
  
 #define METAL_TYPE_STYLE              metal_type_style
 #define METAL_STYLE(object)           (G_TYPE_CHECK_INSTANCE_CAST ((object), METAL_TYPE_STYLE, MetalStyle))

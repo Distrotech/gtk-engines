@@ -28,7 +28,7 @@ static GtkRcStyleClass *parent_class;
 
 GType hc_type_rc_style = 0;
 
-void hc_rc_style_init (HcRcStyle *style)
+static void hc_rc_style_init (HcRcStyle *style)
 {
 }
 

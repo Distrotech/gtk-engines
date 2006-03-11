@@ -31,7 +31,7 @@ redmond_draw_hline (GtkStyle * style,
 	    const gchar * detail, 
             gint x1,
             gint x2, 
-            gint y);
+            gint y) G_GNUC_INTERNAL;
  
 void
 redmond_draw_vline (GtkStyle * style,
@@ -42,7 +42,7 @@ redmond_draw_vline (GtkStyle * style,
 	    const gchar * detail, 
             gint y1, 
             gint y2, 
-            gint x);
+            gint x) G_GNUC_INTERNAL;
  
 void
 redmond_draw_check (GtkStyle * style,
@@ -55,7 +55,7 @@ redmond_draw_check (GtkStyle * style,
             gint x, 
             gint y, 
             gint width, 
-            gint height);
+            gint height) G_GNUC_INTERNAL;
  
 void
 redmond_draw_option (GtkStyle * style,
@@ -68,7 +68,7 @@ redmond_draw_option (GtkStyle * style,
              gint x,
              gint y, 
              gint width, 
-             gint height);
+             gint height) G_GNUC_INTERNAL;
  
 void
 redmond_draw_arrow (GtkStyle * style,
@@ -83,7 +83,7 @@ redmond_draw_arrow (GtkStyle * style,
             gint x, 
             gint y, 
             gint width, 
-            gint height);
+            gint height) G_GNUC_INTERNAL;
  
 void
 redmond_draw_shadow (GtkStyle * style,
@@ -96,7 +96,7 @@ redmond_draw_shadow (GtkStyle * style,
              gint x, 
              gint y, 
              gint width, 
-             gint height);
+             gint height) G_GNUC_INTERNAL;
  
 void
 redmond_draw_box (GtkStyle * style,
@@ -109,7 +109,7 @@ redmond_draw_box (GtkStyle * style,
           gint x, 
           gint y, 
           gint width, 
-          gint height);
+          gint height) G_GNUC_INTERNAL;
  
 void
 redmond_draw_tab (GtkStyle * style,
@@ -122,7 +122,7 @@ redmond_draw_tab (GtkStyle * style,
           gint x, 
           gint y, 
           gint width, 
-          gint height);
+          gint height) G_GNUC_INTERNAL;
  
 void
 redmond_draw_slider (GtkStyle * style,
@@ -136,7 +136,7 @@ redmond_draw_slider (GtkStyle * style,
 	     gint y, 
              gint width, 
              gint height, 
-             GtkOrientation orientation);
+             GtkOrientation orientation) G_GNUC_INTERNAL;
  
 void
 redmond_draw_extension (GtkStyle * style,
@@ -150,7 +150,7 @@ redmond_draw_extension (GtkStyle * style,
 		gint y, 
                 gint width, 
                 gint height, 
-                GtkPositionType gap_side);
+                GtkPositionType gap_side) G_GNUC_INTERNAL;
                 
 void
 redmond_draw_handle (GtkStyle * style,
@@ -164,4 +164,4 @@ redmond_draw_handle (GtkStyle * style,
 	     gint y, 
              gint width, 
              gint height, 
-             GtkOrientation orientation);
+             GtkOrientation orientation) G_GNUC_INTERNAL;

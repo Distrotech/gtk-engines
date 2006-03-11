@@ -24,7 +24,7 @@
 typedef struct _HcRcStyle HcRcStyle;
 typedef struct _HcRcStyleClass HcRcStyleClass;
 
-extern GType hc_type_rc_style;
+extern GType hc_type_rc_style G_GNUC_INTERNAL;
 
 #define HC_TYPE_RC_STYLE              hc_type_rc_style
 #define HC_RC_STYLE(object)           (G_TYPE_CHECK_INSTANCE_CAST ((object), HC_TYPE_RC_STYLE, HcRcStyle))
@@ -39,11 +39,9 @@ struct _HcRcStyle
   GtkRcStyle parent_instance;
 };
 
-void hc_rc_style_init (HcRcStyle *style);
-
 struct _HcRcStyleClass
 {
   GtkRcStyleClass parent_class;
 };
 
-void hc_rc_style_register_type (GTypeModule *module);
+void hc_rc_style_register_type (GTypeModule *module) G_GNUC_INTERNAL;

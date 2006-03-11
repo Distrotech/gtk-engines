@@ -24,8 +24,7 @@
 typedef struct _HcStyle HcStyle;
 typedef struct _HcStyleClass HcStyleClass;
 
-extern GType hc_type_style;
-extern GtkStyleClass *style_parent_class;
+extern GType hc_type_style G_GNUC_INTERNAL;
 
 #define HC_TYPE_STYLE              hc_type_style
 #define HC_STYLE(object)           (G_TYPE_CHECK_INSTANCE_CAST ((object), HC_TYPE_STYLE, HcStyle))
@@ -44,4 +43,4 @@ struct _HcStyleClass
   GtkStyleClass parent_class;
 };
 
-void hc_style_register_type (GTypeModule *module);
+void hc_style_register_type (GTypeModule *module) G_GNUC_INTERNAL;

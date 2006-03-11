@@ -3,7 +3,7 @@
 typedef struct _ThiniceStyle ThiniceStyle;
 typedef struct _ThiniceStyleClass ThiniceStyleClass;
 
-extern GType thinice_type_style;
+extern GType thinice_type_style G_GNUC_INTERNAL;
 
 #define THINICE_TYPE_STYLE              thinice_type_style
 #define THINICE_STYLE(object)           (G_TYPE_CHECK_INSTANCE_CAST ((object), THINICE_TYPE_STYLE, ThiniceStyle))
@@ -22,6 +22,6 @@ struct _ThiniceStyleClass
   GtkStyleClass parent_class;
 };
 
-void thinice_style_register_type (GTypeModule *module);
+void thinice_style_register_type (GTypeModule *module) G_GNUC_INTERNAL;
 
 
