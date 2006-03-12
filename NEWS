@@ -1,3 +1,16 @@
+Overview of Changes in 2.6.8 (since 2.6.7)
+==========================================
+
+* Fixed bugs:
+	Bug 333398 - Menubars in panel applets have sunken mode (Clearlooks)
+	Bug 317639 - GtkHScale not rendered properly in Clearlooks
+	Bug 148848 - No visual difference of disabled checkboxes in SimplySmooth (Smooth)
+
+* Lots of other miscellaneous fixes
+* Prevent unnecessary functions from being exported (all engines)
+* Improved RTL support in Clearlooks
+
+
 Overview of Changes in 2.6.7 (since 2.6.6)
 ==========================================
 
