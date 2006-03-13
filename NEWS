@@ -7,7 +7,8 @@ Overview of Changes in 2.6.8 (since 2.6.7)
 	Bug 148848 - No visual difference of disabled checkboxes in SimplySmooth (Smooth)
 
 * Lots of other miscellaneous fixes
-* Prevent unnecessary functions from being exported (all engines)
+* Prevent unnecessary symbols from being exported (all engines)
+* Prefix symbols in engines, to prevent possible conflicts with applications
 * Improved RTL support in Clearlooks
 
 
