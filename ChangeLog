@@ -1,3 +1,11 @@
+2006-05-29  Thomas Wood  <thos@gnome.org>
+
+	* engines/clearlooks/src/clearlooks_draw.c:
+	(cl_draw_combobox_entry):
+	* engines/clearlooks/src/clearlooks_style.c: (draw_box):
+
+	Applied patch from Bug 334557 - Compile errors with gcc 2.95
+
 2006-03-13  Thomas Wood  <thos@gnome.org>
 
 	* NEWS: 2.6.8 release

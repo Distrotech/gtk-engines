@@ -726,12 +726,14 @@ void cl_draw_combobox_entry (GtkStyle *style, GdkWindow *window,
 	
 	int cl, cr;
 	
+	GdkGC *bg_gc;
+
 	rtl = cl_get_parent_direction (widget) == GTK_TEXT_DIR_RTL;
 	
 	cl = rtl ? CL_CORNER_NONE  : CL_CORNER_ROUND;
 	cr = rtl ? CL_CORNER_ROUND : CL_CORNER_NONE;
 	
-	GdkGC *bg_gc = cl_get_window_bg_gc(widget, style);
+	bg_gc = cl_get_window_bg_gc(widget, style);
 	
 	if (rtl)
 	{
