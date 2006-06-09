@@ -1,3 +1,9 @@
+2006-06-09  Benjamin Berg  <benjamin@sipsolutions.net>
+
+	* engines/clearlooks/src/clearlooks_style.c: (timer_func):
+	Add locking to prevent problems with multithreaded applications.
+	(Fixes #342199)
+
 2006-05-29  Thomas Wood  <thos@gnome.org>
 
 	* NEWS:

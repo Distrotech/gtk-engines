@@ -70,7 +70,10 @@ static void update_progressbar (gpointer data, gpointer user_data)
 
 static gboolean timer_func (gpointer data)
 {
+	gdk_threads_enter ();
 	g_list_foreach (progressbars, update_progressbar, NULL);
+	gdk_threads_leave ();
+	
 	if (--pboffset < 0) pboffset = 9;
 	return (g_list_first(progressbars) != NULL);
 }
