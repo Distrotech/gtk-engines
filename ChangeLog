@@ -1,3 +1,17 @@
+2006-07-31  Benjamin Berg  <benjamin@sipsolutions.net>
+
+	* engines/crux/src/crux-draw.c: (draw_box_gap):
+	* engines/lighthouseblue/src/lighthouseblue_style.c: (draw_box_gap):
+	- Backport fixes for drawing issues with box gaps at the end of a line.
+	(Benjamin Otte)
+
+	* engines/crux/src/crux-draw.c: (draw_extension):
+	* engines/lighthouseblue/src/lighthouseblue_style.c: (draw_shadow),
+	(draw_box), (draw_box_gap), (draw_extension):
+	* engines/lighthouseblue/src/util.c: (get_parent_bg):
+	- Fix cases where widget->parent was used even if it is NULL.
+	(Benjamin Otte)
+
 2006-06-09  Benjamin Berg  <benjamin@sipsolutions.net>
 
 	* engines/clearlooks/src/clearlooks_style.c: (timer_func):

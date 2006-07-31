@@ -451,3 +451,16 @@ shade (GdkColor * a, GdkColor * b, float k)
   b->green = green * 65535.0;
   b->blue = blue * 65535.0;
 }
+
+static GdkGC*
+get_parent_bg (GtkWidget *widget, GtkStyle *style)
+{
+  if (widget && gtk_widget_get_parent (widget))
+  {
+    return gtk_widget_get_style (gtk_widget_get_parent (widget))->bg_gc[GTK_STATE_NORMAL];
+  }
+  else
+  {
+    return style->bg_gc[GTK_STATE_NORMAL];
+  }
+}

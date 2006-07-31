@@ -101,14 +101,7 @@ static void draw_shadow (GtkStyle *style,
 		outer_gc = (LIGHTHOUSEBLUE_STYLE (style))->shade_gc[5];
 	}
 	
-	if (GTK_IS_WIDGET (widget) && gtk_widget_get_parent (widget) != NULL)
-	{
-		bg_gc = (gtk_widget_get_parent (widget))->style->bg_gc[GTK_STATE_NORMAL];
-	}
-	else
-	{
-		bg_gc = style->bg_gc[GTK_STATE_NORMAL];
-	}
+	bg_gc = get_parent_bg (widget, style);
 	
 	switch (shadow_type)
 	{
@@ -339,7 +332,7 @@ static void draw_box (GtkStyle *style,
 		
 		gc1 = (LIGHTHOUSEBLUE_STYLE (style))->shade_gc[4];
 		gc2 = (LIGHTHOUSEBLUE_STYLE (style))->shade_gc[6];
-		gc3 = (gtk_widget_get_style (gtk_widget_get_parent (widget)))->bg_gc[GTK_STATE_NORMAL];
+		gc3 = get_parent_bg (widget, style);
 
 		if (area)
 		{
@@ -1080,7 +1073,7 @@ static void draw_box_gap (GtkStyle *style,
                 gdk_draw_line (window, outer_gc, x, y + offset, x, y + gap_x - 1);
                 gdk_draw_line (window, gc1, x + 1, y + 1, x + 1, y + gap_x - 1);
             }
-            if ((width - (gap_x + gap_width)) > 0)
+            if ((height - (gap_x + gap_width)) > 0)
             {
                 gdk_draw_line (window, outer_gc, x, y + gap_x + gap_width, x, y + height - 2);
                 gdk_draw_line (window, gc1, x + 1, y + gap_x + gap_width, x + 1, y + height - 2);
@@ -1101,7 +1094,7 @@ static void draw_box_gap (GtkStyle *style,
                 gdk_draw_line (window, outer_gc, x + width - 1, y + offset, x + width - 1, y + gap_x - 1);
                 gdk_draw_line (window, gc2, x + width - 2, y + 1, x + width - 2, y + gap_x - 1);
             }
-            if ((width - (gap_x + gap_width)) > 0)
+            if ((height - (gap_x + gap_width)) > 0)
             {
                 gdk_draw_line (window, outer_gc, x + width - 1, y + gap_x + gap_width, x + width - 1, y + height - 2);
                 gdk_draw_line (window, gc2, x + width - 2, y + gap_x + gap_width, x + width - 2, y + height - 2);
@@ -1142,7 +1135,7 @@ static void draw_extension (GtkStyle *style,
 	sanitize_size (window, &width, &height);
   
 	outer_gc = (LIGHTHOUSEBLUE_STYLE (style))->shade_gc[6];
-	bg_gc = (gtk_widget_get_style (gtk_widget_get_parent (widget)))->bg_gc[GTK_STATE_NORMAL];
+	bg_gc = get_parent_bg (widget, style);
 	
 	switch (shadow_type)
 	{
