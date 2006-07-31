@@ -1,3 +1,11 @@
+Overview of Changes in 2.6.10 (since 2.6.9)
+===========================================
+
+ * Bug #342199 fixed by adding locking to clearlooks animation code.
+ * Fixes for notebook dnd releated crash bugs in both industrial and crux.
+ * Slightly improved box_gap drawing in crux and industrial.
+
+
 Overview of Changes in 2.6.9 (since 2.6.8)
 ==========================================
 

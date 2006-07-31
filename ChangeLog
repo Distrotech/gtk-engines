@@ -1,3 +1,10 @@
+2006-08-01  Benjamin Berg  <benjamin@sipsolutions.net>
+
+	* NEWS:
+	* configure.ac:
+
+	Update for 2.6.10 release.
+
 2006-07-31  Benjamin Berg  <benjamin@sipsolutions.net>
 
 	* engines/crux/src/crux-draw.c: (draw_box_gap):
