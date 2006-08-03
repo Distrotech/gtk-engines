@@ -1226,7 +1226,7 @@ hc_draw_handle (GtkStyle      *style,
                  detail, x, y, width, height);
   
   
-  if (!strcmp (detail, "paned"))
+  if (detail && !strcmp (detail, "paned"))
     {
       /* we want to ignore the shadow border in paned widgets */
       xthick = 0;
@@ -1259,7 +1259,7 @@ hc_draw_handle (GtkStyle      *style,
   gdk_gc_set_clip_rectangle (light_gc, &dest);
   gdk_gc_set_clip_rectangle (dark_gc, &dest);
 
-  if (!strcmp (detail, "paned"))
+  if (detail && !strcmp (detail, "paned"))
     {
       if (orientation == GTK_ORIENTATION_HORIZONTAL)
 	for (xx = x + width/2 - 15; xx <= x + width/2 + 15; xx += 5)

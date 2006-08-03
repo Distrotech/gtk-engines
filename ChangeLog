@@ -1,3 +1,17 @@
+2006-08-03  Benjamin Berg  <benjamin@sipsolutions.net>
+
+	* engines/clearlooks/src/clearlooks_style.c: (draw_shadow),
+	(draw_handle), (draw_box), (draw_slider), (draw_hline),
+	(draw_focus):
+	- use the DETAIL macro everywhere, fixes some crashes
+
+	* engines/hc/src/hc-style.c: (hc_draw_handle):
+	* engines/smooth/src/engine/smooth_gtk2_drawing.c:
+	(smooth_draw_option), (smooth_draw_check):
+	- In some cases the arguments to the CHECK_DETAIL macro where the
+	wrong way around causing crashes
+	
+
 2006-08-01  Benjamin Berg  <benjamin@sipsolutions.net>
 
 	* NEWS:

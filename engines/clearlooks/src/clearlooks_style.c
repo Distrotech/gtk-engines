@@ -367,7 +367,7 @@ draw_shadow (DRAW_ARGS)
 			gdk_gc_set_clip_rectangle (clearlooks_style->shade_gc[0], NULL);
 		}
 	}
-	else if (detail && !strcmp (detail, "entry"))
+	else if (DETAIL ("entry"))
 	{
 		if ( widget->parent && (GTK_IS_COMBO_BOX_ENTRY (widget->parent) ||
 		                        GTK_IS_SPIN_BUTTON(widget) ||
@@ -837,7 +837,7 @@ draw_handle (DRAW_ARGS, GtkOrientation orientation)
 	gdk_gc_set_clip_rectangle (light_gc, &dest);
 	gdk_gc_set_clip_rectangle (dark_gc, &dest);
 	
-	n_lines = (!strcmp (detail, "paned")) ? 21 : 11;
+	n_lines = DETAIL ("paned") ? 21 : 11;
 
 	if (orientation == GTK_ORIENTATION_VERTICAL)
 	{	
@@ -914,8 +914,7 @@ draw_box (DRAW_ARGS)
 		cl_draw_treeview_header (style, window, state_type, shadow_type,
 		                         area, widget, detail, x, y, width, height);
 	}
-	else if (detail && (!strcmp (detail, "button") ||
-		                !strcmp (detail, "buttondefault")))
+	else if (DETAIL ("button") || DETAIL ("buttondefault"))
 	{
 		if (GTK_IS_COMBO_BOX_ENTRY(widget->parent) || GTK_IS_COMBO(widget->parent))
 		{
@@ -929,27 +928,22 @@ draw_box (DRAW_ARGS)
 		                    detail, x, y, width, height);
 		}
 	}
-	else if (detail && (
-	         !strcmp (detail, "spinbutton_up") ||
-	         !strcmp (detail, "spinbutton_down") ||
-	         !strcmp (detail, "spinbutton")))
+	else if (DETAIL ("spinbutton_up") ||
+	         DETAIL ("spinbutton_down") ||
+	         DETAIL ("spinbutton"))
 	{		
 		cl_draw_spinbutton (style, window, state_type, shadow_type, area,
 		                    widget, detail, x, y, width, height);
 	}
-	else if (detail && (
-		     !strcmp (detail, "hscale") || !strcmp (detail, "vscale")))
+	else if (DETAIL ("hscale") || DETAIL ("vscale"))
 	{
 		cl_rectangle_set_button (&r, style, state_type,
 		                widget && GTK_WIDGET_HAS_DEFAULT (widget), widget && GTK_WIDGET_HAS_FOCUS (widget),
 		                CL_CORNER_ROUND, CL_CORNER_ROUND,
 		                CL_CORNER_ROUND, CL_CORNER_ROUND);
 
-		if (!strcmp (detail, "hscale") || !strcmp (detail, "vscale"))
-		{
-			r.fill_gradient.to = &clearlooks_style->cl_shade[2];
-			r.bottomright = clearlooks_style->shade_gc[2];
-		}
+		r.fill_gradient.to = &clearlooks_style->cl_shade[2];
+		r.bottomright = clearlooks_style->shade_gc[2];
 		
 		cl_set_corner_sharpness (detail, widget, &r);
 	
@@ -1078,9 +1072,8 @@ draw_box (DRAW_ARGS)
 		cl_draw_rectangle (window, widget, style, x, y, width, height, &r);
 		cl_rectangle_reset_clip_rectangle (&r);
 	}
-	else if (detail && (!strcmp (detail, "vscrollbar") ||
-	                    !strcmp (detail, "hscrollbar") ||
-			    !strcmp (detail, "stepper")))
+	else if (DETAIL ("vscrollbar") || DETAIL ("hscrollbar") ||
+	         DETAIL ("stepper"))
 	{
 		ClScrollButtonType button_type = CL_SCROLLBUTTON_OTHER;
 		gboolean horizontal = TRUE;
@@ -1193,7 +1186,7 @@ draw_box (DRAW_ARGS)
 		cl_draw_shadow (window, widget, style, x, y, width, height, &r);
 		cl_rectangle_reset_clip_rectangle (&r);	
 	}
-	else if (detail && !strcmp (detail, "optionmenu")) /* supporting deprecated */
+	else if (DETAIL ("optionmenu")) /* supporting deprecated */
 	{
 		cl_draw_optionmenu(style, window, state_type, shadow_type, area, widget, detail, x, y, width, height);
 	}
@@ -1452,7 +1445,7 @@ draw_slider (DRAW_ARGS, GtkOrientation orientation)
 		(orientation == GTK_ORIENTATION_HORIZONTAL && width < 20))
 		return;
 	
-	if (detail && strcmp ("slider", detail) == 0)
+	if (DETAIL ("slider"))
 	{
 		if (area)
 		{
@@ -1487,7 +1480,7 @@ draw_slider (DRAW_ARGS, GtkOrientation orientation)
 			gdk_gc_set_clip_rectangle (white_gc, NULL);
 		}
 	}
-	else if (detail && (strcmp ("hscale", detail) == 0 || strcmp ("vscale", detail) == 0))
+	else if (DETAIL ("hscale") || DETAIL ("vscale"))
 	{
 		if (area)
 		{
@@ -1799,7 +1792,7 @@ draw_hline (GtkStyle     *style,
 	if (area)
 		gdk_gc_set_clip_rectangle (clearlooks_style->shade_gc[2], area);
 	
-	if (detail && !strcmp (detail, "label"))
+	if (DETAIL ("label"))
 	{
 		if (state_type == GTK_STATE_INSENSITIVE)
 			gdk_draw_line (window, style->light_gc[state_type], x1 + 1, y + 1, x2 + 1, y + 1);
@@ -1896,7 +1889,7 @@ draw_focus (GtkStyle      *style,
 	                            GDK_CAP_BUTT, GDK_JOIN_MITER);
 	
 	
-	if (detail && !strcmp (detail, "add-mode"))
+	if (DETAIL ("add-mode"))
 	{
 		if (free_dash_list)
 			g_free (dash_list);
