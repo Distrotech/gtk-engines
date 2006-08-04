@@ -916,7 +916,7 @@ draw_box (DRAW_ARGS)
 	}
 	else if (DETAIL ("button") || DETAIL ("buttondefault"))
 	{
-		if (GTK_IS_COMBO_BOX_ENTRY(widget->parent) || GTK_IS_COMBO(widget->parent))
+		if (widget && (GTK_IS_COMBO_BOX_ENTRY(widget->parent) || GTK_IS_COMBO(widget->parent)))
 		{
 			cl_draw_combobox_button (style, window, state_type, shadow_type,
 			                         area, widget,
@@ -1168,7 +1168,7 @@ draw_box (DRAW_ARGS)
 			}
 		}
 			
-		cl_rectangle_set_button (&r, style, state_type, FALSE, GTK_WIDGET_HAS_FOCUS (widget),
+		cl_rectangle_set_button (&r, style, state_type, FALSE, widget && GTK_WIDGET_HAS_FOCUS (widget),
 		                        CL_CORNER_NONE, CL_CORNER_NONE,
 		                        CL_CORNER_NONE, CL_CORNER_NONE);
 		
@@ -1239,7 +1239,7 @@ draw_box (DRAW_ARGS)
 		cl_draw_rectangle (window, widget, style, x, y, width, height, &r);
 		cl_rectangle_reset_clip_rectangle (&r);
 	}
-	else if (DETAIL ("menu") && widget->parent &&
+	else if (DETAIL ("menu") && widget && widget->parent &&
 	         GDK_IS_WINDOW (widget->parent->window))
 	{	
 		cl_rectangle_set_corners (&r, CL_CORNER_NONE, CL_CORNER_NONE,

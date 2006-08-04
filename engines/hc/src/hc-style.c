@@ -450,12 +450,12 @@ hc_draw_check (GtkStyle      *style,
 			NULL);
 
   gdk_draw_rectangle (window,
-		      widget->style->base_gc[state_type],
+		      style->base_gc[state_type],
 		      TRUE,
 		      x, y,
 		      width, height);
   gdk_draw_rectangle (window,
-		      widget->style->text_gc[state_type],
+		      style->text_gc[state_type],
 		      FALSE,
 		      x, y,
 		      width, height);  
@@ -509,7 +509,7 @@ hc_draw_option (GtkStyle      *style,
 		gint           height)
 {
   gdk_draw_arc (window,
-		widget->style->fg_gc[state_type],
+		style->fg_gc[state_type],
 		FALSE,
 		x, y,
 		width,
@@ -519,7 +519,7 @@ hc_draw_option (GtkStyle      *style,
   if (shadow_type == GTK_SHADOW_IN)
     {
       gdk_draw_arc (window,
-		    widget->style->fg_gc[state_type],
+		    style->fg_gc[state_type],
 		    TRUE,
 		    x + 1,
 		    y + 1,
@@ -530,7 +530,7 @@ hc_draw_option (GtkStyle      *style,
   else if (shadow_type == GTK_SHADOW_ETCHED_IN) /* inconsistent */
     {
       gdk_draw_arc (window,
-		    widget->style->fg_gc[state_type],
+		    style->fg_gc[state_type],
 		    FALSE,
 		    x + 2,
 		    y + 2,

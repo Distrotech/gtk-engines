@@ -237,13 +237,13 @@ static void cl_draw_fill (GdkWindow *window, GtkWidget *widget, GtkStyle *style,
 	}
 	else if (r->gradient_type == CL_GRADIENT_HORIZONTAL)
 	{
-		cl_draw_vgradient (window, r->fillgc, gtk_widget_get_style(widget),
+		cl_draw_vgradient (window, r->fillgc, style,
 		                x+1, y+1, width-2, height-2,
 		                r->fill_gradient.from, r->fill_gradient.to);
 	}
 	else if (r->gradient_type == CL_GRADIENT_VERTICAL)
 	{
-		cl_draw_hgradient (window, r->fillgc, gtk_widget_get_style(widget),
+		cl_draw_hgradient (window, r->fillgc, style,
 		                x+1, y+1, width-2, height-2,
 		                r->fill_gradient.from, r->fill_gradient.to);
 	}
@@ -488,6 +488,9 @@ static void cl_get_window_style_state (GtkWidget *widget, GtkStyle **style, GtkS
 {
 	GtkWidget *tmpwidget = widget;
 	
+	if (!widget)
+		return;
+	
 	if (widget && GTK_IS_ENTRY (widget))
 		tmpwidget = tmpwidget->parent;
 	
@@ -503,7 +506,7 @@ static void cl_get_window_style_state (GtkWidget *widget, GtkStyle **style, GtkS
 static GdkGC *cl_get_window_bg_gc (GtkWidget *widget, GtkStyle *fallback)
 {
 	GtkStyle *style = fallback;
-	GtkStateType state_type;
+	GtkStateType state_type = GTK_STATE_NORMAL;
 	
 	cl_get_window_style_state (widget, &style, &state_type);
 	
@@ -519,8 +522,8 @@ static void cl_draw_inset (GtkStyle *style, GdkWindow *window, GtkWidget *widget
                     gint x, gint y, gint width, gint height,
                     int tl, int tr, int bl, int br )
 {
-	ClearlooksStyle *clwindowstyle; /* style of the window this widget is on */
-	GtkStateType     windowstate;	
+	ClearlooksStyle *clwindowstyle = style; /* style of the window this widget is on */
+	GtkStateType     windowstate = GTK_STATE_NORMAL;
 	CLRectangle      r;
 
 	cl_rectangle_init (&r, NULL, style->black_gc,

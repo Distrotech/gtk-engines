@@ -99,6 +99,7 @@ mist_dot (GdkWindow *window,
 	gdk_draw_points(window, gc1, points, 3);
 }
 
+
 static void
 mist_tab (GtkStyle *style,
 	  GdkWindow *window,
@@ -110,14 +111,10 @@ mist_tab (GtkStyle *style,
 	  int x,
 	  int y,
 	  int width,
-	  int height)
+	  int height,
+	  GtkPositionType gap_side)
 {
-	GtkNotebook *notebook;
 	GdkGC *lightgc, *darkgc;
-	int orientation;
-	
-	notebook = GTK_NOTEBOOK(widget);
-	orientation = notebook->tab_pos;
 	
 	lightgc = style->light_gc[state_type];
 	darkgc = style->dark_gc[state_type];
@@ -145,8 +142,8 @@ mist_tab (GtkStyle *style,
 		gdk_gc_set_clip_rectangle(style->light_gc[state_type], area);
 	}
 
-	switch(orientation) {
-	case GTK_POS_TOP:
+	switch(gap_side) {
+	case GTK_POS_BOTTOM:
 		gdk_draw_line(window, lightgc,
 			      x, y + height - 1, x, y);
 		gdk_draw_line(window, lightgc,
@@ -154,7 +151,7 @@ mist_tab (GtkStyle *style,
 		gdk_draw_line(window, darkgc,
 			      x + width - 1, y, x + width - 1, y + height - 1);
 		break;
-	case GTK_POS_BOTTOM:
+	case GTK_POS_TOP:
 		gdk_draw_line(window, lightgc,
 			      x, y, x, y + height - 1);
 		gdk_draw_line(window, darkgc,
@@ -163,7 +160,7 @@ mist_tab (GtkStyle *style,
 		gdk_draw_line(window, darkgc,
 			      x + width - 1, y + height - 1, x + width - 1, y);
 		break;
-	case GTK_POS_LEFT:
+	case GTK_POS_RIGHT:
 		gdk_draw_line(window, lightgc,
 			      x, y + height - 1, x, y);
 		gdk_draw_line(window, lightgc,
@@ -172,7 +169,7 @@ mist_tab (GtkStyle *style,
 			      x, y + height - 1, 
 			      x + width - 1, y + height - 1);
 		break;
-	case GTK_POS_RIGHT:
+	case GTK_POS_LEFT:
 		gdk_draw_line(window, lightgc,
 			      x, y, x + width - 1, y);
 		gdk_draw_line(window, darkgc,
@@ -733,10 +730,6 @@ draw_box(GtkStyle *style,
 				       x + width - 1, y + height - 1);
 
 		}
-	} else if (DETAIL("tab")) {
-		mist_tab(style, window, state_type, 
-			 shadow_type, area, widget,
-			 detail, x, y, width, height);
 	} else  if (DETAIL ("bar")) {
 		draw_rect (style, window, 
 			   style->dark_gc[GTK_STATE_SELECTED],
@@ -1151,9 +1144,9 @@ draw_extension(GtkStyle *style,
 	
 	sanitize_size (window, &width, &height);
 
-	gtk_paint_box(style, window, state_type, shadow_type, 
-		      area, widget, detail,
-		      x, y, width, height);
+	mist_tab (style, window, state_type, shadow_type, 
+		  area, widget, detail,
+		  x, y, width, height, gap_side);
 	
 	switch (gap_side) {
 	case GTK_POS_TOP:

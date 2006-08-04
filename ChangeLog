@@ -1,3 +1,19 @@
+2006-08-04  Benjamin Berg  <benjamin@sipsolutions.net>
+
+	* engines/clearlooks/src/clearlooks_draw.c: (cl_draw_fill),
+	(cl_get_window_style_state), (cl_get_window_bg_gc),
+	(cl_draw_inset):
+	* engines/clearlooks/src/clearlooks_style.c: (draw_box):
+	* engines/hc/src/hc-style.c: (hc_draw_check), (hc_draw_option):
+	- Fix possible crashers.
+
+	* engines/mist/src/mist-style.c: (mist_tab), (draw_box),
+	(draw_extension):
+	- Move the mist_tab call from draw_box to draw_extension. This is
+	so that the gap_side will not be lost and doesn't need to be
+	looked up from the notebook. This fixes another crasher.
+
+
 2006-08-03  Benjamin Berg  <benjamin@sipsolutions.net>
 
 	* engines/clearlooks/src/clearlooks_style.c: (draw_shadow),
