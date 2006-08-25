@@ -536,9 +536,9 @@ void gtk_treeview_get_header_index (GtkTreeView *tv, GtkWidget *header,
                                            gint *column_index, gint *columns,
 gboolean *resizable)
 {
-	GList *list;
+	GList *list, *list_start;
 	*column_index = *columns = 0;
-	list = gtk_tree_view_get_columns (tv);
+	list_start = list = gtk_tree_view_get_columns (tv);
 
 	do
 	{
@@ -551,6 +551,8 @@ gboolean *resizable)
 		if ( column->visible )
 			(*columns)++;
 	} while ((list = g_list_next(list)));
+
+	g_list_free (list_start);
 	
 	if (cl_get_direction (GTK_WIDGET (tv)) == GTK_TEXT_DIR_RTL)
 		*column_index = *columns - *column_index - 1;

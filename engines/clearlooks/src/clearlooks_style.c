@@ -264,8 +264,8 @@ draw_flat_box (DRAW_ARGS)
 	if (detail && 	
 	    clearlooks_style->listviewitemstyle == 1 && 
 	    state_type == GTK_STATE_SELECTED && (
-	    !strncmp ("cell_even", detail, strlen ("cell_even")) ||
-	    !strncmp ("cell_odd", detail, strlen ("cell_odd"))))
+	    !strncmp ("cell_even", detail, 9) ||
+	    !strncmp ("cell_odd", detail, 8)))
 	{
 		GdkGC    *gc;
 		GdkColor  lower_color;
