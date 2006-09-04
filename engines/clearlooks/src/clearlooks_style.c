@@ -1095,6 +1095,10 @@ draw_box (DRAW_ARGS)
 				button_type = CL_SCROLLBUTTON_END;
 		}
 
+		/* GTK+ 2.10 draws disabled stepper buttons. I don't like that. Looks weird. */
+		if (state_type == GTK_STATE_INSENSITIVE)
+			state_type = GTK_STATE_NORMAL;
+
 		cl_rectangle_set_button (&r, style, state_type, FALSE, FALSE, 0,0,0,0);
 		
 		cl_rectangle_set_gradient (&r.fill_gradient, NULL, NULL);

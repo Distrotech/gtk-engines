@@ -1,3 +1,8 @@
+2006-09-04  Richard A. Stellingwerff  <remenic@gmail.com>
+
+	* engines/clearlooks/src/clearlooks_style.c: (draw_box):
+	- Draw disabled stepper buttons like normal ones in GTK+ 2.10.
+
 2006-08-25  Benjamin Berg  <benjamin@sipsolutions.net>
 
 	* engines/clearlooks/src/clearlooks_style.c: (draw_flat_box):
