@@ -1,3 +1,10 @@
+Overview of Changes in 2.6.11 (since 2.6.10)
+============================================
+
+* Various crash fixes in clearlooks, smooth, mist and hc engine
+* Memory leak fix for clearlooks from bug #332639
+
+
 Overview of Changes in 2.6.10 (since 2.6.9)
 ===========================================
 

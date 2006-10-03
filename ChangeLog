@@ -1,3 +1,10 @@
+2006-10-03  Thomas Wood  <thos@gnome.org>
+
+	* NEWS:
+	* configure.ac:
+
+	Updated for 2.6.11 release
+
 2006-09-04  Richard A. Stellingwerff  <remenic@gmail.com>
 
 	* engines/clearlooks/src/clearlooks_style.c: (draw_box):
