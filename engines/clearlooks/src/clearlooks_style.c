@@ -548,7 +548,9 @@ clearlooks_style_draw_box (DRAW_ARGS)
 		
 		slider.inverted   = gtk_range_get_inverted (GTK_RANGE (widget));
 		slider.horizontal = (GTK_RANGE (widget)->orientation == GTK_ORIENTATION_HORIZONTAL);
-		slider.fill_size  = ((slider.horizontal ? width : height) - slider_length) * (1 / ((adjustment->upper - adjustment->lower) / (adjustment->value - adjustment->lower))) + slider_length / 2;
+		slider.fill_size  = 0;
+		if (adjustment->value - adjustment->lower > 0)
+			slider.fill_size  = ((slider.horizontal ? width : height) - slider_length) * ((adjustment->value - adjustment->lower) / (adjustment->upper - adjustment->lower)) + slider_length / 2;
 		if (slider.horizontal && !params.ltr)
 			slider.inverted = !slider.inverted;
 		clearlooks_draw_scale_trough (cr, &clearlooks_style->colors,

@@ -1284,20 +1284,26 @@ glide_draw_box (GtkStyle * style,
 	{
 		GtkAdjustment *adjustment;
 		gfloat value = 0;
+		gfloat level = 0;
+		gboolean inverted;
   
 		ge_cairo_pattern_fill(canvas, DEFAULT_BACKGROUND_PATTERN(glide_style, GTK_STATE_NORMAL, glide_style->bg_solid[GTK_STATE_NORMAL]), x, y, width, height);
 
 		adjustment = gtk_range_get_adjustment(GTK_RANGE(widget));
 		value = gtk_range_get_value(GTK_RANGE(widget));
+		
+		inverted = gtk_range_get_inverted(GTK_RANGE(widget));
+		if (adjustment->upper - adjustment->lower > 0)
+			level = (value- adjustment->lower) / (adjustment->upper - adjustment->lower);
 
-		if GE_IS_HSCALE (widget)
+		if (GE_IS_HSCALE (widget))
 		{
 			gint w=0;           
 
-			if (gtk_range_get_inverted(GTK_RANGE(widget)))
-				w = (width-1*2)*(1-(value- adjustment->lower) / (adjustment->upper - adjustment->lower));
-			else  
-				w = (width-1*2)*((value- adjustment->lower) / (adjustment->upper - adjustment->lower));
+			if (!ge_widget_is_ltr(widget))
+				inverted = !inverted;
+			
+			w = (width-1*2)*level;
 
 			w = MAX (2, w);
 			w = MIN(w, width-1*2);              
@@ -1305,14 +1311,14 @@ glide_draw_box (GtkStyle * style,
 			ge_cairo_pattern_fill(canvas, glide_style->bg_solid[GTK_STATE_ACTIVE], 
 							x+1, y+8, width-1*2, height-8*2);
               
-			if ((widget) && (gtk_widget_get_direction (GTK_WIDGET (widget)) == GTK_TEXT_DIR_RTL))
+			if (inverted)
 			{
 				ge_cairo_pattern_fill(canvas, glide_style->bg_gradient[TRUE][GTK_STATE_SELECTED], 
 								x + width - w - 1, y+8, w, height-8*2);
       			}
 			else
 			{
-			ge_cairo_pattern_fill(canvas, DEFAULT_BACKGROUND_PATTERN(glide_style, state_type, glide_style->bg_gradient[TRUE][GTK_STATE_SELECTED]), 
+				ge_cairo_pattern_fill(canvas, glide_style->bg_gradient[TRUE][GTK_STATE_SELECTED],
 							x+1, y+8, w, height-8*2);
 			}
 
@@ -1327,19 +1333,23 @@ glide_draw_box (GtkStyle * style,
 		{
 			gint h;           
               
-			if (gtk_range_get_inverted(GTK_RANGE(widget)))
-				h = (height-1*2)*((value - adjustment->lower) / (adjustment->upper - adjustment->lower));
-			else  
-				h = (height-1*2)*(1-(value - adjustment->lower) / (adjustment->upper - adjustment->lower));
-
+			h = (height-1*2)*level;
 			h = MAX (2, h);
 			h = MIN(h, height-8*2);
 	      
 			ge_cairo_pattern_fill(canvas, glide_style->bg_solid[GTK_STATE_ACTIVE], 
 							x+8, y+1, width-8*2, height-1*2);
 
-			ge_cairo_pattern_fill(canvas, glide_style->bg_gradient[FALSE][GTK_STATE_SELECTED], 
-							x+8, y+height - h - 1, width - 8*2, h);
+			if (inverted)
+			{
+				ge_cairo_pattern_fill(canvas, glide_style->bg_gradient[FALSE][GTK_STATE_SELECTED], 
+								x+8, y+height - h - 1, width - 8*2, h);
+			}
+			else
+			{
+				ge_cairo_pattern_fill(canvas, glide_style->bg_gradient[FALSE][GTK_STATE_SELECTED], 
+								x+8, y+8, width - 8*2, h);
+			}
 
 			ge_cairo_pattern_fill(canvas, DEFAULT_OVERLAY_PATTERN(glide_style, "menuitem",TRUE), 
 							x+8, y+1, width-8*2, height-1*2);
