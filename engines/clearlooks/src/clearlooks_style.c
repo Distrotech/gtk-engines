@@ -97,7 +97,7 @@ clearlooks_style_draw_flat_box (DRAW_ARGS)
 
 		cairo_destroy (cr);
 	}
-	else if ((CLEARLOOKS_STYLE (style)->style == CL_STYLE_GLOSSY || CLEARLOOKS_STYLE (style)->style == CL_STYLE_GUMMY) &&
+	else if (CLEARLOOKS_STYLE (style)->style == CL_STYLE_GLOSSY &&
 	         ((DETAIL("checkbutton") || DETAIL("radiobutton")) && state_type == GTK_STATE_PRELIGHT))
 	{
 		/* XXX: Don't draw any check/radiobutton bg in GLOSSY mode. */
@@ -174,7 +174,7 @@ clearlooks_style_draw_shadow (DRAW_ARGS)
 	{
 		CairoColor *border = (CairoColor*)&colors->shade[5];
 		cairo_rectangle (cr, x+0.5, y+0.5, width-1, height-1);
-		ge_cairo_set_color (cr, border);
+		cairo_set_source_rgb (cr, border->r, border->g, border->b);
 		cairo_set_line_width (cr, 1);
 		cairo_stroke (cr);
 	}
@@ -187,7 +187,7 @@ clearlooks_style_draw_shadow (DRAW_ARGS)
 		frame.gap_x  = -1;
 		frame.border = &colors->shade[5];
 		clearlooks_set_widget_parameters (widget, style, state_type, &params);
-		params.corners = CR_CORNER_ALL;
+		params.corners = CR_CORNER_NONE;
 		
 		STYLE_FUNCTION(draw_frame) (cr, colors, &params, &frame, x, y, width, height);
 	}
@@ -214,7 +214,6 @@ clearlooks_style_draw_box_gap (DRAW_ARGS,
 	{
 		WidgetParameters params;
 		FrameParameters  frame;
-		int current_page, num_pages;
 		
 		frame.shadow    = shadow_type;
 		frame.gap_side  = gap_side;
@@ -224,82 +223,9 @@ clearlooks_style_draw_box_gap (DRAW_ARGS,
 		
 		clearlooks_set_widget_parameters (widget, style, state_type, &params);
 
-		/* Modified from Aurora Engine
-		*** 
-		We need to fix the clip problem on first tab and rounded corners
-		Last Active tab could be buggied if the tabs cover more space then the notebook width
-		***
-		*/
-		current_page = gtk_notebook_get_current_page ((GtkNotebook *) widget);
-		num_pages = gtk_notebook_get_n_pages ((GtkNotebook *) widget);
-
-		if (frame.gap_side == CL_GAP_TOP) {
-			if ((current_page == 0) && (num_pages - 1 == 0)) {
-				params.corners = CR_CORNER_BOTTOMRIGHT | CR_CORNER_BOTTOMLEFT;
-			}
-			else if (current_page == 0) {
-				params.corners = CR_CORNER_BOTTOMRIGHT | CR_CORNER_BOTTOMLEFT | CR_CORNER_TOPRIGHT;
-			}
-			else if (current_page == num_pages - 1) {
-				params.corners = CR_CORNER_BOTTOMRIGHT | CR_CORNER_BOTTOMLEFT;
-				/* params.corners = CR_CORNER_BOTTOMRIGHT | CR_CORNER_BOTTOMLEFT | CR_CORNER_TOPLEFT; */
-			}
-			else {
-				params.corners = CR_CORNER_BOTTOMRIGHT | CR_CORNER_BOTTOMLEFT | CR_CORNER_TOPRIGHT;
-				/* params.corners = CR_CORNER_ALL; */
-			}
-		}
-		else if (frame.gap_side == CL_GAP_BOTTOM) {
-			if ((current_page == 0) && (num_pages - 1 == 0)) {
-				params.corners = CR_CORNER_TOPRIGHT | CR_CORNER_TOPLEFT;
-			}
-			else if (current_page == 0) {
-				params.corners = CR_CORNER_TOPRIGHT | CR_CORNER_TOPLEFT | CR_CORNER_BOTTOMRIGHT;
-			}
-			else if (current_page == num_pages - 1) {
-				params.corners = CR_CORNER_TOPRIGHT | CR_CORNER_TOPLEFT;
-				/* params.corners = CR_CORNER_TOPRIGHT | CR_CORNER_TOPLEFT | CR_CORNER_BOTTOMLEFT; */
-			}
-			else {
-				params.corners = CR_CORNER_TOPRIGHT | CR_CORNER_TOPLEFT | CR_CORNER_BOTTOMRIGHT;
-				/* params.corners = CR_CORNER_ALL; */
-			}
-		}
-		else if (frame.gap_side == CL_GAP_LEFT) {
-			if ((current_page == 0) && (num_pages - 1 == 0)) {
-				params.corners = CR_CORNER_TOPRIGHT | CR_CORNER_BOTTOMRIGHT;
-			}
-			else if (current_page == 0) {
-				params.corners = CR_CORNER_BOTTOMLEFT | CR_CORNER_TOPRIGHT | CR_CORNER_BOTTOMRIGHT;
-			}
-			else if (current_page == num_pages - 1) {
-				params.corners = CR_CORNER_BOTTOMRIGHT | CR_CORNER_TOPRIGHT;
-				/* params.corners = CR_CORNER_TOPRIGHT | CR_CORNER_TOPLEFT | CR_CORNER_BOTTOMRIGHT; */
-			}
-			else {
-				params.corners = CR_CORNER_BOTTOMLEFT | CR_CORNER_TOPRIGHT | CR_CORNER_BOTTOMRIGHT;
-				/* params.corners = CR_CORNER_ALL; */
-			}
-		}
-		else {
-			if ((current_page == 0) && (num_pages - 1 == 0)) {
-				params.corners = CR_CORNER_TOPLEFT | CR_CORNER_BOTTOMLEFT;
-			}
-			else if (current_page == 0) {
-				params.corners = CR_CORNER_BOTTOMLEFT | CR_CORNER_TOPLEFT | CR_CORNER_BOTTOMRIGHT;
-			}
-			else if (current_page == num_pages - 1) {
-				params.corners = CR_CORNER_BOTTOMLEFT | CR_CORNER_TOPLEFT;
-				/* params.corners = CR_CORNER_TOPRIGHT | CR_CORNER_TOPLEFT | CR_CORNER_BOTTOMLEFT; */
-			}
-			else {
-				params.corners = CR_CORNER_BOTTOMLEFT | CR_CORNER_TOPLEFT | CR_CORNER_BOTTOMRIGHT;
-				/* params.corners = CR_CORNER_ALL; */
-			}
-		}
-
+		params.corners = CR_CORNER_NONE;
 		/* Fill the background with bg[NORMAL] */
-		ge_cairo_rounded_rectangle (cr, x, y, width, height, params.radius, params.corners);
+		cairo_rectangle (cr, x, y, width, height);
 		ge_cairo_set_color (cr, &colors->bg[GTK_STATE_NORMAL]);
 		cairo_fill (cr);
 		
@@ -534,7 +460,6 @@ clearlooks_style_draw_box (DRAW_ARGS)
 		else
 		{
 			params.corners    = CR_CORNER_ALL;
-			/* if (!(ge_is_combo_box (widget, FALSE))) */
 			params.enable_glow = TRUE;
 		}		
 	
@@ -753,8 +678,6 @@ clearlooks_style_draw_box (DRAW_ARGS)
 		GtkBorder indicator_spacing;
 		
 		clearlooks_set_widget_parameters (widget, style, state_type, &params);
-		
-		params.enable_glow = TRUE;
 
 		ge_option_menu_get_props (widget, &indicator_size, &indicator_spacing);
 		
@@ -877,14 +800,13 @@ clearlooks_style_draw_slider (DRAW_ARGS, GtkOrientation orientation)
 		scrollbar.horizontal = (orientation == GTK_ORIENTATION_HORIZONTAL);
 		scrollbar.junction   = clearlooks_scrollbar_get_junction (widget);
 
-		if (clearlooks_style->style == CL_STYLE_GLOSSY || clearlooks_style->style == CL_STYLE_GUMMY)
+		if (clearlooks_style->style == CL_STYLE_GLOSSY) /* XXX! */
 		{
-			scrollbar.color = colors->spot[1];
+			scrollbar.color = colors->bg[CL_STATE_NORMAL];
+			ge_shade_color (&scrollbar.color, 0.5, &scrollbar.color);
 			scrollbar.has_color = TRUE;
 		}
-
-		/* Set scrollbar color also for Glossy */
-		if (clearlooks_style->has_scrollbar_color)
+		else if (clearlooks_style->has_scrollbar_color)
 		{
 			ge_gdk_color_to_cairo (&clearlooks_style->scrollbar_color, &scrollbar.color);
 			scrollbar.has_color = TRUE;
@@ -909,11 +831,11 @@ clearlooks_style_draw_option (DRAW_ARGS)
 	const ClearlooksColors *colors;
 	WidgetParameters params;
 	CheckboxParameters checkbox;
-	cairo_t *cr;
 	
 	CHECK_ARGS
 	SANITIZE_SIZE
 
+	cairo_t *cr;
 	cr = ge_gdk_drawable_to_cairo (window, area);
 	colors = &clearlooks_style->colors;
 	
@@ -977,7 +899,7 @@ clearlooks_style_draw_vline                      (GtkStyle               *style,
 
 	cr = ge_gdk_drawable_to_cairo (window, area);
 	
-	STYLE_FUNCTION(draw_separator) (cr, &colors->shade[3], NULL, &separator,
+	STYLE_FUNCTION(draw_separator) (cr, colors, NULL, &separator,
 	                           x, y1, 2, y2-y1);
 	
 	cairo_destroy (cr);
@@ -1007,7 +929,7 @@ clearlooks_style_draw_hline                      (GtkStyle               *style,
 	
 	separator.horizontal = TRUE;
 	
-	STYLE_FUNCTION(draw_separator) (cr, &colors->shade[3], NULL, &separator,
+	STYLE_FUNCTION(draw_separator) (cr, colors, NULL, &separator,
 	                           x1, y, x2-x1, 2);
 	
 	cairo_destroy (cr);
@@ -1038,11 +960,11 @@ clearlooks_style_draw_shadow_gap (DRAW_ARGS,
 		frame.gap_side  = gap_side;
 		frame.gap_x     = gap_x;
 		frame.gap_width = gap_width;
-		frame.border    = &colors->shade[5];
+		frame.border    = (CairoColor*)&colors->shade[5];
 		
 		clearlooks_set_widget_parameters (widget, style, state_type, &params);
 
-		params.corners = CR_CORNER_ALL;
+		params.corners = CR_CORNER_NONE;
 		
 		STYLE_FUNCTION(draw_frame) (cr, colors, &params, &frame,
 		                       x, y, width, height);
@@ -1401,53 +1323,6 @@ scale_or_ref (GdkPixbuf *src,
 	}
 }
 
-static void
-clearlooks_style_draw_layout (GtkStyle * style,
-	     GdkWindow * window,
-	     GtkStateType state_type,
-	     gboolean use_text,
-	     GdkRectangle * area,
-	     GtkWidget * widget,
-	     const gchar * detail, gint x, gint y, PangoLayout * layout)
-{
-  GdkGC *gc;
-
-  g_return_if_fail (GTK_IS_STYLE (style));
-  g_return_if_fail (window != NULL);
-
-  gc = use_text ? style->text_gc[state_type] : style->fg_gc[state_type];
-
-  if (area)
-    gdk_gc_set_clip_rectangle (gc, area);
-
-  if (state_type == GTK_STATE_INSENSITIVE) {
-    ClearlooksStyle *clearlooks_style = CLEARLOOKS_STYLE (style);
-    ClearlooksColors *colors = &clearlooks_style->colors;
-
-    WidgetParameters params;
-    GdkColor etched;
-    CairoColor temp;
-
-    clearlooks_set_widget_parameters (widget, style, state_type, &params);
-
-    if (GTK_WIDGET_NO_WINDOW (widget))
-      ge_shade_color (&params.parentbg, 1.2, &temp);
-    else
-      ge_shade_color (&colors->bg[widget->state], 1.2, &temp);
-    etched.red = (int) (temp.r * 65535);
-    etched.green = (int) (temp.g * 65535);
-    etched.blue = (int) (temp.b * 65535);
-
-    gdk_draw_layout_with_colors (window, style->text_gc[state_type], x + 1, y + 1, layout, &etched, NULL);
-    gdk_draw_layout (window, style->text_gc[state_type], x, y, layout);
-  }
-  else
-    gdk_draw_layout (window, gc, x, y, layout);
-
-  if (area)
-    gdk_gc_set_clip_rectangle (gc, NULL);
-}
-
 static GdkPixbuf *
 clearlooks_style_draw_render_icon (GtkStyle            *style,
              const GtkIconSource *source,
@@ -1558,7 +1433,6 @@ clearlooks_style_class_init (ClearlooksStyleClass * klass)
 	style_class->draw_resize_grip = clearlooks_style_draw_resize_grip;
 	style_class->draw_tab         = clearlooks_style_draw_tab;
 	style_class->draw_arrow       = clearlooks_style_draw_arrow;
-	style_class->draw_layout      = clearlooks_style_draw_layout;
 	style_class->render_icon      = clearlooks_style_draw_render_icon;
 
 	clearlooks_register_style_classic (&clearlooks_style_class->style_functions[CL_STYLE_CLASSIC]);
@@ -1566,8 +1440,6 @@ clearlooks_style_class_init (ClearlooksStyleClass * klass)
 	clearlooks_register_style_glossy (&clearlooks_style_class->style_functions[CL_STYLE_GLOSSY]);
 	clearlooks_style_class->style_functions[CL_STYLE_INVERTED] = clearlooks_style_class->style_functions[CL_STYLE_CLASSIC];
 	clearlooks_register_style_inverted (&clearlooks_style_class->style_functions[CL_STYLE_INVERTED]);
-	clearlooks_style_class->style_functions[CL_STYLE_GUMMY] = clearlooks_style_class->style_functions[CL_STYLE_CLASSIC];
-	clearlooks_register_style_gummy (&clearlooks_style_class->style_functions[CL_STYLE_GUMMY]);
 }
 
 GType clearlooks_type_style = 0;
