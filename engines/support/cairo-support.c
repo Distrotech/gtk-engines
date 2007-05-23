@@ -128,9 +128,9 @@ ge_gdk_color_to_cairo (const GdkColor *c, CairoColor *cc)
 
 	g_return_if_fail (c && cc);
 
-	r = c->red / 65536.0;
-	g = c->green / 65536.0;
-	b = c->blue / 65536.0;
+	r = c->red / 65535.0;
+	g = c->green / 65535.0;
+	b = c->blue / 65535.0;
 
 	cc->r = r;
 	cc->g = g;
@@ -145,9 +145,9 @@ ge_cairo_color_to_gtk (const CairoColor *cc, GdkColor *c)
 
 	g_return_if_fail (c && cc);
 
-	r = cc->r * 65536.0;
-	g = cc->g * 65536.0;
-	b = cc->b * 65536.0;
+	r = cc->r * 65535.0;
+	g = cc->g * 65535.0;
+	b = cc->b * 65535.0;
 
 	c->red = r;
 	c->green = g;
@@ -204,7 +204,7 @@ ge_shade_color(const CairoColor *base, gdouble shade_ratio, CairoColor *composit
 }
 
 void
-ge_saturate_color (const CairoColor *base, gdouble saturate_level, CairoColor *composite)
+ge_saturate_color (const CairoColor * base, gdouble saturate_level, CairoColor *composite)
 {
 	gdouble hue = 0;
 	gdouble saturation = 0;
@@ -219,18 +219,6 @@ ge_saturate_color (const CairoColor *base, gdouble saturate_level, CairoColor *c
 
 	ge_color_from_hsb (hue, saturation, brightness, composite);
 	composite->a = base->a;	
-}
-
-void
-ge_mix_color (const CairoColor *color1, const CairoColor *color2, 
-              gdouble mix_factor, CairoColor *composite)
-{
-	g_return_if_fail (color1 && color2 && composite);
-
-	composite->r = color1->r * (1-mix_factor) + color2->r * mix_factor;
-	composite->g = color1->g * (1-mix_factor) + color2->g * mix_factor;
-	composite->b = color1->b * (1-mix_factor) + color2->b * mix_factor;
-	composite->a = 1.0;
 }
 
 cairo_t * 
