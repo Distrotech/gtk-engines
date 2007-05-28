@@ -1,10 +1,9 @@
-Overview of Changes in 2.11.0 (since 2.10.1)
+Overview of Changes in 2.10.2 (since 2.10.1)
 ============================================
 
 Hilights in this release include:
- - Several improvements to the Redmond theme
- - A lot of changes to standard Clearlooks and the Glossy style
- - New Gummy style added by Andrea Cimitan
+  - Several improvements to the Redmond theme.
+  - Bug fixes.
 
 Fixed bugs in this release:
  Bug 429988 - Redmond: CombBox should appear as list
@@ -13,11 +12,15 @@ Fixed bugs in this release:
  Bug 429730 - Redmond engine draws radio buttons wrong
  Bug 428772 - Unnecessary cast breaks build on Solaris
  Bug 427265 - Clearlooks: invisible resize handle in RTL
+ Bug 438456 - Potential invalid g_free() on slice-allocated data
 
 New Translations:
  Gintautas Miliauskas (lt)
  Subhransu Behera (or)
  Yannig MARCHEGAY (oc)
+
+Updated Translations:
+ Ignacio Casal Quinteiro (gl)
 
 
 Overview of Changes in 2.10.1 (since 2.10.0)
