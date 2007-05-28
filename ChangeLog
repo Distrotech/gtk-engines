@@ -24,6 +24,17 @@
 	Replace g_free with gtk_border_free and gtk_requisition_free where
 	appropriate. Bug #438456, based on patch by Carlos Garnacho.
 
+2007-05-06  Benjamin Berg  <benjamin@sipsolutions.net>
+
+	* engines/clearlooks/src/clearlooks_style.c:
+	(clearlooks_style_draw_box_gap), (clearlooks_style_draw_extension),
+	(clearlooks_style_draw_option), (clearlooks_style_draw_check),
+	(clearlooks_style_draw_vline), (clearlooks_style_draw_hline),
+	(clearlooks_style_draw_shadow_gap),
+	(clearlooks_style_draw_resize_grip), (clearlooks_style_draw_tab),
+	(clearlooks_style_draw_arrow):
+	Added missing sanity checks.
+
 2007-05-03  Benjamin Berg  <benjamin@sipsolutions.net>
 
 	* engines/clearlooks/src/clearlooks_draw.c:
