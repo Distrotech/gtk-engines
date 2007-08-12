@@ -1,6 +1,16 @@
 2007-08-12  Benjamin Berg  <benjamin@sipsolutions.net>
 
 	* engines/clearlooks/src/clearlooks_rc_style.c:
+	(clearlooks_rc_style_init), (clearlooks_rc_style_class_init),
+	(clearlooks_gtk2_rc_parse_hint), (clearlooks_rc_style_parse),
+	(clearlooks_rc_style_merge):
+	* engines/clearlooks/src/clearlooks_rc_style.h:
+	- Add support for parsing a hint argument in the engine.
+	- Small cleanups and warning fixes.
+
+2007-08-12  Benjamin Berg  <benjamin@sipsolutions.net>
+
+	* engines/clearlooks/src/clearlooks_rc_style.c:
 	(clearlooks_rc_style_parse):
 	Cause less relocations on module load by storing the rc file options
 	in one large string.

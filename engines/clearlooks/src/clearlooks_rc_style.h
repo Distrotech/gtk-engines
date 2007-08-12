@@ -46,8 +46,15 @@ typedef enum {
 	CL_FLAG_MENUBARSTYLE       = 1 <<  4,
 	CL_FLAG_TOOLBARSTYLE       = 1 <<  5,
 	CL_FLAG_ANIMATION          = 1 <<  6,
-	CL_FLAG_RADIUS             = 1 <<  7
+	CL_FLAG_RADIUS             = 1 <<  7,
+	CL_FLAG_HINT               = 1 <<  8
 } ClearlooksRcFlags;
+
+typedef enum {
+	CL_HINT_TREEVIEW = 0,
+	CL_HINT_LAST
+} ClearlooksHints;
+
 
 struct _ClearlooksRcStyle
 {
@@ -64,11 +71,14 @@ struct _ClearlooksRcStyle
 	guint8 toolbarstyle;
 	gboolean animation;
 	double radius;
+	GQuark hint;
 };
 
 struct _ClearlooksRcStyleClass
 {
-  GtkRcStyleClass parent_class;
+	GtkRcStyleClass parent_class;
+
+	GQuark hint_lookup[CL_HINT_LAST];
 };
 
 GE_INTERNAL void clearlooks_rc_style_register_type (GTypeModule *module);

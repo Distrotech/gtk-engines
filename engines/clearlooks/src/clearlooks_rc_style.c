@@ -22,6 +22,7 @@
  * Modified by Kulyk Nazar <schamane@myeburg.net>
  */
 
+#include <string.h>
 #include "clearlooks_style.h"
 #include "clearlooks_rc_style.h"
 
@@ -58,6 +59,7 @@ enum
 	TOKEN_ANIMATION,
 	TOKEN_STYLE,
 	TOKEN_RADIUS,
+	TOKEN_HINT,
 
 	TOKEN_CLASSIC,
 	TOKEN_GLOSSY,
@@ -84,6 +86,7 @@ static gchar* clearlooks_rc_symbols =
 	"animation\0"
 	"style\0"
 	"radius\0"
+	"hint\0"
 
 	"CLASSIC\0"
 	"GLOSSY\0"
@@ -91,9 +94,10 @@ static gchar* clearlooks_rc_symbols =
 	"GUMMY\0"
 
 	"TRUE\0"
-	"FALSE\0"
-;
+	"FALSE\0";
 
+static gchar* clearlooks_rc_hints =
+	"treeview_header\0";
 
 void
 clearlooks_rc_style_register_type (GTypeModule *module)
@@ -131,6 +135,7 @@ clearlooks_rc_style_init (ClearlooksRcStyle *clearlooks_rc)
 	clearlooks_rc->animation = FALSE;
 	clearlooks_rc->colorize_scrollbar = FALSE;
 	clearlooks_rc->radius = 3.0;
+	clearlooks_rc->hint = 0;
 }
 
 #ifdef HAVE_ANIMATION
@@ -153,6 +158,19 @@ clearlooks_rc_style_class_init (ClearlooksRcStyleClass *klass)
 #ifdef HAVE_ANIMATION
 	GObjectClass    *g_object_class = G_OBJECT_CLASS (klass);
 #endif
+	gchar *current_hint = clearlooks_rc_hints;
+	gint i = 0;
+
+
+	/* Register the hints with GQuark system */
+	while ((current_hint[0] != '\0') && (i < CL_HINT_LAST)) {
+		klass->hint_lookup[i] = g_quark_from_string (current_hint);
+
+		current_hint += strlen(current_hint) + 1;
+		i++;
+	}
+	g_assert (i == CL_HINT_LAST && current_hint[0] == '\0');
+
 
 	clearlooks_parent_rc_class = g_type_class_peek_parent (klass);
 
@@ -291,6 +309,31 @@ clearlooks_gtk2_rc_parse_style (GtkSettings      *settings,
 }
 
 static guint
+clearlooks_gtk2_rc_parse_hint (GtkSettings *settings,
+                               GScanner    *scanner,
+                               GQuark      *quark)
+{
+	guint token;
+
+	/* Skip 'hint' */
+	token = g_scanner_get_next_token(scanner);
+
+	token = g_scanner_get_next_token(scanner);
+	if (token != G_TOKEN_EQUAL_SIGN)
+	   return G_TOKEN_EQUAL_SIGN;
+
+	token = g_scanner_get_next_token(scanner);
+	if (token != G_TOKEN_STRING)
+	   return G_TOKEN_STRING;
+
+	/* If the string has not been registered by the engine,
+	 * don't bother registering it. */
+	*quark = g_quark_try_string (scanner->value.v_string);
+
+	return G_TOKEN_NONE;
+}
+
+static guint
 clearlooks_gtk2_rc_parse_dummy (GtkSettings      *settings,
                                 GScanner         *scanner,
                                 gchar            *name)
@@ -325,7 +368,6 @@ clearlooks_rc_style_parse (GtkRcStyle *rc_style,
 
 	guint old_scope;
 	guint token;
-	guint i;
 
 	/* Set up a new scope in this scanner. */
 
@@ -394,6 +436,10 @@ clearlooks_rc_style_parse (GtkRcStyle *rc_style,
 				token = clearlooks_gtk2_rc_parse_double (settings, scanner, &clearlooks_style->radius);
 				clearlooks_style->flags |= CL_FLAG_RADIUS;
 				break;
+			case TOKEN_HINT:
+				token = clearlooks_gtk2_rc_parse_hint (settings, scanner, &clearlooks_style->hint);
+				clearlooks_style->flags |= CL_FLAG_HINT;
+				break;
 
 			/* stuff to ignore */
 			case TOKEN_SUNKENMENU:
@@ -461,6 +507,8 @@ clearlooks_rc_style_merge (GtkRcStyle *dest,
 		dest_w->animation = src_w->animation;
 	if (flags & CL_FLAG_RADIUS)
 		dest_w->radius = src_w->radius;
+	if (flags & CL_FLAG_HINT)
+		dest_w->hint = src_w->hint;
 
 	dest_w->flags |= src_w->flags;
 }
