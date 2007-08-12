@@ -65,37 +65,34 @@ enum
 	TOKEN_GUMMY,
 
 	TOKEN_TRUE,
-	TOKEN_FALSE
+	TOKEN_FALSE,
+
+	TOKEN_LAST
 };
 
-static struct
-{
-	const gchar        *name;
-	guint               token;
-}
-clearlooks_gtk2_rc_symbols[] =
-{
-	{ "scrollbar_color",    TOKEN_SCROLLBARCOLOR  },
-	{ "colorize_scrollbar", TOKEN_COLORIZESCROLLBAR },
-	{ "contrast",           TOKEN_CONTRAST  },
-	{ "sunkenmenubar",      TOKEN_SUNKENMENU },
-	{ "progressbarstyle",   TOKEN_PROGRESSBARSTYLE },
-	{ "menubarstyle",       TOKEN_MENUBARSTYLE }, 
-	{ "toolbarstyle",       TOKEN_TOOLBARSTYLE },
-	{ "menuitemstyle",      TOKEN_MENUITEMSTYLE },
-	{ "listviewitemstyle",  TOKEN_LISTVIEWITEMSTYLE },
-	{ "animation",          TOKEN_ANIMATION },
-	{ "style",              TOKEN_STYLE },
-	{ "radius",             TOKEN_RADIUS },
 
-	{ "CLASSIC",            TOKEN_CLASSIC },
-	{ "GLOSSY",             TOKEN_GLOSSY },
-	{ "INVERTED",           TOKEN_INVERTED },
-	{ "GUMMY",              TOKEN_GUMMY },
+static gchar* clearlooks_rc_symbols =
+	"scrollbar_color\0"
+	"colorize_scrollbar\0"
+	"contrast\0"
+	"sunkenmenubar\0"
+	"progressbarstyle\0"
+	"menubarstyle\0"
+	"toolbarstyle\0"
+	"menuitemstyle\0"
+	"listviewitemstyle\0"
+	"animation\0"
+	"style\0"
+	"radius\0"
 
-	{ "TRUE",               TOKEN_TRUE },
-	{ "FALSE",              TOKEN_FALSE }
-};
+	"CLASSIC\0"
+	"GLOSSY\0"
+	"INVERTED\0"
+	"GUMMY\0"
+
+	"TRUE\0"
+	"FALSE\0"
+;
 
 
 void
@@ -344,13 +341,18 @@ clearlooks_rc_style_parse (GtkRcStyle *rc_style,
 	* (in some previous call to clearlooks_rc_style_parse for the
 	* same scanner.
 	*/
+	if (!g_scanner_lookup_symbol(scanner, clearlooks_rc_symbols)) {
+		gchar *current_symbol = clearlooks_rc_symbols;
+		gint i = G_TOKEN_LAST + 1;
 
-	if (!g_scanner_lookup_symbol(scanner, clearlooks_gtk2_rc_symbols[0].name))
-	{
-		for (i = 0; i < G_N_ELEMENTS (clearlooks_gtk2_rc_symbols); i++)
-			g_scanner_scope_add_symbol(scanner, scope_id,
-				   	clearlooks_gtk2_rc_symbols[i].name,
-				   	GINT_TO_POINTER(clearlooks_gtk2_rc_symbols[i].token));
+		/* Add our symbols */
+		while ((current_symbol[0] != '\0') && (i < TOKEN_LAST)) {
+			g_scanner_scope_add_symbol(scanner, scope_id, current_symbol, GINT_TO_POINTER (i));
+
+			current_symbol += strlen(current_symbol) + 1;
+			i++;
+		}
+		g_assert (i == TOKEN_LAST && current_symbol[0] == '\0');
 	}
 
 	/* We're ready to go, now parse the top level */

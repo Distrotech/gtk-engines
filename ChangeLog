@@ -1,5 +1,12 @@
 2007-08-12  Benjamin Berg  <benjamin@sipsolutions.net>
 
+	* engines/clearlooks/src/clearlooks_rc_style.c:
+	(clearlooks_rc_style_parse):
+	Cause less relocations on module load by storing the rc file options
+	in one large string.
+
+2007-08-12  Benjamin Berg  <benjamin@sipsolutions.net>
+
 	* AUTHORS:
 	* engines/clearlooks/AUTHORS:
 	* engines/clearlooks/src/animation.c:
