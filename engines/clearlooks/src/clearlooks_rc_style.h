@@ -50,11 +50,6 @@ typedef enum {
 	CL_FLAG_HINT               = 1 <<  8
 } ClearlooksRcFlags;
 
-typedef enum {
-	CL_HINT_TREEVIEW = 0,
-	CL_HINT_LAST
-} ClearlooksHints;
-
 
 struct _ClearlooksRcStyle
 {
@@ -77,8 +72,6 @@ struct _ClearlooksRcStyle
 struct _ClearlooksRcStyleClass
 {
 	GtkRcStyleClass parent_class;
-
-	GQuark hint_lookup[CL_HINT_LAST];
 };
 
 GE_INTERNAL void clearlooks_rc_style_register_type (GTypeModule *module);

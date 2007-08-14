@@ -21,9 +21,8 @@
    Authors: John Harper <jsh@eazel.com>  */
 
 /* AIX requires this to be the first thing in the file.  */
-#ifdef HAVE_CONFIG_H
 #include <config.h>
-#endif
+
 #ifndef __GNUC__
 # if HAVE_ALLOCA_H
 #  include <alloca.h>

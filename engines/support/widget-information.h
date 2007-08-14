@@ -1,4 +1,12 @@
 
+typedef enum {
+	GE_HINT_TREEVIEW_HEADER,
+	GE_HINT_COUNT
+} GEHint;
+
+/* ALL OF THE FOLLOWING SHOULD DIE ...
+ * instead the hint system will be used, and a huge switch ;-) */
+
 /* Object Type Lookups/Macros
    
    Based on/modified from functions in
@@ -73,6 +81,9 @@
 
 #define GE_WIDGET_HAS_DEFAULT(object) ((object) && GE_IS_WIDGET(object) && GTK_WIDGET_HAS_DEFAULT(object))
 
+
+GE_INTERNAL gboolean ge_check_hint (GEHint hint, GQuark style_hint, GtkWidget *widget);
+
 GE_INTERNAL gboolean ge_object_is_a (const GObject * object, const gchar * type_name);
  
 GE_INTERNAL gboolean ge_is_combo_box_entry (GtkWidget * widget);
@@ -96,4 +107,5 @@ GE_INTERNAL void ge_button_get_default_border (GtkWidget *widget,
                                                GtkBorder *border);
 
 GE_INTERNAL gboolean ge_widget_is_ltr (GtkWidget *widget);
+
 

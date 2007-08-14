@@ -2,8 +2,75 @@
 
 #include "general-support.h"
 #include "widget-information.h"
+#include "config.h"
 #include <math.h>
 #include <string.h>
+
+static gchar *ge_widget_hints = 
+	"treeview-header\0";
+
+gboolean
+ge_check_hint (GEHint      hint,
+               GQuark      style_hint,
+               GtkWidget  *widget)
+{
+	static GEHint quark_hint_lookup[GE_HINT_COUNT] = {0};
+	gboolean matches = FALSE;
+
+	g_assert ((hint > 0) && (hint < GE_HINT_COUNT));
+
+	/* Initilize lookup table */
+	if (G_UNLIKELY (quark_hint_lookup[0] == 0))
+	{
+		guint i;
+		gchar *cur_hint_str = ge_widget_hints;
+		while ((i < GE_HINT_COUNT) && cur_hint_str[0])
+		{
+			/* Can't use _from_static_string as the engine may be unloaded. */
+			quark_hint_lookup[i] = g_quark_from_string (cur_hint_str);
+			cur_hint_str += strlen(cur_hint_str) + 1;
+			i++;
+		}
+		g_assert (i == GE_HINT_COUNT && cur_hint_str[0] == '\0');
+	}
+
+	/* We might want to do some special casing here.
+	 * One case I can think of is the combobox, if combobox is given as the hint
+	 * still try a style property lookup for the appears-as-list property and
+	 * react on it. (The theme _cannot_ pick up any application hacks otherwise.) */
+	if (quark_hint_lookup[hint] == style_hint)
+		return TRUE;
+
+#ifdef ENABLE_WIDGET_CHECKS
+	/* If a style_hint *was* set, and nothing matched, just give up right away.
+	 * A theme shall either support it fully, or not at all. */
+	if (style_hint != 0)
+		return FALSE;
+
+	/* No widget? Just give up. Nothing we can do. */
+	if (widget == NULL)
+		return FALSE;
+
+	/* Try to do something based on the passed in widget pointer. */
+	switch (hint) {
+		case GE_HINT_TREEVIEW_HEADER:
+			if (ge_object_is_a (G_OBJECT (widget), "GtkButton") && widget->parent &&
+			    (ge_object_is_a (G_OBJECT (widget->parent), "GtkTreeView") || ge_object_is_a (G_OBJECT (widget->parent), "GtkCList") ||
+			     ge_object_is_a (G_OBJECT (widget->parent), "GtkCTree")))
+				matches = TRUE;
+			if (widget->parent && ge_object_is_a (G_OBJECT (widget->parent), "ETreeView"))
+				matches = TRUE;
+		break;
+	}
+
+/*	if (matches && style_hint != 0)
+	{
+		g_warning ("Warning, could not determine the widget type based on the style, but fallback worked!");
+	}*/
+#endif
+
+	return matches;
+}
 
 /* Widget Type Lookups/Macros
    

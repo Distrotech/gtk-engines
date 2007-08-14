@@ -96,9 +96,6 @@ static gchar* clearlooks_rc_symbols =
 	"TRUE\0"
 	"FALSE\0";
 
-static gchar* clearlooks_rc_hints =
-	"treeview_header\0";
-
 void
 clearlooks_rc_style_register_type (GTypeModule *module)
 {
@@ -158,19 +155,6 @@ clearlooks_rc_style_class_init (ClearlooksRcStyleClass *klass)
 #ifdef HAVE_ANIMATION
 	GObjectClass    *g_object_class = G_OBJECT_CLASS (klass);
 #endif
-	gchar *current_hint = clearlooks_rc_hints;
-	gint i = 0;
-
-
-	/* Register the hints with GQuark system */
-	while ((current_hint[0] != '\0') && (i < CL_HINT_LAST)) {
-		klass->hint_lookup[i] = g_quark_from_string (current_hint);
-
-		current_hint += strlen(current_hint) + 1;
-		i++;
-	}
-	g_assert (i == CL_HINT_LAST && current_hint[0] == '\0');
-
 
 	clearlooks_parent_rc_class = g_type_class_peek_parent (klass);
 
