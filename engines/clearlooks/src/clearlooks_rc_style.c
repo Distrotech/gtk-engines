@@ -310,9 +310,7 @@ clearlooks_gtk2_rc_parse_hint (GtkSettings *settings,
 	if (token != G_TOKEN_STRING)
 	   return G_TOKEN_STRING;
 
-	/* If the string has not been registered by the engine,
-	 * don't bother registering it. */
-	*quark = g_quark_try_string (scanner->value.v_string);
+	*quark = g_quark_from_string (scanner->value.v_string);
 
 	return G_TOKEN_NONE;
 }

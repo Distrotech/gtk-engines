@@ -17,7 +17,7 @@ ge_check_hint (GEHint      hint,
 	static GEHint quark_hint_lookup[GE_HINT_COUNT] = {0};
 	gboolean matches = FALSE;
 
-	g_assert ((hint > 0) && (hint < GE_HINT_COUNT));
+	g_assert ((hint >= 0) && (hint < GE_HINT_COUNT));
 
 	/* Initilize lookup table */
 	if (G_UNLIKELY (quark_hint_lookup[0] == 0))

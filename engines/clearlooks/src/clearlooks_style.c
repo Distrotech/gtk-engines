@@ -516,10 +516,7 @@ clearlooks_style_draw_box (DRAW_ARGS)
 		STYLE_FUNCTION(draw_menubar) (cr, colors, &params, &menubar,
 		                         x, y, width, height);
 	}
-	else if (DETAIL ("button") && widget && widget->parent &&
-                  (GE_IS_TREE_VIEW(widget->parent) ||
-                   GE_IS_CLIST (widget->parent) ||
-                   ge_object_is_a (G_OBJECT(widget->parent), "ETree"))) /* ECanvas inside ETree */
+	else if (DETAIL ("button") && ge_check_hint (GE_HINT_TREEVIEW_HEADER, CLEARLOOKS_RC_STYLE (style->rc_style)->hint, widget)) /* ECanvas inside ETree */
 	{
 		WidgetParameters params;
 		ListViewHeaderParameters header;

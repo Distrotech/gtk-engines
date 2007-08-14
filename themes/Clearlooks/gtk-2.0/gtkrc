@@ -141,6 +141,10 @@ style "clearlooks-treeview-header" = "clearlooks-default"
 {
 	xthickness = 2
 	ythickness = 1
+
+	engine "clearlooks" {
+		hint = "treeview-header"
+	}
 }
 
 style "clearlooks-frame-title"

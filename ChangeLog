@@ -1,5 +1,21 @@
 2007-08-14  Benjamin Berg  <benjamin@sipsolutions.net>
 
+	* engines/clearlooks/src/clearlooks_rc_style.c:
+	(clearlooks_gtk2_rc_parse_hint):
+	Register the string, instead of only calling g_quark_try_string
+
+	* engines/clearlooks/src/clearlooks_style.c:
+	(clearlooks_style_draw_box):
+	Use the new ge_check_hint function for treeview headers.
+
+	* engines/support/widget-information.c: (ge_check_hint):
+	Fix the assert. The hint may be 0.
+
+	* themes/Clearlooks/gtk-2.0/gtkrc:
+	Added a hint to the treeview-header style.
+
+2007-08-14  Benjamin Berg  <benjamin@sipsolutions.net>
+
 	* autogen.sh:
 	* configure.ac:
 	* engines/clearlooks/src/animation.h:
