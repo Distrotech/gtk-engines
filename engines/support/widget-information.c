@@ -6,8 +6,18 @@
 #include <math.h>
 #include <string.h>
 
-static gchar *ge_widget_hints = 
-	"treeview-header\0";
+static gchar ge_widget_hints[] = 
+	"treeview-header\0"
+	"statusbar\0"
+	"combobox\0"
+	"comboboxentry\0"
+	"scale\0"
+	"vscale\0"
+	"hscale\0"
+	"scrollbar\0"
+	"vscrollbar\0"
+	"hscrollbar\0"
+	"progressbar\0";
 
 gboolean
 ge_check_hint (GEHint      hint,

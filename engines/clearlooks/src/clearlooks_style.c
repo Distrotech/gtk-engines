@@ -33,6 +33,7 @@
 /* #define DEBUG 1 */
 
 #define DETAIL(xx)   ((detail) && (!strcmp(xx, detail)))
+#define CHECK_HINT(xx) (ge_check_hint ((xx), CLEARLOOKS_RC_STYLE ((style)->rc_style)->hint, widget))
 
 #define DRAW_ARGS    GtkStyle       *style, \
                      GdkWindow      *window, \
@@ -77,9 +78,6 @@ clearlooks_set_widget_parameters (const GtkWidget      *widget,
 	params->enable_glow = FALSE;
 	params->radius      = CLEARLOOKS_STYLE (style)->radius;
 
-	if (!params->active && widget && GE_IS_TOGGLE_BUTTON (widget))
-		params->active = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (widget));
-		
 	params->xthickness = style->xthickness;
 	params->ythickness = style->ythickness;
 		
@@ -183,7 +181,7 @@ clearlooks_style_draw_shadow (DRAW_ARGS)
 		STYLE_FUNCTION (draw_entry) (cr, &clearlooks_style->colors, &params,
 		                       x, y, width, height);
 	}
-	else if (DETAIL ("frame") && widget && GE_IS_STATUSBAR (widget->parent))
+	else if (DETAIL ("frame") && CHECK_HINT (GE_HINT_STATUSBAR))
 	{
 		WidgetParameters params;
 		
@@ -516,7 +514,7 @@ clearlooks_style_draw_box (DRAW_ARGS)
 		STYLE_FUNCTION(draw_menubar) (cr, colors, &params, &menubar,
 		                         x, y, width, height);
 	}
-	else if (DETAIL ("button") && ge_check_hint (GE_HINT_TREEVIEW_HEADER, CLEARLOOKS_RC_STYLE (style->rc_style)->hint, widget)) /* ECanvas inside ETree */
+	else if (DETAIL ("button") && CHECK_HINT (GE_HINT_TREEVIEW_HEADER))
 	{
 		WidgetParameters params;
 		ListViewHeaderParameters header;
@@ -563,8 +561,9 @@ clearlooks_style_draw_box (DRAW_ARGS)
 		WidgetParameters params;
 		ShadowParameters shadow = { CR_CORNER_ALL, CL_SHADOW_NONE } ;
 		clearlooks_set_widget_parameters (widget, style, state_type, &params);
+		params.active = shadow_type == GTK_SHADOW_IN;
 
-		if (ge_is_in_combo_box(widget))
+		if (CHECK_HINT (GE_HINT_COMBOBOX_ENTRY))
 		{
 			if (params.ltr)
 				params.corners = CR_CORNER_TOPRIGHT | CR_CORNER_BOTTOMRIGHT;
@@ -583,13 +582,8 @@ clearlooks_style_draw_box (DRAW_ARGS)
 		else
 		{
 			params.corners    = CR_CORNER_ALL;
-			/* if (!(ge_is_combo_box (widget, FALSE))) */
 			params.enable_glow = TRUE;
 		}		
-	
-		if (GE_IS_TOGGLE_BUTTON (widget) &&
-		    gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (widget)))
-			params.active = TRUE;
 		
 		STYLE_FUNCTION(draw_button) (cr, &clearlooks_style->colors, &params,
 		                             x, y, width, height);
@@ -648,7 +642,7 @@ clearlooks_style_draw_box (DRAW_ARGS)
 		STYLE_FUNCTION(draw_spinbutton) (cr, &clearlooks_style->colors, &params,
 		                            x, y, width, height);
 	}
-	else if (detail && g_str_has_prefix (detail, "trough") && GE_IS_SCALE (widget))
+	else if (detail && g_str_has_prefix (detail, "trough") && CHECK_HINT (GE_HINT_SCALE))
 	{
 		WidgetParameters params;
 		SliderParameters slider;
@@ -659,13 +653,18 @@ clearlooks_style_draw_box (DRAW_ARGS)
 		slider.lower = DETAIL ("trough-lower");
 		slider.fill_level = DETAIL ("trough-fill-level") || DETAIL ("trough-fill-level-full");
 
-		slider.horizontal = (GTK_RANGE (widget)->orientation == GTK_ORIENTATION_HORIZONTAL);
+		if (CHECK_HINT (GE_HINT_HSCALE))
+			slider.horizontal = TRUE;
+		else if (CHECK_HINT (GE_HINT_VSCALE))
+			slider.horizontal = FALSE;
+		else /* Fallback based on the size  ... */
+			slider.horizontal = width >= height;
 		
 		STYLE_FUNCTION(draw_scale_trough) (cr, &clearlooks_style->colors,
 		                              &params, &slider,
 		                              x, y, width, height);
 	}
-	else if (DETAIL ("trough") && widget && GE_IS_PROGRESS_BAR (widget))
+	else if (DETAIL ("trough") && CHECK_HINT (GE_HINT_PROGRESSBAR))
 	{
 		WidgetParameters params;
 		
@@ -674,7 +673,7 @@ clearlooks_style_draw_box (DRAW_ARGS)
 		STYLE_FUNCTION(draw_progressbar_trough) (cr, colors, &params, 
 		                                    x, y, width, height);
 	}
-	else if (DETAIL ("trough") && widget && (GE_IS_VSCROLLBAR (widget) || GE_IS_HSCROLLBAR (widget)))
+	else if (DETAIL ("trough") && CHECK_HINT (GE_HINT_SCROLLBAR))
 	{
 		WidgetParameters params;
 		ScrollBarParameters scrollbar;
@@ -685,9 +684,15 @@ clearlooks_style_draw_box (DRAW_ARGS)
 		scrollbar.horizontal = TRUE;
 		scrollbar.junction   = clearlooks_scrollbar_get_junction (widget);
 		
-		if (GE_IS_RANGE (widget))
-			scrollbar.horizontal = GTK_RANGE (widget)->orientation == GTK_ORIENTATION_HORIZONTAL;
 		
+		if (CHECK_HINT (GE_HINT_HSCROLLBAR))
+			scrollbar.horizontal = TRUE;
+		else if (CHECK_HINT (GE_HINT_VSCROLLBAR))
+			scrollbar.horizontal = FALSE;
+		else /* Fallback based on the size  ... */
+			scrollbar.horizontal = width >= height;
+
+		/* What is this about? */
 		if (scrollbar.horizontal)
 		{
 			x += 2;
