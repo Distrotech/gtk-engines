@@ -62,6 +62,7 @@ clearlooks_set_widget_parameters (const GtkWidget      *widget,
                                   GtkStateType          state_type,
                                   WidgetParameters     *params)
 {
+	/* What do about this one? */
 	if (widget && GE_IS_ENTRY (widget))
 		state_type = GTK_WIDGET_STATE (widget);
 
@@ -159,14 +160,15 @@ clearlooks_style_draw_shadow (DRAW_ARGS)
 	CHECK_ARGS
 	SANITIZE_SIZE
 
-	if ((DETAIL ("entry") && !(widget && widget->parent && GE_IS_TREE_VIEW (widget->parent))) ||
-	    (DETAIL ("frame") && ge_is_in_combo_box (widget)))
+	/* The "frame" thing is a hack because of GtkCombo. */
+	if ((DETAIL ("entry") && !CHECK_HINT (GE_HINT_TREEVIEW)) ||
+	    (DETAIL ("frame") && CHECK_HINT (GE_HINT_COMBOBOX_ENTRY)))
 	{
 		WidgetParameters params;
 		
 		clearlooks_set_widget_parameters (widget, style, state_type, &params);
 
-		if (widget && (ge_is_in_combo_box (widget) || GE_IS_SPIN_BUTTON (widget)))
+		if (CHECK_HINT (GE_HINT_COMBOBOX_ENTRY) || CHECK_HINT (GE_HINT_SPINBUTTON))
 		{
 			width += style->xthickness;
 			if (!params.ltr)

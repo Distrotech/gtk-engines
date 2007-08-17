@@ -7,9 +7,11 @@
 #include <string.h>
 
 static gchar ge_widget_hints[] = 
+	"treeview\0"
 	"treeview-header\0"
 	"statusbar\0"
 	"comboboxentry\0"
+	"spinbutton\0"
 	"scale\0"
 	"vscale\0"
 	"hscale\0"
@@ -43,12 +45,16 @@ ge_check_hint (GEHint      hint,
 		g_assert (i == GE_HINT_COUNT && cur_hint_str[0] == '\0');
 	}
 
+
+
 	/* We might want to do some special casing here.
 	 * One case I can think of is the combobox, if combobox is given as the hint
 	 * still try a style property lookup for the appears-as-list property and
 	 * react on it. (The theme _cannot_ pick up any application hacks otherwise.) */
 	if (quark_hint_lookup[hint] == style_hint)
 		return TRUE;
+
+
 
 	/* Try to decide on other hints, eg. hscale is also a scale. This is hardcoded ... */
 	if (hint == GE_HINT_SCALE)
@@ -58,6 +64,9 @@ ge_check_hint (GEHint      hint,
 	if (hint == GE_HINT_SCROLLBAR)
 		if (ge_check_hint (GE_HINT_VSCROLLBAR, style_hint, widget) ||
 		    ge_check_hint (GE_HINT_HSCROLLBAR, style_hint, widget))
+		    	return TRUE;
+	if (hint == GE_HINT_TREEVIEW)
+		if (ge_check_hint (GE_HINT_TREEVIEW_HEADER, style_hint, widget))
 		    	return TRUE;
 
 
@@ -94,6 +103,10 @@ ge_check_hint (GEHint      hint,
 
 	/* Try to do something based on the passed in widget pointer. */
 	switch (hint) {
+		case GE_HINT_TREEVIEW:
+			if (widget->parent && (ge_object_is_a (G_OBJECT (widget->parent), "GtkTreeView")))
+				matches = TRUE;
+		break;
 		case GE_HINT_TREEVIEW_HEADER:
 			if (ge_object_is_a (G_OBJECT (widget), "GtkButton") && widget->parent &&
 			    (ge_object_is_a (G_OBJECT (widget->parent), "GtkTreeView") || ge_object_is_a (G_OBJECT (widget->parent), "GtkCList") ||
@@ -104,6 +117,10 @@ ge_check_hint (GEHint      hint,
 		break;
 		case GE_HINT_COMBOBOX_ENTRY:
 			if (ge_is_in_combo_box (widget))
+				matches = TRUE;
+		break;
+		case GE_HINT_SPINBUTTON:
+			if (ge_object_is_a (G_OBJECT (widget), "GtkSpinButton"))
 				matches = TRUE;
 		break;
 		case GE_HINT_STATUSBAR:

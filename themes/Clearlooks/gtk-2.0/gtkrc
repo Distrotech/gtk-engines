@@ -193,6 +193,14 @@ style "clearlooks-comboboxentry"
 	}
 }
 
+style "clearlooks-comboboxentry"
+{
+	engine "clearlooks"
+	{
+		hint	= "spinbutton"
+	}
+}
+
 style "clearlooks-scale"
 {
 	engine "clearlooks"
@@ -260,6 +268,8 @@ class "GtkRange"     style "clearlooks-wide"
 class "GtkFrame"     style "clearlooks-wide"
 class "GtkSeparator" style "clearlooks-wide"
 class "GtkEntry"     style "clearlooks-wider"
+
+class "GtkSpinButton"  style "clearlooks-spinbutton"
 class "GtkScale"       style "clearlooks-scale"
 class "GtkVScale"      style "clearlooks-vscale"
 class "GtkHScale"      style "clearlooks-hscale"
