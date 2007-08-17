@@ -9,7 +9,6 @@
 static gchar ge_widget_hints[] = 
 	"treeview-header\0"
 	"statusbar\0"
-	"combobox\0"
 	"comboboxentry\0"
 	"scale\0"
 	"vscale\0"
@@ -32,7 +31,7 @@ ge_check_hint (GEHint      hint,
 	/* Initilize lookup table */
 	if (G_UNLIKELY (quark_hint_lookup[0] == 0))
 	{
-		guint i;
+		guint i = 0;
 		gchar *cur_hint_str = ge_widget_hints;
 		while ((i < GE_HINT_COUNT) && cur_hint_str[0])
 		{
@@ -50,6 +49,16 @@ ge_check_hint (GEHint      hint,
 	 * react on it. (The theme _cannot_ pick up any application hacks otherwise.) */
 	if (quark_hint_lookup[hint] == style_hint)
 		return TRUE;
+
+	/* Try to decide on other hints, eg. hscale is also a scale. This is hardcoded ... */
+	if (hint == GE_HINT_SCALE)
+		if (ge_check_hint (GE_HINT_VSCALE, style_hint, widget) ||
+		    ge_check_hint (GE_HINT_HSCALE, style_hint, widget))
+		    	return TRUE;
+	if (hint == GE_HINT_SCROLLBAR)
+		if (ge_check_hint (GE_HINT_VSCROLLBAR, style_hint, widget) ||
+		    ge_check_hint (GE_HINT_HSCROLLBAR, style_hint, widget))
+		    	return TRUE;
 
 #ifdef ENABLE_WIDGET_CHECKS
 	/* If a style_hint *was* set, and nothing matched, just give up right away.
@@ -71,6 +80,8 @@ ge_check_hint (GEHint      hint,
 			if (widget->parent && ge_object_is_a (G_OBJECT (widget->parent), "ETreeView"))
 				matches = TRUE;
 		break;
+		default:
+		break;
 	}
 
 /*	if (matches && style_hint != 0)
@@ -78,6 +89,27 @@ ge_check_hint (GEHint      hint,
 		g_warning ("Warning, could not determine the widget type based on the style, but fallback worked!");
 	}*/
 #endif
+
+	/* These maybe caused by applications so we never want to disable them.
+	 * TODO: This does not catch the case where the theme uses appears-as-list
+	 *       and the application turns it off again. Though this case
+	 *       is even less likely. */
+	switch (hint) {
+		case GE_HINT_COMBOBOX_ENTRY:
+			if (widget && ge_object_is_a (G_OBJECT (widget), "GtkComboBox"))
+			{
+				gboolean appears_as_list = FALSE;
+
+				gtk_widget_style_get (widget, "appears-as-list", &appears_as_list, NULL);
+
+				if (appears_as_list)
+					return TRUE;
+			}
+		break;
+		default:
+		break;
+	}
+
 
 	return matches;
 }

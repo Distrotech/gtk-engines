@@ -167,7 +167,80 @@ style "clearlooks-progressbar"
 	ythickness = 1
 
 	fg[PRELIGHT] = @selected_fg_color
+
+	engine "clearlooks"
+	{
+		hint	= "progressbar"
+	}
 }
+
+style "clearlooks-statusbar"
+{
+	engine "clearlooks"
+	{
+		hint	= "statusbar"
+	}
+}
+
+style "clearlooks-comboboxentry"
+{
+	# NOTE:
+	# If you set the appears-as-list option on comboboxes in the theme
+	# you should set this hint on the combobox instead.
+	engine "clearlooks"
+	{
+		hint	= "comboboxentry"
+	}
+}
+
+style "clearlooks-scale"
+{
+	engine "clearlooks"
+	{
+		hint	= "scale"
+	}
+}
+
+style "clearlooks-hscale"
+{
+	engine "clearlooks"
+	{
+		hint	= "hscale"
+	}
+}
+
+style "clearlooks-vscale"
+{
+	engine "clearlooks"
+	{
+		hint	= "vscale"
+	}
+}
+
+style "clearlooks-scrollbar"
+{
+	engine "clearlooks"
+	{
+		hint	= "scrollbar"
+	}
+}
+
+style "clearlooks-hscrollbar"
+{
+	engine "clearlooks"
+	{
+		hint	= "hscrollbar"
+	}
+}
+
+style "clearlooks-vscrollbar"
+{
+	engine "clearlooks"
+	{
+		hint	= "vscrollbar"
+	}
+}
+
 
 style "clearlooks-nautilus-location" {
 	bg[NORMAL] = mix(0.60, shade (1.05,@bg_color), @selected_bg_color)
@@ -187,6 +260,12 @@ class "GtkRange"     style "clearlooks-wide"
 class "GtkFrame"     style "clearlooks-wide"
 class "GtkSeparator" style "clearlooks-wide"
 class "GtkEntry"     style "clearlooks-wider"
+class "GtkScale"       style "clearlooks-scale"
+class "GtkVScale"      style "clearlooks-vscale"
+class "GtkHScale"      style "clearlooks-hscale"
+class "GtkScrollbar"   style "clearlooks-scrollbar"
+class "GtkVScrollbar"  style "clearlooks-vscrollbar"
+class "GtkHScrollbar"  style "clearlooks-vscrollbar"
 
 # General matching following, the order is choosen so that the right styles override each other
 # eg. progressbar needs to be more important then the menu match.
@@ -194,6 +273,11 @@ class "GtkEntry"     style "clearlooks-wider"
 widget_class "*<GtkButton>"      style "clearlooks-button"
 widget_class "*<GtkNotebook>"    style "clearlooks-notebook"
 widget_class "*<GtkProgressBar>" style "clearlooks-progressbar"
+widget_class "*<GtkStatusbar>*"  style "clearlooks-statusbar"
+
+widget_class "*<GtkComboBoxEntry>*" style "clearlooks-comboboxentry"
+widget_class "*<GtkCombo>*"         style "clearlooks-comboboxentry"
+
 
 widget_class "*<GtkMenu>*"       style "clearlooks-menu"
 widget_class "*<GtkMenuItem>*"      style "clearlooks-menu-item"
