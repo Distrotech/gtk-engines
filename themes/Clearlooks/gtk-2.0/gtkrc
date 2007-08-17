@@ -200,7 +200,7 @@ style "clearlooks-comboboxentry"
 	}
 }
 
-style "clearlooks-comboboxentry"
+style "clearlooks-spinbutton"
 {
 	engine "clearlooks"
 	{
