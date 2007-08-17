@@ -1,6 +1,11 @@
 2007-08-17  Benjamin Berg  <benjamin@sipsolutions.net>
 
 	* engines/support/widget-information.c: (ge_check_hint):
+	Add fallbacks.
+
+2007-08-17  Benjamin Berg  <benjamin@sipsolutions.net>
+
+	* engines/support/widget-information.c: (ge_check_hint):
 	* engines/support/widget-information.h:
 	* themes/Clearlooks/gtk-2.0/gtkrc:
 	Change theme and add the needed special cases to ge_check_init. Plus

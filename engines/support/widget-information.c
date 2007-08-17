@@ -60,35 +60,6 @@ ge_check_hint (GEHint      hint,
 		    ge_check_hint (GE_HINT_HSCROLLBAR, style_hint, widget))
 		    	return TRUE;
 
-#ifdef ENABLE_WIDGET_CHECKS
-	/* If a style_hint *was* set, and nothing matched, just give up right away.
-	 * A theme shall either support it fully, or not at all. */
-	if (style_hint != 0)
-		return FALSE;
-
-	/* No widget? Just give up. Nothing we can do. */
-	if (widget == NULL)
-		return FALSE;
-
-	/* Try to do something based on the passed in widget pointer. */
-	switch (hint) {
-		case GE_HINT_TREEVIEW_HEADER:
-			if (ge_object_is_a (G_OBJECT (widget), "GtkButton") && widget->parent &&
-			    (ge_object_is_a (G_OBJECT (widget->parent), "GtkTreeView") || ge_object_is_a (G_OBJECT (widget->parent), "GtkCList") ||
-			     ge_object_is_a (G_OBJECT (widget->parent), "GtkCTree")))
-				matches = TRUE;
-			if (widget->parent && ge_object_is_a (G_OBJECT (widget->parent), "ETreeView"))
-				matches = TRUE;
-		break;
-		default:
-		break;
-	}
-
-/*	if (matches && style_hint != 0)
-	{
-		g_warning ("Warning, could not determine the widget type based on the style, but fallback worked!");
-	}*/
-#endif
 
 	/* These maybe caused by applications so we never want to disable them.
 	 * TODO: This does not catch the case where the theme uses appears-as-list
@@ -109,6 +80,74 @@ ge_check_hint (GEHint      hint,
 		default:
 		break;
 	}
+
+
+#ifdef ENABLE_WIDGET_CHECKS
+	/* If a style_hint *was* set, and nothing matched, just give up right away.
+	 * A theme shall either support it fully, or not at all. */
+	if (style_hint != 0)
+		return FALSE;
+
+	/* No widget? Just give up. Nothing we can do. */
+	if (widget == NULL)
+		return FALSE;
+
+	/* Try to do something based on the passed in widget pointer. */
+	switch (hint) {
+		case GE_HINT_TREEVIEW_HEADER:
+			if (ge_object_is_a (G_OBJECT (widget), "GtkButton") && widget->parent &&
+			    (ge_object_is_a (G_OBJECT (widget->parent), "GtkTreeView") || ge_object_is_a (G_OBJECT (widget->parent), "GtkCList") ||
+			     ge_object_is_a (G_OBJECT (widget->parent), "GtkCTree")))
+				matches = TRUE;
+			if (widget->parent && ge_object_is_a (G_OBJECT (widget->parent), "ETreeView"))
+				matches = TRUE;
+		break;
+		case GE_HINT_COMBOBOX_ENTRY:
+			if (ge_is_in_combo_box (widget))
+				matches = TRUE;
+		break;
+		case GE_HINT_STATUSBAR:
+			if (widget->parent && ge_object_is_a (G_OBJECT (widget), "GtkStatusbar"))
+				matches = TRUE;
+		break;
+		case GE_HINT_SCALE:
+			if (ge_object_is_a (G_OBJECT (widget), "GtkScale"))
+				matches = TRUE;
+		break;
+		case GE_HINT_HSCALE:
+			if (ge_object_is_a (G_OBJECT (widget), "GtkHScale"))
+				matches = TRUE;
+		break;
+		case GE_HINT_VSCALE:
+			if (ge_object_is_a (G_OBJECT (widget), "GtkVScale"))
+				matches = TRUE;
+		break;
+		case GE_HINT_SCROLLBAR:
+			if (ge_object_is_a (G_OBJECT (widget), "GtkScrollbar"))
+				matches = TRUE;
+		break;
+		case GE_HINT_HSCROLLBAR:
+			if (ge_object_is_a (G_OBJECT (widget), "GtkHScrollbar"))
+				matches = TRUE;
+		break;
+		case GE_HINT_VSCROLLBAR:
+			if (ge_object_is_a (G_OBJECT (widget), "GtkVScrollbar"))
+				matches = TRUE;
+		break;
+		case GE_HINT_PROGRESSBAR:
+			if (ge_object_is_a (G_OBJECT (widget), "GtkProgressBar"))
+				matches = TRUE;
+		break;
+
+		default:
+		break;
+	}
+
+/*	if (matches && style_hint != 0)
+	{
+		g_warning ("Warning, could not determine the widget type based on the style, but fallback worked!");
+	}*/
+#endif
 
 
 	return matches;
