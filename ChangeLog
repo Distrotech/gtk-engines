@@ -1,6 +1,15 @@
 2007-08-17  Benjamin Berg  <benjamin@sipsolutions.net>
 
 	* engines/clearlooks/src/clearlooks_style.c:
+	(clearlooks_style_draw_box):
+	* engines/support/widget-information.c: (ge_check_hint):
+	* engines/support/widget-information.h:
+	* themes/Clearlooks/gtk-2.0/gtkrc:
+	Added menubar hint. And styles for the treeview hint.
+
+2007-08-17  Benjamin Berg  <benjamin@sipsolutions.net>
+
+	* engines/clearlooks/src/clearlooks_style.c:
 	(clearlooks_set_widget_parameters), (clearlooks_style_draw_shadow):
 	* engines/support/widget-information.c: (ge_check_hint):
 	* engines/support/widget-information.h:

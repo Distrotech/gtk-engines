@@ -822,7 +822,7 @@ clearlooks_style_draw_box (DRAW_ARGS)
 		WidgetParameters params;
 		clearlooks_set_widget_parameters (widget, style, state_type, &params);
 		
-		if (widget && GE_IS_MENU_BAR (widget->parent))
+		if (CHECK_HINT (GE_HINT_MENUBAR))
 		{
 			params.corners = CR_CORNER_TOPLEFT | CR_CORNER_TOPRIGHT;
 			height += 1;

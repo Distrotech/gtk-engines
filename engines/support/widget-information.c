@@ -18,7 +18,8 @@ static gchar ge_widget_hints[] =
 	"scrollbar\0"
 	"vscrollbar\0"
 	"hscrollbar\0"
-	"progressbar\0";
+	"progressbar\0"
+	"menubar\0";
 
 gboolean
 ge_check_hint (GEHint      hint,
@@ -153,6 +154,11 @@ ge_check_hint (GEHint      hint,
 		break;
 		case GE_HINT_PROGRESSBAR:
 			if (ge_object_is_a (G_OBJECT (widget), "GtkProgressBar"))
+				matches = TRUE;
+		break;
+		case GE_HINT_MENUBAR:
+			if (ge_object_is_a (G_OBJECT (widget), "GtkMenuBar") ||
+			    ge_object_is_a (G_OBJECT (widget->parent), "GtkMenuBar"))
 				matches = TRUE;
 		break;
 

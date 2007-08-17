@@ -137,6 +137,13 @@ style "clearlooks-menu-item"
 	text[INSENSITIVE]  = darker (@bg_color)
 }
 
+style "clearlooks-treeview"
+{
+	engine "clearlooks" {
+		hint = "treeview"
+	}
+}
+
 style "clearlooks-treeview-header" = "clearlooks-default"
 {
 	xthickness = 2
@@ -249,6 +256,13 @@ style "clearlooks-vscrollbar"
 	}
 }
 
+style "clearlooks-menubar"
+{
+	engine "clearlooks"
+	{
+		hint	= "menubar"
+	}
+}
 
 style "clearlooks-nautilus-location" {
 	bg[NORMAL] = mix(0.60, shade (1.05,@bg_color), @selected_bg_color)
@@ -288,11 +302,13 @@ widget_class "*<GtkStatusbar>*"  style "clearlooks-statusbar"
 widget_class "*<GtkComboBoxEntry>*" style "clearlooks-comboboxentry"
 widget_class "*<GtkCombo>*"         style "clearlooks-comboboxentry"
 
-
+widget_class "*<GtkMenuBar>*"    style "clearlooks-menubar"
 widget_class "*<GtkMenu>*"       style "clearlooks-menu"
 widget_class "*<GtkMenuItem>*"      style "clearlooks-menu-item"
 
 widget_class "*.<GtkFrame>.<GtkLabel>" style "clearlooks-frame-title"
+
+widget_class "*.<GtkTreeView>*"        style "clearlooks-treeview"
 
 # Treeview header
 widget_class "*.<GtkTreeView>.<GtkButton>" style "clearlooks-treeview-header"
