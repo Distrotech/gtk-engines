@@ -289,7 +289,7 @@ class "GtkVScale"      style "clearlooks-vscale"
 class "GtkHScale"      style "clearlooks-hscale"
 class "GtkScrollbar"   style "clearlooks-scrollbar"
 class "GtkVScrollbar"  style "clearlooks-vscrollbar"
-class "GtkHScrollbar"  style "clearlooks-vscrollbar"
+class "GtkHScrollbar"  style "clearlooks-hscrollbar"
 
 # General matching following, the order is choosen so that the right styles override each other
 # eg. progressbar needs to be more important then the menu match.

@@ -1,3 +1,8 @@
+2007-08-18  Benjamin Berg  <benjamin@sipsolutions.net>
+
+	* themes/Clearlooks/gtk-2.0/gtkrc:
+	Fix hscrollbar match.
+
 2007-08-17  Benjamin Berg  <benjamin@sipsolutions.net>
 
 	* themes/Clearlooks/gtk-2.0/gtkrc:
