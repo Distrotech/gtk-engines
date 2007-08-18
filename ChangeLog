@@ -2,6 +2,13 @@
 
 	* engines/clearlooks/src/clearlooks_style.c:
 	(clearlooks_style_draw_handle):
+	Removed hack with unknown purpose. If someone knows what it is for,
+	please report.
+
+2007-08-18  Benjamin Berg  <benjamin@sipsolutions.net>
+
+	* engines/clearlooks/src/clearlooks_style.c:
+	(clearlooks_style_draw_handle):
 	Remove the handle orientation hack. I think both the panel and GTK+
 	have been fixed for quite some time.
 
