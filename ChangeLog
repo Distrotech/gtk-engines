@@ -1,5 +1,12 @@
 2007-08-18  Benjamin Berg  <benjamin@sipsolutions.net>
 
+	* engines/clearlooks/src/clearlooks_style.c:
+	(clearlooks_style_draw_handle):
+	Remove the handle orientation hack. I think both the panel and GTK+
+	have been fixed for quite some time.
+
+2007-08-18  Benjamin Berg  <benjamin@sipsolutions.net>
+
 	* themes/Clearlooks/gtk-2.0/gtkrc:
 	Fix hscrollbar match.
 

@@ -413,7 +413,6 @@ clearlooks_style_draw_handle (DRAW_ARGS, GtkOrientation orientation)
 	ClearlooksStyle  *clearlooks_style = CLEARLOOKS_STYLE (style);
 	ClearlooksColors *colors = &clearlooks_style->colors;
 	cairo_t          *cr;
-	gboolean         is_horizontal;
 	
 	CHECK_ARGS
 	SANITIZE_SIZE
@@ -421,7 +420,6 @@ clearlooks_style_draw_handle (DRAW_ARGS, GtkOrientation orientation)
 	cr = ge_gdk_drawable_to_cairo (window, area);
 	
 	/* Evil hack to work around broken orientation for toolbars */
-	is_horizontal = (width > height);
 	
 	if (DETAIL ("handlebox"))
 	{
@@ -430,7 +428,7 @@ clearlooks_style_draw_handle (DRAW_ARGS, GtkOrientation orientation)
 
 		clearlooks_set_widget_parameters (widget, style, state_type, &params);
 		handle.type = CL_HANDLE_TOOLBAR;
-		handle.horizontal = is_horizontal;
+		handle.horizontal = (orientation == GTK_ORIENTATION_HORIZONTAL);
 		
 		/* Is this ever true? -Daniel */
 		if (GE_IS_TOOLBAR (widget) && shadow_type != GTK_SHADOW_NONE)
@@ -456,7 +454,7 @@ clearlooks_style_draw_handle (DRAW_ARGS, GtkOrientation orientation)
 
 		clearlooks_set_widget_parameters (widget, style, state_type, &params);
 		handle.type = CL_HANDLE_SPLITTER;
-		handle.horizontal = orientation == GTK_ORIENTATION_HORIZONTAL;
+		handle.horizontal = (orientation == GTK_ORIENTATION_HORIZONTAL);
 			
 		STYLE_FUNCTION(draw_handle) (cr, colors, &params, &handle,
 		                        x, y, width, height);
@@ -468,7 +466,7 @@ clearlooks_style_draw_handle (DRAW_ARGS, GtkOrientation orientation)
 
 		clearlooks_set_widget_parameters (widget, style, state_type, &params);
 		handle.type = CL_HANDLE_TOOLBAR;
-		handle.horizontal = is_horizontal;
+		handle.horizontal = (orientation == GTK_ORIENTATION_HORIZONTAL);
 		
 		/* Is this ever true? -Daniel */
 		if (GE_IS_TOOLBAR (widget) && shadow_type != GTK_SHADOW_NONE)
