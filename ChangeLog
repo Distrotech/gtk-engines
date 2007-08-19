@@ -1,5 +1,12 @@
 2007-08-19  Benjamin Berg  <benjamin@sipsolutions.net>
 
+	* engines/industrial/src/industrial_style.c: (real_draw_box),
+	(draw_focus):
+	* themes/Industrial/gtk-2.0/gtkrc:
+	Use hints in Industrial!
+
+2007-08-19  Benjamin Berg  <benjamin@sipsolutions.net>
+
 	* engines/industrial/src/industrial_rc_style.c:
 	(industrial_rc_style_init), (industrial_rc_style_merge):
 	* engines/industrial/src/industrial_rc_style.h:

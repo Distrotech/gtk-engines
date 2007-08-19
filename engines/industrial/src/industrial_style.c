@@ -41,6 +41,7 @@
 
 #define GET_ROUNDED_BUTTONS(style) (INDUSTRIAL_STYLE (style)->rounded_buttons)
 #define GET_REAL_OPACITY(style, orig_opacity) (CLAMP ((orig_opacity) * INDUSTRIAL_STYLE (style)->contrast, 0.0, 1.0))
+#define GET_HINT(style) (INDUSTRIAL_STYLE (style)->hint)
 
 #define IF_ROUNDED(style, rounded, otherwise) (GET_ROUNDED_BUTTONS (style) ? rounded : otherwise)
 
@@ -604,7 +605,7 @@ real_draw_box (GtkStyle      *style,
 			fg.a = GET_REAL_OPACITY (style, BUTTON_BORDER_OPACITY);
 
 
-		if (ge_is_in_combo_box (widget)) {
+		if (ge_check_hint (GE_HINT_COMBOBOX_ENTRY, GET_HINT (style), widget)) {
 			if (ge_widget_is_ltr (widget))
 				corners = CR_CORNER_TOPRIGHT | CR_CORNER_BOTTOMRIGHT;
 			else
@@ -872,8 +873,8 @@ real_draw_box (GtkStyle      *style,
 		CairoColor bevel, bg;
 		CairoCorners corners = CR_CORNER_ALL;
 
-		if ((GE_IS_SPIN_BUTTON (widget) && CHECK_DETAIL (detail, "entry")) ||
-		    ge_is_in_combo_box (widget)) {
+		if ((CHECK_DETAIL (detail, "entry") && ge_check_hint (GE_HINT_SPINBUTTON, GET_HINT (style), widget)) ||
+		    ge_check_hint (GE_HINT_COMBOBOX_ENTRY, GET_HINT (style), widget)) {
 			/* effectively cut one side off. */
 			width += 2;
 			if (!ge_widget_is_ltr (widget))
@@ -958,7 +959,8 @@ draw_focus (GtkStyle      *style,
 		SANITIZE_SIZE
 		CHECK_ARGS
 
-		if (ge_is_in_combo_box (widget) || GE_IS_SPIN_BUTTON (widget)) {
+		if (ge_check_hint (GE_HINT_COMBOBOX_ENTRY, GET_HINT (style), widget) ||
+		    ge_check_hint (GE_HINT_SPINBUTTON, GET_HINT (style), widget)) {
 			if (ge_widget_is_ltr (widget))
 				corners = CR_CORNER_TOPLEFT | CR_CORNER_BOTTOMLEFT;
 			else

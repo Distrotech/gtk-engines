@@ -183,6 +183,22 @@ style "metacity-frame"
 	fg[SELECTED]	= @selected_fg_color
 }
 
+style "industrial-spinbutton"
+{
+	engine "industrial"
+	{
+		hint	= "spinbutton"
+	}
+}
+
+style "industrial-comboboxentry"
+{
+	engine "industrial"
+	{
+		hint	= "comboboxentry"
+	}
+}
+
 # default style
 class "GtkWidget" style "industrial-default"
 
@@ -195,13 +211,16 @@ class "GtkFrame"      style "industrial-wide"
 class "GtkStatusbar"  style "industrial-wide"
 class "GtkEntry"      style "industrial-wide"
 
-class "GtkEntry"    style "industrial-exterior-focus"
-class "GtkProgress" style "industrial-progress"
-class "GtkScale"    style "industrial-scale"
+class "GtkEntry"      style "industrial-exterior-focus"
+class "GtkSpinButton" style "industrial-spinbutton"
+class "GtkProgress"   style "industrial-progress"
+class "GtkScale"      style "industrial-scale"
 
 class "GtkVScrollbar" style "industrial-arrows"
 class "GtkHScrollbar" style "industrial-arrows"
 
+widget_class "*<GtkComboBoxEntry>.*" style "industrial-comboboxentry"
+widget_class "*<GtkCombo>.*" style "industrial-comboboxentry"
 
 # treeview
 widget_class "*.GtkTreeView.*" style "industrial-tree-header"
