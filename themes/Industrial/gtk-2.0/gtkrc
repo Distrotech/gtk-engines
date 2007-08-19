@@ -143,7 +143,7 @@ style "industrial-tree-header"
 {
   engine "industrial" 
   {
-    rounded_buttons = FALSE
+    hint = "treeview-header"
   }
   xthickness = 2
   ythickness = 2
@@ -223,11 +223,11 @@ widget_class "*<GtkComboBoxEntry>.*" style "industrial-comboboxentry"
 widget_class "*<GtkCombo>.*" style "industrial-comboboxentry"
 
 # treeview
-widget_class "*.GtkTreeView.*" style "industrial-tree-header"
-widget_class "*.GtkList.*"     style "industrial-tree-header"
-widget_class "*.GtkCList.*"    style "industrial-tree-header"
-widget_class "*.ETree.*"       style "industrial-tree-header"
-widget_class "*.ETable.*"      style "industrial-tree-header"
+widget_class "*.<GtkTreeView>.GtkButton" style "industrial-tree-header"
+widget_class "*.<GtkList>.GtkButton"     style "industrial-tree-header"
+widget_class "*.<GtkCList>.GtkButton"    style "industrial-tree-header"
+widget_class "*.<ETree>.*"               style "industrial-tree-header"
+widget_class "*.<ETable>.*"              style "industrial-tree-header"
 
 # menuitems and interior
 widget_class "*<GtkMenuItem>*" style "industrial-menuitem"

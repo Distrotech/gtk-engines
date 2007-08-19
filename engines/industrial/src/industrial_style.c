@@ -585,10 +585,62 @@ real_draw_box (GtkStyle      *style,
 	 * important, for unkown stuff we fall back to flat_box. */
 	cairo_save (cr);
 
-	if (CHECK_DETAIL (detail, "button") ||
-	    CHECK_DETAIL (detail, "togglebutton") ||
-	    CHECK_DETAIL (detail, "optionmenu")) {
-		/* Draw the button border, except if this is a "default" button. */
+	if (CHECK_DETAIL (detail, "button") && ge_check_hint (GE_HINT_TREEVIEW_HEADER, GET_HINT (style), widget)) {
+		CairoColor bg;
+		CairoColor fg;
+		
+		ge_gdk_color_to_cairo (&style->bg[state_type], &bg);
+		ge_gdk_color_to_cairo (&style->fg[state_type], &fg);
+		
+		cairo_rectangle (cr, x, y, width, height);
+		ge_cairo_set_color (cr, &bg);
+		cairo_fill (cr);
+		
+		if (shadow_type == GTK_SHADOW_OUT) {
+			CairoColor inner, outer;
+			cairo_pattern_t *pattern;
+			
+			ge_gdk_color_to_cairo (&style->fg[state_type], &inner);
+			ge_gdk_color_to_cairo (&style->fg[state_type], &outer);
+			inner.a = 0;
+			outer.a = 0.1; /* XXX: Same as for buttons! */
+			
+			pattern = cairo_pattern_create_linear (x, height - 5, x, height - 1);
+			ge_cairo_pattern_add_color_stop_color (pattern, 0.0, &inner);
+			ge_cairo_pattern_add_color_stop_color (pattern, 1.0, &outer);
+			cairo_set_source (cr, pattern);
+			
+			cairo_rectangle (cr, x, height - 5, width, 4.0);
+			cairo_fill (cr);
+			cairo_pattern_destroy (pattern);
+
+
+			cairo_move_to (cr, x + 0.5, y + 0.5);
+			cairo_line_to (cr, x + width - 0.5, y + 0.5);
+			fg.a = BUTTON_BORDER_OPACITY * 0.05;
+			ge_cairo_set_color (cr, &fg);
+			cairo_stroke (cr);
+		}
+
+		cairo_move_to (cr, x + 0.5, height - 0.5);
+		cairo_line_to (cr, x + width - 0.5, height - 0.5);
+		fg.a = BUTTON_BORDER_OPACITY;
+		ge_cairo_set_color (cr, &fg);
+		cairo_stroke (cr);
+		
+		/* XXX: do not draw the line for the last column, if the headers are not resizeable. */
+		if (ge_widget_is_ltr (widget)) {
+			cairo_move_to (cr, x + width - 1.5, y + 5.5); /* 1.5 or 0.5? */
+			cairo_line_to (cr, x + width - 1.5, y + height - 5.5);
+		} else {
+			cairo_move_to (cr, x + 1.5, y + 5.5);
+			cairo_line_to (cr, x + 1.5, y + height - 5.5);
+		}
+		cairo_stroke (cr);
+		
+	} else if (CHECK_DETAIL (detail, "button") ||
+	           CHECK_DETAIL (detail, "togglebutton") ||
+	           CHECK_DETAIL (detail, "optionmenu")) {
 		CairoColor bg;
 		CairoColor fg;
 		CairoCorners corners = CR_CORNER_ALL;
@@ -670,8 +722,6 @@ real_draw_box (GtkStyle      *style,
 			cairo_close_path (cr);
 			cairo_clip (cr);
 
-			/* XXX: This results in a few pixel that stay blank.
-			 * Need to rethink this one. */
 			draw_rounded_gradient (cr, x + 1, y + 1,
 					       width - 2, height - 2, 4, 0,
 					       IF_ROUNDED (style, 2.5, 0), &inner, &outer);
