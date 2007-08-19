@@ -27,7 +27,6 @@ ge_check_hint (GEHint      hint,
                GtkWidget  *widget)
 {
 	static GEHint quark_hint_lookup[GE_HINT_COUNT] = {0};
-	gboolean matches = FALSE;
 
 	g_assert ((hint >= 0) && (hint < GE_HINT_COUNT));
 
@@ -47,17 +46,11 @@ ge_check_hint (GEHint      hint,
 	}
 
 
-
-	/* We might want to do some special casing here.
-	 * One case I can think of is the combobox, if combobox is given as the hint
-	 * still try a style property lookup for the appears-as-list property and
-	 * react on it. (The theme _cannot_ pick up any application hacks otherwise.) */
 	if (quark_hint_lookup[hint] == style_hint)
 		return TRUE;
 
 
-
-	/* Try to decide on other hints, eg. hscale is also a scale. This is hardcoded ... */
+	/* Try to decide based on other hints, eg. hscale is also a scale.  */
 	if (hint == GE_HINT_SCALE)
 		if (ge_check_hint (GE_HINT_VSCALE, style_hint, widget) ||
 		    ge_check_hint (GE_HINT_HSCALE, style_hint, widget))
@@ -71,7 +64,7 @@ ge_check_hint (GEHint      hint,
 		    	return TRUE;
 
 
-	/* These maybe caused by applications so we never want to disable them.
+	/* These may be caused by applications so we never want to disable them.
 	 * TODO: This does not catch the case where the theme uses appears-as-list
 	 *       and the application turns it off again. Though this case
 	 *       is even less likely. */
@@ -106,74 +99,70 @@ ge_check_hint (GEHint      hint,
 	switch (hint) {
 		case GE_HINT_TREEVIEW:
 			if (widget->parent && (ge_object_is_a (G_OBJECT (widget->parent), "GtkTreeView")))
-				matches = TRUE;
+				return TRUE;
 		break;
 		case GE_HINT_TREEVIEW_HEADER:
 			if (ge_object_is_a (G_OBJECT (widget), "GtkButton") && widget->parent &&
 			    (ge_object_is_a (G_OBJECT (widget->parent), "GtkTreeView") || ge_object_is_a (G_OBJECT (widget->parent), "GtkCList") ||
 			     ge_object_is_a (G_OBJECT (widget->parent), "GtkCTree")))
-				matches = TRUE;
+				return TRUE;
 			if (widget->parent && ge_object_is_a (G_OBJECT (widget->parent), "ETreeView"))
-				matches = TRUE;
+				return TRUE;
 		break;
 		case GE_HINT_COMBOBOX_ENTRY:
 			if (ge_is_in_combo_box (widget))
-				matches = TRUE;
+				return TRUE;
 		break;
 		case GE_HINT_SPINBUTTON:
 			if (ge_object_is_a (G_OBJECT (widget), "GtkSpinButton"))
-				matches = TRUE;
+				return TRUE;
 		break;
 		case GE_HINT_STATUSBAR:
 			if (widget->parent && ge_object_is_a (G_OBJECT (widget), "GtkStatusbar"))
-				matches = TRUE;
+				return TRUE;
 		break;
 		case GE_HINT_SCALE:
 			if (ge_object_is_a (G_OBJECT (widget), "GtkScale"))
-				matches = TRUE;
+				return TRUE;
 		break;
 		case GE_HINT_HSCALE:
 			if (ge_object_is_a (G_OBJECT (widget), "GtkHScale"))
-				matches = TRUE;
+				return TRUE;
 		break;
 		case GE_HINT_VSCALE:
 			if (ge_object_is_a (G_OBJECT (widget), "GtkVScale"))
-				matches = TRUE;
+				return TRUE;
 		break;
 		case GE_HINT_SCROLLBAR:
 			if (ge_object_is_a (G_OBJECT (widget), "GtkScrollbar"))
-				matches = TRUE;
+				return TRUE;
 		break;
 		case GE_HINT_HSCROLLBAR:
 			if (ge_object_is_a (G_OBJECT (widget), "GtkHScrollbar"))
-				matches = TRUE;
+				return TRUE;
 		break;
 		case GE_HINT_VSCROLLBAR:
 			if (ge_object_is_a (G_OBJECT (widget), "GtkVScrollbar"))
-				matches = TRUE;
+				return TRUE;
 		break;
 		case GE_HINT_PROGRESSBAR:
 			if (ge_object_is_a (G_OBJECT (widget), "GtkProgressBar"))
-				matches = TRUE;
+				return TRUE;
 		break;
 		case GE_HINT_MENUBAR:
 			if (ge_object_is_a (G_OBJECT (widget), "GtkMenuBar") ||
 			    ge_object_is_a (G_OBJECT (widget->parent), "GtkMenuBar"))
-				matches = TRUE;
+				return TRUE;
 		break;
 
 		default:
 		break;
 	}
 
-/*	if (matches && style_hint != 0)
-	{
-		g_warning ("Warning, could not determine the widget type based on the style, but fallback worked!");
-	}*/
 #endif
 
 
-	return matches;
+	return FALSE;
 }
 
 /* Widget Type Lookups/Macros

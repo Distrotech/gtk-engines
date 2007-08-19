@@ -1,3 +1,8 @@
+2007-08-19  Benjamin Berg  <benjamin@sipsolutions.net>
+
+	* engines/support/widget-information.c: (ge_check_hint):
+	Small cleanup.
+
 2007-08-18  Benjamin Berg  <benjamin@sipsolutions.net>
 
 	* engines/clearlooks/src/clearlooks_style.c:
