@@ -1,5 +1,15 @@
 2007-08-19  Benjamin Berg  <benjamin@sipsolutions.net>
 
+	* engines/industrial/src/industrial_rc_style.c:
+	(industrial_rc_style_init), (industrial_rc_style_merge):
+	* engines/industrial/src/industrial_rc_style.h:
+	* engines/industrial/src/industrial_style.h:
+	* engines/industrial/src/industrial_style_versioned_code.h:
+	* engines/industrial/src/parse_rc_style.h:
+	Added hint parsing to industrial.
+
+2007-08-19  Benjamin Berg  <benjamin@sipsolutions.net>
+
 	* engines/clearlooks/src/clearlooks_rc_style.c:
 	(clearlooks_rc_style_parse):
 	* engines/support/general-support.h:
