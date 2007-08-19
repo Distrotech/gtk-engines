@@ -1,5 +1,14 @@
 2007-08-19  Benjamin Berg  <benjamin@sipsolutions.net>
 
+	* engines/clearlooks/src/clearlooks_rc_style.c:
+	(clearlooks_rc_style_parse):
+	* engines/support/general-support.h:
+	* engines/support/widget-information.c: (ge_rc_parse_hint):
+	* engines/support/widget-information.h:
+	Make hint parsing a support function.
+
+2007-08-19  Benjamin Berg  <benjamin@sipsolutions.net>
+
 	* engines/support/widget-information.c: (ge_check_hint):
 	Small cleanup.
 

@@ -470,3 +470,26 @@ ge_widget_is_ltr (GtkWidget *widget)
 	else
 		return TRUE;
 }
+
+guint
+ge_rc_parse_hint (GScanner    *scanner,
+                  GQuark      *quark)
+{
+	guint token;
+
+	/* Skip 'hint' */
+	token = g_scanner_get_next_token(scanner);
+
+	token = g_scanner_get_next_token(scanner);
+	if (token != G_TOKEN_EQUAL_SIGN)
+	   return G_TOKEN_EQUAL_SIGN;
+
+	token = g_scanner_get_next_token(scanner);
+	if (token != G_TOKEN_STRING)
+	   return G_TOKEN_STRING;
+
+	*quark = g_quark_from_string (scanner->value.v_string);
+
+	return G_TOKEN_NONE;
+}
+

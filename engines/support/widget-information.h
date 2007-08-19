@@ -1,4 +1,11 @@
 
+#ifndef WIDGET_INFORMATION_H
+#define WIDGET_INFORMATION_H
+
+#include "general-support.h"
+#include <glib.h>
+#include <gtk/gtkwidget.h>
+
 typedef enum {
 	GE_HINT_TREEVIEW,
 	GE_HINT_TREEVIEW_HEADER,
@@ -120,4 +127,6 @@ GE_INTERNAL void ge_button_get_default_border (GtkWidget *widget,
 
 GE_INTERNAL gboolean ge_widget_is_ltr (GtkWidget *widget);
 
+GE_INTERNAL guint ge_rc_parse_hint (GScanner *scanner, GQuark *quark);
 
+#endif /* WIDGET_INFORMATION_H */

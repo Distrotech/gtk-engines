@@ -23,6 +23,7 @@
  */
 
 #include <string.h>
+#include <widget-information.h>
 #include "clearlooks_style.h"
 #include "clearlooks_rc_style.h"
 
@@ -293,29 +294,6 @@ clearlooks_gtk2_rc_parse_style (GtkSettings      *settings,
 }
 
 static guint
-clearlooks_gtk2_rc_parse_hint (GtkSettings *settings,
-                               GScanner    *scanner,
-                               GQuark      *quark)
-{
-	guint token;
-
-	/* Skip 'hint' */
-	token = g_scanner_get_next_token(scanner);
-
-	token = g_scanner_get_next_token(scanner);
-	if (token != G_TOKEN_EQUAL_SIGN)
-	   return G_TOKEN_EQUAL_SIGN;
-
-	token = g_scanner_get_next_token(scanner);
-	if (token != G_TOKEN_STRING)
-	   return G_TOKEN_STRING;
-
-	*quark = g_quark_from_string (scanner->value.v_string);
-
-	return G_TOKEN_NONE;
-}
-
-static guint
 clearlooks_gtk2_rc_parse_dummy (GtkSettings      *settings,
                                 GScanner         *scanner,
                                 gchar            *name)
@@ -419,7 +397,7 @@ clearlooks_rc_style_parse (GtkRcStyle *rc_style,
 				clearlooks_style->flags |= CL_FLAG_RADIUS;
 				break;
 			case TOKEN_HINT:
-				token = clearlooks_gtk2_rc_parse_hint (settings, scanner, &clearlooks_style->hint);
+				token = ge_rc_parse_hint (scanner, &clearlooks_style->hint);
 				clearlooks_style->flags |= CL_FLAG_HINT;
 				break;
 
