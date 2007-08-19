@@ -76,7 +76,11 @@ style "industrial-default"
 #  #base[NORMAL]  = "#b6c9cf"
 #  #text[NORMAL]  = "#000000"
 #
-  engine "industrial" {}
+  engine "industrial"
+  {
+    # Set a hint to disable backward compatibility fallbacks.
+    hint = "use-hints"
+  }
 }
 
 # Style to apply an exterior forcus to GtkEntry

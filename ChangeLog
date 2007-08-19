@@ -1,5 +1,11 @@
 2007-08-19  Benjamin Berg  <benjamin@sipsolutions.net>
 
+	* themes/Clearlooks/gtk-2.0/gtkrc:
+	* themes/Industrial/gtk-2.0/gtkrc:
+	Set a dummy hint to disable engine fallbacks.
+
+2007-08-19  Benjamin Berg  <benjamin@sipsolutions.net>
+
 	* engines/industrial/src/industrial_style.c: (real_draw_box):
 	* themes/Industrial/gtk-2.0/gtkrc:
 	Nice new treeview header for industrial.
