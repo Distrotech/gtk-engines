@@ -665,15 +665,8 @@ clearlooks_gummy_draw_tab (cairo_t                *cr,
 	cairo_pattern_t     *pattern;
 
 	double               radius;
-	
-//	double               stripe_size = 2.0;
-//	double               stripe_fill_size;
-//	double               stripe_border_pos;
 
 	gboolean horizontal = FALSE;
-
-//	if (params->ythickness == 3)
-//		stripe_size = 3.0;
 
 	radius = MIN (params->radius, MIN ((width - 2.0) / 2.0, (height - 2.0) / 2.0));
 
@@ -691,8 +684,6 @@ clearlooks_gummy_draw_tab (cairo_t                *cr,
 	if (tab->gap_side == CL_GAP_TOP || tab->gap_side == CL_GAP_BOTTOM)
 	{
 		height += 3.0;
-//		stripe_fill_size = (tab->gap_side == CL_GAP_TOP ? stripe_size/height : stripe_size/(height-2));
-//		stripe_border_pos = (tab->gap_side == CL_GAP_TOP ? (stripe_size+1.0)/height : (stripe_size+1.0)/(height-2));
 		
 		horizontal = TRUE;
 
@@ -702,8 +693,6 @@ clearlooks_gummy_draw_tab (cairo_t                *cr,
 	else
 	{
 		width += 3.0;
-//		stripe_fill_size = (tab->gap_side == CL_GAP_LEFT ? stripe_size/width : stripe_size/(width-2));
-//		stripe_border_pos = (tab->gap_side == CL_GAP_LEFT ? (stripe_size+1.0)/width : (stripe_size+1.0)/(width-2));
 
 		if (tab->gap_side == CL_GAP_LEFT)
 			cairo_translate (cr, -3.0, 0.0); /* gap at the other side */
@@ -761,10 +750,6 @@ clearlooks_gummy_draw_tab (cairo_t                *cr,
 	}
 	else
 	{
-//		CairoColor shade1;
-		
-//		ge_shade_color (fill, SHADE_TOP, &shade1);
-		
 		/* Draw shade */
 		pattern = cairo_pattern_create_linear (tab->gap_side == CL_GAP_LEFT   ? width-2  : 0,
 		                                       tab->gap_side == CL_GAP_TOP    ? height-2 : 0,
@@ -776,10 +761,6 @@ clearlooks_gummy_draw_tab (cairo_t                *cr,
 		cairo_pattern_add_color_stop_rgba (pattern, 0.0, stripe_fill->r, stripe_fill->g, stripe_fill->b, 0.34);
 		cairo_pattern_add_color_stop_rgba (pattern, 1.0/(horizontal ? height : width), stripe_fill->r, stripe_fill->g, stripe_fill->b, 0.34);
 		cairo_pattern_add_color_stop_rgba (pattern, 1.0/(horizontal ? height : width), stripe_fill->r, stripe_fill->g, stripe_fill->b, 0.5);
-//		cairo_pattern_add_color_stop_rgba (pattern, stripe_fill_size, stripe_fill->r, stripe_fill->g, stripe_fill->b, 0.8);
-//		cairo_pattern_add_color_stop_rgba (pattern, stripe_fill_size, stripe_border->r, stripe_border->g, stripe_border->b, 0.7);
-//		cairo_pattern_add_color_stop_rgba (pattern, stripe_border_pos, stripe_border->r, stripe_border->g, stripe_border->b, 0.7);
-//		cairo_pattern_add_color_stop_rgb  (pattern, stripe_border_pos, shade1.r, shade1.g, shade1.b);
 		cairo_pattern_add_color_stop_rgba (pattern, 0.8, fill->r, fill->g, fill->b, 0.0);
 		cairo_set_source (cr, pattern);
 		cairo_fill (cr);
