@@ -1,0 +1,151 @@
+# translation of gtk-engines.
+# Copyright (C) 2007 THE gtk-engines'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the gtk-engines package.
+# ahmad riza h nst <rizahnst@gnome.org>, 2007.
+# 
+# 
+# 
+msgid ""
+msgstr ""
+"Project-Id-Version: gtk-engines gnome-2-18\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2007-11-12 21:41+0000\n"
+"PO-Revision-Date: 2007-11-15 21:09+0700\n"
+"Last-Translator: ahmad riza h nst <rizahnst@gnome.org>\n"
+"Language-Team: Indonesian <kontak@id.gnome.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit"
+
+#: ../schema/clearlooks.xml.in.in.h:1
+msgid "3d-ish (button)"
+msgstr "3d-ish (tombol)"
+
+#: ../schema/clearlooks.xml.in.in.h:2
+msgid "3d-ish (gradient)"
+msgstr "3d-ish (gradasi)"
+
+#: ../schema/clearlooks.xml.in.in.h:3
+msgid "Animations"
+msgstr "Animasi"
+
+#: ../schema/clearlooks.xml.in.in.h:4 ../schema/industrial.xml.in.in.h:1
+msgid "Contrast"
+msgstr "Kontras"
+
+#: ../schema/clearlooks.xml.in.in.h:5
+msgid "Enable Animations on Progressbars, Radio-, and CheckButtons"
+msgstr "Aktifkan Animasi pada Indikator proses, tombol Radio dan Centang"
+
+#: ../schema/clearlooks.xml.in.in.h:6
+msgid "Flat"
+msgstr "Rata"
+
+#: ../schema/clearlooks.xml.in.in.h:7
+msgid "Menubar Style"
+msgstr "Gaya Menu"
+
+#: ../schema/clearlooks.xml.in.in.h:8
+msgid "Scrollbar Color"
+msgstr "Warna Gulung"
+
+#: ../schema/clearlooks.xml.in.in.h:9
+msgid "Sets the Color of Scrollbars"
+msgstr "Tentukan Warna Gulung"
+
+#: ../schema/hc.xml.in.in.h:1
+msgid "Cell Indicator Size"
+msgstr "Ukuran Indikator Sel"
+
+#: ../schema/hc.xml.in.in.h:2
+msgid "Edge Thickness"
+msgstr "Ketebalan Sisi"
+
+#: ../schema/hc.xml.in.in.h:3
+msgid "Size of check- and radiobuttons inside treeviews. (Bug #351764)"
+msgstr "Ukuran centang dan tombol radio di dalam tampilan pohon (Kesalahan #351764)"
+
+#: ../schema/industrial.xml.in.in.h:2
+msgid "If set, button corners are rounded"
+msgstr "Jika tentu, sudut tombol bundar"
+
+#: ../schema/industrial.xml.in.in.h:3
+msgid "Rounded Buttons"
+msgstr "Tombol Bundar"
+
+#: ../schema/thinice.xml.in.in.h:1
+msgid "Arrow"
+msgstr "Panah"
+
+#: ../schema/thinice.xml.in.in.h:2
+msgid "Dot"
+msgstr "Titik"
+
+#: ../schema/thinice.xml.in.in.h:3
+msgid "Full"
+msgstr "Penuh"
+
+#: ../schema/thinice.xml.in.in.h:4
+msgid "Handlebox Marks"
+msgstr ""
+
+#: ../schema/thinice.xml.in.in.h:5
+msgid "Inverted Dot"
+msgstr ""
+
+#: ../schema/thinice.xml.in.in.h:6
+msgid "Inverted Slash"
+msgstr ""
+
+#: ../schema/thinice.xml.in.in.h:7
+msgid "Mark Type 1"
+msgstr "Tanda Tipe 1"
+
+#: ../schema/thinice.xml.in.in.h:8
+msgid "Mark Type for Scrollbar Buttons"
+msgstr "Tipe Tanda untuk Tombol Gulung"
+
+#: ../schema/thinice.xml.in.in.h:9
+msgid "Mark Type for Scrollbar Handles, Handleboxes, etc"
+msgstr ""
+
+#: ../schema/thinice.xml.in.in.h:10
+msgid "None"
+msgstr "Tidak"
+
+#: ../schema/thinice.xml.in.in.h:11
+msgid "Nothing"
+msgstr "Tidak ada"
+
+#: ../schema/thinice.xml.in.in.h:12
+msgid "Paned Dots"
+msgstr ""
+
+#: ../schema/thinice.xml.in.in.h:13
+msgid "Rectangle"
+msgstr "Segi Empat"
+
+#: ../schema/thinice.xml.in.in.h:14
+msgid "Scrollbar Marks"
+msgstr "Tanda Gulung"
+
+#: ../schema/thinice.xml.in.in.h:15
+msgid "Scrollbar Type"
+msgstr "Tipe Gulung"
+
+#: ../schema/thinice.xml.in.in.h:16
+msgid "Scrollbutton Marks"
+msgstr "Tanda Tombol gulung"
+
+#: ../schema/thinice.xml.in.in.h:17
+msgid "Shaped"
+msgstr "Berbentuk"
+
+#: ../schema/thinice.xml.in.in.h:18
+msgid "Slash"
+msgstr "Garis Miring"
+
+#: ../schema/thinice.xml.in.in.h:19
+msgid "Some"
+msgstr "Beberapa"
+
