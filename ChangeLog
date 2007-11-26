@@ -1,5 +1,11 @@
 2007-11-26  Benjamin Berg  <benjamin@sipsolutions.net>
 
+	* engines/clearlooks/src/clearlooks_style.c:
+	(clearlooks_style_draw_box):
+	Add a hack for the evolution ETable headers. (Bug #492372)
+
+2007-11-26  Benjamin Berg  <benjamin@sipsolutions.net>
+
 	* test/gtkrcs/clearlooks:
 	Some of the old options that are ignored were wrong.
 

@@ -491,7 +491,8 @@ clearlooks_style_draw_box (DRAW_ARGS)
 	else if (DETAIL ("button") && widget && widget->parent &&
                   (GE_IS_TREE_VIEW(widget->parent) ||
                    GE_IS_CLIST (widget->parent) ||
-                   ge_object_is_a (G_OBJECT(widget->parent), "ETree"))) /* ECanvas inside ETree */
+                   ge_object_is_a (G_OBJECT(widget->parent), "ETree") || /* ECanvas inside ETree */
+                   ge_object_is_a (G_OBJECT(widget->parent), "ETable"))) /* ECanvas inside ETable */
 	{
 		WidgetParameters params;
 		ListViewHeaderParameters header;
