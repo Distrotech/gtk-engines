@@ -1,3 +1,18 @@
+Overview of Changes in 2.14.2 (since 2.14.1)
+============================================
+
+Changes in this release:
+ - Do not install the translation.
+ - Improvemented scrollbars and menus in Redmond.
+
+GNOME Bugs fixed in this release:
+ 526890 – Support inverted scrollbars (ranges)
+
+New and udpated translations:
+ Yavor Doganov (bg)
+ Eskild Hustvedt (nn)
+
+
 Overview of Changes in 2.14.1 (since 2.14.0)
 ============================================
 
