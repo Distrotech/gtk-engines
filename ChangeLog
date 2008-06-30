@@ -1,3 +1,9 @@
+2008-06-30  Benjamin Berg  <benjamin@sipsolutions.net>
+
+	* NEWS:
+	* configure.ac:
+	2.14.3 release.
+
 2008-06-16  Benjamin Berg  <benjamin@sipsolutions.net>
 
 	* engines/clearlooks/src/clearlooks_draw*.c:
