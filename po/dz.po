@@ -7,9 +7,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gtk-engines\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-03-16 03:34+0000\n"
-"PO-Revision-Date: 2007-03-16 03:31+0530\n"
-"Last-Translator: yangka <yanang_ka@hotmail.com>\n"
+"POT-Creation-Date: 2008-04-23 03:33+0000\n"
+"PO-Revision-Date: 2008-10-20 09:55+0530\n"
+"Last-Translator: Dawa pemo <daws_403@hotmail.com>\n"
 "Language-Team: dzongkha <pgeyleg@dit.gov.bt>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
@@ -32,39 +32,87 @@ msgid "Animations"
 msgstr "བསྒུལ་བཟོ་ཚུ།"
 
 #: ../schema/clearlooks.xml.in.in.h:4
+msgid "Classic"
+msgstr "སྔོན་སྲོལ་ "
+
+#: ../schema/clearlooks.xml.in.in.h:5
+msgid "Colorize Scrollbar"
+msgstr "བཤུད་ཕྲ་ཚུ་གི་ཚོས་གཞི་འདི་གཞི་སྒྲིག་འབད་ "
+
+#: ../schema/clearlooks.xml.in.in.h:6
 #: ../schema/industrial.xml.in.in.h:1
 msgid "Contrast"
 msgstr "ཚོན་མདངས།"
 
-#: ../schema/clearlooks.xml.in.in.h:5
-msgid "Enable Animations on Progressbars, Radio-, and CheckButtons"
-msgstr "བསྒུལ་བཟོ་ཚུ་ཡར་འཕེལ་ཕྲ་རིང་ཚུ་ རེཌིའོ་ དང་བརྟག་ཞིབ་ཨེབ་རྟ་ཚུ་གུ་ལྕོགས་ཅན་བཟོ།"
+#: ../schema/clearlooks.xml.in.in.h:7
+msgid "Enable Animations on Progressbars"
+msgstr "ཡར་འཕེལ་ཕྲ་རིང་ཚུ་གུ་ བསྒུལ་བཟོ་ཚུ་ ལྕོགས་ཅན་བཟོ་ "
 
-#: ../schema/clearlooks.xml.in.in.h:6
+#: ../schema/clearlooks.xml.in.in.h:8
 msgid "Flat"
 msgstr "ལེབ་ཏེམ།"
 
-#: ../schema/clearlooks.xml.in.in.h:7
+#: ../schema/clearlooks.xml.in.in.h:9
+msgid "Glossy"
+msgstr "གོལོ་སི་ "
+
+#: ../schema/clearlooks.xml.in.in.h:10
+msgid "Gummy"
+msgstr "གཱ་མི་ "
+
+#: ../schema/clearlooks.xml.in.in.h:11
+msgid "Inset"
+msgstr "ནང་སྒྲིག་ "
+
+#: ../schema/clearlooks.xml.in.in.h:12
+msgid "Inverted"
+msgstr "གནས་ལོག་འབད་ཡོདཔ་ "
+
+#: ../schema/clearlooks.xml.in.in.h:13
 msgid "Menubar Style"
 msgstr "དཀར་ཆག་ཕྲ་རིང་བཟོ་རྣམ།"
 
-#: ../schema/clearlooks.xml.in.in.h:8
+#: ../schema/clearlooks.xml.in.in.h:14
+msgid "Radius"
+msgstr "མཐའ་འཁོར་ "
+
+#: ../schema/clearlooks.xml.in.in.h:15
+msgid "Relief Style"
+msgstr "རི་མོའི་ དབྱེ་བ་ "
+
+#: ../schema/clearlooks.xml.in.in.h:16
+msgid "Requires style Glossy or Gummy"
+msgstr "བཟོ་རྣམ་ གོལོ་སི་ ཡང་ན་ ག་མི་ དགོ་པས་ "
+
+#: ../schema/clearlooks.xml.in.in.h:17
 msgid "Scrollbar Color"
 msgstr "རྒྱབ་སྒྲིལ་ཚོས་གཞི།"
 
-#: ../schema/clearlooks.xml.in.in.h:9
+#: ../schema/clearlooks.xml.in.in.h:18
 msgid "Sets the Color of Scrollbars"
 msgstr "བཤུད་ཕྲ་ཚུ་གི་ཚོས་གཞི་འདི་གཞི་སྒྲིག་འབདཝ་ཨིན།"
 
-#: ../schema/hc.xml.in.in.h:1
+#: ../schema/clearlooks.xml.in.in.h:19
+msgid "Shadow"
+msgstr "གྱིབ་མ་ "
+
+#: ../schema/clearlooks.xml.in.in.h:20
+msgid "Style"
+msgstr "བཟོ་རྣམ་ "
+
+#: ../schema/clearlooks.xml.in.in.h:21
+msgid "Toolbar Style"
+msgstr "དཀར་ཆས་ ཕྲ་རིང་གི་བཟོ་རྣམ།"
+
+#: ../schema/hcengine.xml.in.in.h:1
 msgid "Cell Indicator Size"
 msgstr "ནང་ཐིག་བརྡ་སྟོན་མིའི་ཚད།"
 
-#: ../schema/hc.xml.in.in.h:2
+#: ../schema/hcengine.xml.in.in.h:2
 msgid "Edge Thickness"
 msgstr "མཐའམ་སྟུག་ཚད།"
 
-#: ../schema/hc.xml.in.in.h:3
+#: ../schema/hcengine.xml.in.in.h:3
 msgid "Size of check- and radiobuttons inside treeviews. (Bug #351764)"
 msgstr "བརྟག་ཞིབ་དང་རེཌིའོ་ཨེབ་རྟ་ཚུའི་ནང་ན་རྩ་འབྲེལ་མཐོང་སྣང་ཚུ་གི་ཚད (རྒྱེན་ #༣༥༡༧༦༤)"
 
