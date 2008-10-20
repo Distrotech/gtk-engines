@@ -1,3 +1,9 @@
+2008-10-20  Benjamin Berg  <benjamin@sipsolutions.net>
+
+	* NEWS:
+	* configure.ac:
+	Update for 2.16.1.
+
 2008-09-22  Benjamin Berg  <benjamin@sipsolutions.net>
 
 	* NEWS:
