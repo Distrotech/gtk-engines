@@ -1463,6 +1463,71 @@ clearlooks_style_draw_arrow (GtkStyle  *style,
 }
 
 static void
+clearlooks_style_draw_expander (GtkStyle        *style,
+                                GdkWindow       *window,
+                                GtkStateType     state_type,
+                                GdkRectangle    *area,
+                                GtkWidget       *widget,
+                                const gchar     *detail,
+                                gint             x,
+                                gint             y,
+                                GtkExpanderStyle expander_style)
+{
+	ClearlooksStyle  *clearlooks_style = CLEARLOOKS_STYLE (style);
+	ClearlooksColors *colors = &clearlooks_style->colors;
+	WidgetParameters params;
+	cairo_t *cr;
+	gint expander_size;
+
+	CHECK_ARGS
+
+	cr = ge_gdk_drawable_to_cairo (window, area);
+
+	clearlooks_set_widget_parameters (widget, style, state_type, &params);
+
+	if (widget &&
+	    gtk_widget_class_find_style_property (GTK_WIDGET_GET_CLASS (widget), "expander-size"))
+	{
+		gtk_widget_style_get (widget, "expander-size", &expander_size, NULL);
+	}
+	else
+		expander_size = 12;
+
+	ge_cairo_rounded_rectangle (cr, 0.5, 0.5, expander_size-1, expander_size-1, params.radius, params.corners);
+	cairo_set_source_rgb (cr, colors->shade[1].r, colors->shade[1].g, colors->shade[1].b);
+	cairo_fill_preserve (cr);
+	cairo_set_source_rgb (cr, colors->shade[5].r, colors->shade[5].g, colors->shade[5].b);
+	cairo_stroke (cr);
+
+	cairo_set_source_rgb (cr, colors->fg[state_type].r, 
+	                          colors->fg[state_type].g,
+	                          colors->fg[state_type].b);
+	switch (expander_style)
+	{
+		case GTK_EXPANDER_SEMI_COLLAPSED:
+		case GTK_EXPANDER_COLLAPSED:
+			cairo_move_to (cr, 3.5, expander_size/2);
+			cairo_line_to (cr, expander_size-3.5, expander_size/2);
+			cairo_stroke (cr);
+			cairo_move_to (cr, expander_size/2, 3.5);
+			cairo_line_to (cr, expander_size/2, expander_size-3.5);
+			cairo_stroke (cr);
+		break;
+		case GTK_EXPANDER_SEMI_EXPANDED:
+		case GTK_EXPANDER_EXPANDED:
+			cairo_move_to (cr, 3.5, expander_size/2);
+			cairo_line_to (cr, expander_size-3.5, expander_size/2);
+			cairo_stroke (cr);
+		break;
+		default:
+			g_assert_not_reached ();
+	}
+
+	cairo_destroy (cr);
+}
+
+
+static void
 clearlooks_style_init_from_rc (GtkStyle * style,
                                GtkRcStyle * rc_style)
 {
@@ -1968,6 +2033,7 @@ clearlooks_style_class_init (ClearlooksStyleClass * klass)
 	style_class->draw_resize_grip = clearlooks_style_draw_resize_grip;
 	style_class->draw_tab         = clearlooks_style_draw_tab;
 	style_class->draw_arrow       = clearlooks_style_draw_arrow;
+	style_class->draw_expander    = clearlooks_style_draw_expander;
 	style_class->draw_layout      = clearlooks_style_draw_layout;
 	style_class->render_icon      = clearlooks_style_draw_render_icon;
 
