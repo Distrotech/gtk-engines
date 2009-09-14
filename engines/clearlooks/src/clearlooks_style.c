@@ -1493,6 +1493,8 @@ clearlooks_style_draw_expander (GtkStyle        *style,
 	else
 		expander_size = 12;
 
+	cairo_translate (cr, x-expander_size/2, y-expander_size/2);
+
 	ge_cairo_rounded_rectangle (cr, 0.5, 0.5, expander_size-1, expander_size-1, params.radius, params.corners);
 	cairo_set_source_rgb (cr, colors->shade[1].r, colors->shade[1].g, colors->shade[1].b);
 	cairo_fill_preserve (cr);
