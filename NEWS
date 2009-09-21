@@ -1,3 +1,26 @@
+Overview of Changes in 2.18.3 (since 2.18.2)
+============================================
+
+GNOME bugs fixed in this release:
+ 593674 - Add --enable-system-lua configure option for system liblua linkage
+ 594014 - system-lua check is buggy  
+
+New and updated translations:
+ Gil Forcada (ca@valencia)
+ Goran Rakić (sr@latin)
+ Israt Jahan (bn)
+ Khaled Hosny (ar)
+ Krix Apolinário (pt_BR)
+ Ani Peter (ml)
+ Rajesh Ranjan (hi)
+ Runa Bhattacharjee (bn_IN)
+ Sangeeta Kumari (mai)
+ Seán de Búrca (ga)
+ wanderlust (uk)
+ Yavor Doganov (bg)
+ Горан Ракић (sr)
+
+
 Overview of Changes in 2.18.2 (since 2.18.1)
 ============================================
 
