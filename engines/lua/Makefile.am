@@ -22,11 +22,11 @@
 NULL =
 
 if SYSTEM_LUA
-	LIBLUA_SOURCES =
-	LIBLUA_CFLAGS = $(LUA_CFLAGS)
+LIBLUA_SOURCES =
+LIBLUA_CFLAGS = $(LUA_CFLAGS)
 else
-	LIBLUA_CFLAGS = -I$(top_srcdir)/engines/lua/src/liblua
-	LIBLUA_SOURCES = \
+LIBLUA_CFLAGS = -I$(top_srcdir)/engines/lua/src/liblua
+LIBLUA_SOURCES = \
 		./src/liblua/lapi.h \
 		./src/liblua/lauxlib.h \
 		./src/liblua/lcode.h \
