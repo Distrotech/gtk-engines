@@ -1,3 +1,12 @@
+Overview of Changes in 2.18.4 (since 2.18.3)
+============================================
+
+This release fixes several problems with the lua engine that were introduced
+in 2.18.3.
+
+GNOME bugs fixed in this release:
+ 595907 - liblua not disted in 2.18.3
+
 Overview of Changes in 2.18.3 (since 2.18.2)
 ============================================
 
