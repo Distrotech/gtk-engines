@@ -1,3 +1,16 @@
+Overview of Changes in 2.18.5 (since 2.18.4)
+============================================
+
+Changes in this release:
+ - Removal of a potential infinite loop in different clearlooks styles
+
+GNOME bugs fixed in this release:
+ 603445 -  update to support automake 1.11 +silent build.
+
+New and updated translations:
+ Ivar Smolin (et)
+ Lucian Adrian Grijincu (ro)
+
 Overview of Changes in 2.18.4 (since 2.18.3)
 ============================================
 
@@ -33,7 +46,6 @@ New and updated translations:
 Overview of Changes in 2.18.2 (since 2.18.1)
 ============================================
 
-Changes in this release:
  - Changes for the git migration (doap file, ChangeLog)
 
 GNOME bugs fixed in this release:
