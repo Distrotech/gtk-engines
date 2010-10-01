@@ -1,4 +1,19 @@
-Overview of Changes in 2.20.0 (since 2.19.0)
+Overview of Changes in 2.20.2 (since 2.10.1)
+============================================
+
+Changes in this release:
+ - Fix evolution ETree header in Clearlooks
+ - Minor fixes in mist
+ - Removed Xfce specific workaround from the clearlooks engine (bug #616124)
+
+Added/updated translations:
+ - en@shaw, courtesy of Thomas Thurman 
+ - id, courtesy of Dirgita 
+ - ja, courtesy of Takeshi AIHANA 
+ - lv, courtesy of Anita Reitere 
+ - sl, courtesy of Matej Urbančič 
+
+Overview of Changes in 2.20.1 (since 2.20.0)
 ============================================
 
 Changes in this release:
